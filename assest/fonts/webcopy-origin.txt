@@ -1,0 +1,272 @@
+Uri: https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap
+File Name: C:\Downloaded Web Sites\up2client.com\css2-20
+Content Type: text/css
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuBWYMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuBWYMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyfMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyfMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyeMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyeMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u-w4BMUTPHjxsIPy-v.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u-w4BMUTPHjxsIPy-v-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u8w4BMUTPHh30wWw.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u8w4BMUTPHh30wWw-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u8w4BMUTPHjxswWw.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u8w4BMUTPHjxswWw-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh50Xew8.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u9w4BMUTPHh50Xew8-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh6UVew8.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u9w4BMUTPHh6UVew8-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh7USew8.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u9w4BMUTPHh7USew8-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHvxk.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6uyw4BMUTPHvxk-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI3wiPHA.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u_w4BMUTPHjxsI3wiPHA-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI5wqPHA.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u_w4BMUTPHjxsI5wqPHA-20.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI9w2PHA.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\s\lato\v24\S6u_w4BMUTPHjxsI9w2PHA-20.ttf
+Content Type: font/ttf
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/css/custom.css
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\css\custom-19.css
+Content Type: text/css
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/css/media-query.css
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\css\media-query-19.css
+Content Type: text/css
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/car/car-footer-img.png
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\car\car-footer-img-19.png
+Content Type: image/png
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/car/car-header-img.png
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\car\car-header-img-19.png
+Content Type: image/png
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/coffee-shop/triangle-top.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\coffee-shop\triangle-top-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/domain/black-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\domain\black-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/domain/footer-black.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\domain\footer-black-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/domain/footer-grey.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\domain\footer-grey-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/domain/footer-orange.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\domain\footer-orange-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/domain/grey-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\domain\grey-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/domain/orange-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\domain\orange-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/ecommerce/logo.png
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\ecommerce\logo.png
+Content Type: image/png
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/favicon/icon.png
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\favicon\icon-19.png
+Content Type: image/png
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/flight/black-triangel.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\flight\black-triangel-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/flight/footer-svg-black.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\flight\footer-svg-black-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/flight/footer-traingle.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\flight\footer-traingle-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/hotel/black-bg.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\hotel\black-bg-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/hotel/blue-bg.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\hotel\blue-bg-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/hotel/pink-bg.png
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\hotel\pink-bg-19.png
+Content Type: image/png
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/hotel/txt-img.png
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\hotel\txt-img-19.png
+Content Type: image/png
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/internet/black-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\internet\black-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/internet/green-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\internet\green-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/signature/sign.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\signature\sign-5.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/student/black-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\student\black-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/student/blue-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\student\blue-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/student/grey-img.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\student\grey-img-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/travel/light-grey.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\travel\light-grey-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/images/travel/txt-bg.svg
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\images\travel\txt-bg-19.svg
+Content Type: image/svg+xml
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/custom.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\custom-19.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/html2canvas.min.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\html2canvas.min-19.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/jquery.min.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\jquery.min-19.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/jspdf.min.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\jspdf.min-19.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/ecommerce_invoice.html
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\ecommerce_invoice.html
+Content Type: text/html
+
+e: text/html
+
+t Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/coffee_shop_invoice.html
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\coffee_shop_invoice.html
+Content Type: text/html
+
+
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/travel_invoice.html
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\travel_invoice.html
+Content Type: text/html
+
+ipt
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/html2canvas.min.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\html2canvas.min-8.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/jquery.min.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\jquery.min-8.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/assets/js/jspdf.min.js
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\assets\js\jspdf.min-8.js
+Content Type: application/javascript
+
+Uri: https://up2client.com/envato/digital-invoica/main-file/flight_booking.html
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\main-file\flight_booking.html
+Content Type: text/html
+
+s://up2client.com/envato/digital-invoica/previewpage/assest/webfonts/fa-regular-400.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\assest\webfonts\fa-regular-400.ttf
+Content Type: font/ttf
+
+Uri: https://up2client.com/envato/digital-invoica/previewpage/assest/webfonts/fa-regular-400.woff2
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\assest\webfonts\fa-regular-400.woff2
+Content Type: font/woff2
+
+Uri: https://up2client.com/envato/digital-invoica/previewpage/assest/webfonts/fa-solid-900.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\assest\webfonts\fa-solid-900.ttf
+Content Type: font/ttf
+
+Uri: https://up2client.com/envato/digital-invoica/previewpage/assest/webfonts/fa-solid-900.woff2
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\assest\webfonts\fa-solid-900.woff2
+Content Type: font/woff2
+
+Uri: https://up2client.com/envato/digital-invoica/previewpage/assest/webfonts/fa-v4compatibility.ttf
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\assest\webfonts\fa-v4compatibility.ttf
+Content Type: font/ttf
+
+Uri: https://up2client.com/envato/digital-invoica/previewpage/assest/webfonts/fa-v4compatibility.woff2
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\assest\webfonts\fa-v4compatibility.woff2
+Content Type: font/woff2
+
+Uri: https://up2client.com/envato/digital-invoica/previewpage/index.html
+File Name: C:\Downloaded Web Sites\up2client.com\envato\digital-invoica\previewpage\index.html
+Content Type: text/html
+
