@@ -30,7 +30,7 @@
 							<ul class="menu-sec-details">
 								<li class="demo-txt"><a href="#pages-sec">Demos</a></li>
 								<li class="template-txt"><a href="#features-sec">Features</a></li>
-								<li class="purchase-btn"><a target="_blank" href="https://1.envato.market/digital-invoica-invoice-html-template">Purchase Now</a></li>
+								<li class="purchase-btn"><a href="#">Create Invoice</a></li>
 							</ul>
 						</div>
 					</div>
@@ -38,6 +38,7 @@
 			</div>
 		</header>
 		<!-- Header Section End -->
+
 		<!-- Hero Section Start -->
 		<section class="hero-sec">
 			<div class="container">
@@ -50,17 +51,141 @@
 							of project </p>
 							<div class="hero-sec1">
 								<a href="#pages-sec" class="demo-btn">Demos</a>
-								<a target="_blank" href="https://1.envato.market/digital-invoica-invoice-html-template" class="buy-btn">Buy Now</a>
+								<a href="#" class="buy-btn">Create Invoice</a>
 							</div>
 						</div>
 					</div>
-					<div class="hero-full-second">
-						<img src="assest/images/hero-img.png" alt="invoice-img">
+					<div class="hero-full-second pb-5">
+						<div class="card p-4 bg-light">
+							<form action="" method="post">
+								<div class="row">
+									<div class="col-12 text-center mb-4">
+										<h2>Design your custom Invoice Here</h2>
+									</div>
+									<div class="col-lg-8">
+										<div class="form-floating mb-3">
+											<textarea class="form-control" placeholder="Your Company or Name, Address" id="from" style="height: 100px"></textarea>
+											<label for="from">From</label>
+										</div>
+										<div class="form-floating mb-3">
+											<textarea class="form-control" placeholder="Your Company Billing Address" id="billto" style="height: 100px"></textarea>
+											<label for="billto">Bill To</label>
+										</div>
+										<div class="form-floating mb-3">
+											<textarea class="form-control" placeholder="Your Customer Shipping Address" id="shipto" style="height: 100px"></textarea>
+											<label for="shipto">Ship To</label>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="input-group mb-3">
+											<input type="file" class="form-control" id="logo">
+											<label class="input-group-text" for="logo">Upload Logo</label>
+										</div>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="invoice" placeholder="100">
+											<label for="invoice">Invoice #</label>
+										</div>
+										<div class="form-floating mb-3">
+											<input type="date" class="form-control" id="invoiceDate" value="2025-05-03">
+											<label for="invoiceDate">Invoice Date</label>
+										</div>
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" id="po" placeholder="100">
+											<label for="po">P.O #</label>
+										</div>
+										<div class="form-floating mb-3">
+											<input type="date" class="form-control" id="dueDate" value="2025-05-18">
+											<label for="dueDate">Due Date</label>
+										</div>
+									</div>
+									<div class="col-12">
+										<hr/>
+										<div id="product-container">
+											<div class="product-row row mb-3">
+												<div class="col-lg-2">
+													<div class="form-floating mb-3">
+														<input type="text" class="form-control pname" placeholder="Product Name">
+														<label>Product Name</label>
+													</div>
+												</div>
+												<div class="col-lg-2">
+													<div class="form-floating mb-3">
+														<input type="number" class="form-control unitPrice" placeholder="Unit Price">
+														<label>Unit Price</label>
+													</div>
+												</div>
+												<div class="col-lg-2">
+													<div class="form-floating mb-3">
+														<input type="number" class="form-control qty" placeholder="Quantity">
+														<label>Quantity</label>
+													</div>
+												</div>
+												<div class="col-lg-2">
+													<div class="form-floating mb-3">
+														<input type="number" class="form-control amount" placeholder="Amount" readonly>
+														<label>Amount</label>
+													</div>
+												</div>
+												<div class="col-lg-2">
+													<div class="form-floating mb-3">
+														<input type="text" class="form-control tax" placeholder="Tax">
+														<label>Tax</label>
+													</div>
+												</div>
+												<div class="col-lg-2 d-flex align-items-center">
+													<button type="button" class="btn btn-danger delete-btn">X</button>
+												</div>
+											</div>
+										</div>
+
+										<button type="button" id="add-product-btn" class="btn btn-secondary w-100">Add New Item</button>
+									</div>
+									<div class="col-12 mt-4">
+										<div class="row">
+											<div class="col-lg-3"></div>
+											<div class="col-lg-3"></div>
+											<div class="col-lg-3 mb-3">
+												<h5>Subtotal</h5>
+											</div>
+											<div class="col-lg-3 mb-3 text-end">
+												<h5>0.0</h5>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-3"></div>
+											<div class="col-lg-3"></div>
+											<div class="col-lg-3 mb-3">
+												<h4>Total (BDT)</h4>
+											</div>
+											<div class="col-lg-3 mb-3 text-end">
+												<h4>0.0</h4>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-8 mt-4">
+										<div class="form-floating">
+											<textarea class="form-control" placeholder="Leave a comment here" id="terms" style="height: 100px"></textarea>
+											<label for="terms">Terms and Condition</label>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="input-group mb-3 mt-4">
+											<input type="file" class="form-control" id="signature">
+											<label class="input-group-text" for="signature">Signature</label>
+										</div>
+									</div>
+									<div class="col-12 mt-4">
+										<button class="btn btn-primary w-100">Save Invoice, Print or Send via Email</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 		<!-- Hero Section End -->
+
 		<!-- Invoice Section Start -->
 		<section id="pages-sec">
 			<div class="container">
@@ -78,7 +203,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/agency_service.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -94,7 +219,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/hotel_booking.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -110,7 +235,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/restaurant_bill.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -126,7 +251,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/bus_booking.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -142,7 +267,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/money_exchange.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -158,7 +283,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/hospital_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -174,7 +299,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/movie_booking.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -190,7 +315,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/stadium_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -206,7 +331,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/flight_booking.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -222,7 +347,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/car_booking.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -238,7 +363,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/train_booking.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -254,7 +379,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/photostudio_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -270,7 +395,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/cleaning_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -286,7 +411,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/fitness_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -302,7 +427,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/travel_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -318,7 +443,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/coffee_shop_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -334,7 +459,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/internet_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -350,7 +475,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/domain_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -366,7 +491,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/student_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -382,7 +507,7 @@
 							<div class="content-details fadeIn-bottom">
 								<a class="link_under" href="invoice/ecommerce_invoice.html" target="_blank">
 									<div class="button">
-										<p class="button1">View</p>
+										<p class="button1">Use</p>
 									</div>
 								</a>
 							</div>
@@ -392,6 +517,7 @@
 			</div>
 		</section>
 		<!-- Invoice Section End -->
+
 		<!-- Features Section Start -->
 		<section id="features-sec">
 			<div class="container">
@@ -487,113 +613,19 @@
 			</div>
 		</section>
 		<!-- Features Section End -->
-		<!-- Details Section Start -->
-		<section id="project-detail">
-			<div class="container">
-				<div class="project-detail-full">
-					<div class="project-detail-top">
-						<h3 class="d-none">Hidden</h3>
-						<div class="categary-box">
-							<h4>Reliable and Regular Updates</h4>
-							<p>Get a lifetime reliable &amp; regular updates with your purchase.</p>
-						</div>
-						<div class="categary-box">
-							<h4>5 Years+ Envato Exclusive Author</h4>
-							<p>The_Krishna is a time-tested author with years' experience</p>
-						</div>
-						<div class="categary-box">
-							<h4>5-Star Customer Support</h4>
-							<p>More than 3000 resolved inqueries and happy customer reviews.</p>
-						</div>
-						<div class="categary-box">
-							<h4>Customers Feedback Apporeciative</h4>
-							<p>Have a good idea or improvment? It can be ended up in our updates.</p>
-						</div>
-					</div>
-					<div class="project-detail-bottom">
-						<div class="project-detail-bottom-full">
-							<div class="row">
-								<div class="col-xl-3 col-sm-6">
-									<div class="visit-box">
-										<img src="assest/images/icon-template.jpg" alt="logo">
-										<h2>Thank You!</h2>
-										<a href="https://themeforest.net/user/the_krishna" class="view-btn" target="_blank">View Portfolio</a>
-									</div>	
-								</div>
-								<div class="col-xl-6 col-md-12 order-1 order-xl-0">
-									<div class="title-box">
-										<p class="text-danger mb-1">Purchase now</p>
-										<h3 class="text-white">Get your template right now and create your awesome site.</h3>
-									</div>
-									<div class="package-box">
-										<div class="footer-title">Include<br>In<br>Package:</div>
-										<div class="figure">{</div>
-										<div class="package-list">
-											<ul class="col">
-												<li>Digital Invoice</li>
-												<li>Premium bundled plugins</li>
-												<li>6 month support included</li>
-											</ul>
-											<ul class="col">
-												<li>Free future template updates</li>
-												<li>Quality checked by Envato</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="col-xl-3 col-sm-6">
-									<div class="guarantee">
-										<img class="mb-3" src="assest/images/shield.svg" alt="img">
-										<p>Quality Work</p>
-										<h2>100% Guarantee</h2>
-									</div>
-									<a target="_blank" href="https://themeforest.net/user/the_krishna" class="detail-btn  mb-3">
-										<svg width="30" height="30" viewbox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<g clip-path="url(#clip0_37_399)">
-												<path d="M1.25 1.25C0.559644 1.25 0 1.80964 0 2.5C0 3.19036 0.559644 3.75 1.25 3.75H3.47412C3.65612 3.75 3.8335 3.80727 3.98114 3.91368C4.12878 4.0201 4.23919 4.17028 4.29673 4.34294L8.41797 16.709C8.60098 17.258 8.62425 17.8492 8.48389 18.4106L8.14453 19.7705C7.6466 21.7622 9.19698 23.75 11.25 23.75H26.25C26.9404 23.75 27.5 23.1904 27.5 22.5C27.5 21.8096 26.9404 21.25 26.25 21.25H11.25C10.7633 21.25 10.4508 20.8506 10.5688 20.3784L10.8248 19.3563C10.8681 19.1831 10.9681 19.0294 11.1089 18.9195C11.2496 18.8097 11.423 18.75 11.6016 18.75H25C25.5382 18.7503 26.0162 18.4061 26.1865 17.8955L29.519 7.89551C29.789 7.08577 29.1861 6.24961 28.3325 6.25H8.19336C8.01136 6.25 7.83398 6.19274 7.68633 6.08632C7.53869 5.97991 7.42827 5.82973 7.37072 5.65707L6.18652 2.10449C6.01619 1.59394 5.53821 1.24972 5 1.25H1.25ZM10 25C8.61929 25 7.5 26.1193 7.5 27.5C7.5 28.8807 8.61929 30 10 30C11.3807 30 12.5 28.8807 12.5 27.5C12.5 26.1193 11.3807 25 10 25ZM25 25C23.6193 25 22.5 26.1193 22.5 27.5C22.5 28.8807 23.6193 30 25 30C26.3807 30 27.5 28.8807 27.5 27.5C27.5 26.1193 26.3807 25 25 25Z" fill="#fff"></path>
-											</g>
-											<defs>
-												<clippath>
-													<rect width="30" height="30" fill="white"></rect>
-												</clippath>
-											</defs>
-										</svg>
-										<span class="text">Regular <br>License</span>
-										<span class="value">$19</span>
-									</a>
-									<a target="_blank" href="https://themeforest.net/user/the_krishna" class="detail-btn">
-										<svg width="30" height="30" viewbox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<g clip-path="url(#clip0_37_399)">
-												<path d="M1.25 1.25C0.559644 1.25 0 1.80964 0 2.5C0 3.19036 0.559644 3.75 1.25 3.75H3.47412C3.65612 3.75 3.8335 3.80727 3.98114 3.91368C4.12878 4.0201 4.23919 4.17028 4.29673 4.34294L8.41797 16.709C8.60098 17.258 8.62425 17.8492 8.48389 18.4106L8.14453 19.7705C7.6466 21.7622 9.19698 23.75 11.25 23.75H26.25C26.9404 23.75 27.5 23.1904 27.5 22.5C27.5 21.8096 26.9404 21.25 26.25 21.25H11.25C10.7633 21.25 10.4508 20.8506 10.5688 20.3784L10.8248 19.3563C10.8681 19.1831 10.9681 19.0294 11.1089 18.9195C11.2496 18.8097 11.423 18.75 11.6016 18.75H25C25.5382 18.7503 26.0162 18.4061 26.1865 17.8955L29.519 7.89551C29.789 7.08577 29.1861 6.24961 28.3325 6.25H8.19336C8.01136 6.25 7.83398 6.19274 7.68633 6.08632C7.53869 5.97991 7.42827 5.82973 7.37072 5.65707L6.18652 2.10449C6.01619 1.59394 5.53821 1.24972 5 1.25H1.25ZM10 25C8.61929 25 7.5 26.1193 7.5 27.5C7.5 28.8807 8.61929 30 10 30C11.3807 30 12.5 28.8807 12.5 27.5C12.5 26.1193 11.3807 25 10 25ZM25 25C23.6193 25 22.5 26.1193 22.5 27.5C22.5 28.8807 23.6193 30 25 30C26.3807 30 27.5 28.8807 27.5 27.5C27.5 26.1193 26.3807 25 25 25Z" fill="#fff"></path>
-											</g>
-											<defs>
-												<clippath>
-													<rect width="30" height="30" fill="white"></rect>
-												</clippath>
-											</defs>
-										</svg>
-										<span class="text">Extended <br>License</span>
-										<span class="value">$750</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Details Section End -->
+
 		<!-- Footer Section Start  -->
 		<footer id="copyright-sec">
 			<div class="container">
 				<div class="footer-line">
 					<p class="copyright-txt">Digital Invoice © Copyright by 
-						<span class="footer-txt2"><a href="https://themeforest.net/user/the_krishna" target="_blank">The_Krishna</a></span>
+						<span class="footer-txt2"><a href="https://frogbid.com" target="_blank">FrogBID</a></span>
 					</p>
 				</div>
 			</div>
 		</footer>
 		<!-- Footer Section End  -->
+
 		<!--Scroll Top to Bottom Section Start -->
 		<div class="scroll-top" data-scroll="up" style="">
 			<svg class="border-circle svg-inner" width="100%" height="100%" viewbox="-1 -1 102 102">

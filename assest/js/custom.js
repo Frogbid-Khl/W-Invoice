@@ -52,8 +52,42 @@ document.addEventListener("DOMContentLoaded", function() {
   if(textArray.length) setTimeout(type, newTextDelay + 250);
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const productContainer = document.getElementById('product-container');
+    const addButton = document.getElementById('add-product-btn');
 
+    function calculateAmount(row) {
+        const unitPrice = parseFloat(row.querySelector('.unitPrice').value) || 0;
+        const qty = parseFloat(row.querySelector('.qty').value) || 0;
+        const amountField = row.querySelector('.amount');
+        amountField.value = (unitPrice * qty).toFixed(2);
+    }
 
+    function attachRowEvents(row) {
+        const unitPriceInput = row.querySelector('.unitPrice');
+        const qtyInput = row.querySelector('.qty');
+        const deleteBtn = row.querySelector('.delete-btn');
 
+        unitPriceInput.addEventListener('input', () => calculateAmount(row));
+        qtyInput.addEventListener('input', () => calculateAmount(row));
 
+        deleteBtn.addEventListener('click', () => {
+            row.remove();
+        });
+    }
 
+    addButton.addEventListener('click', () => {
+        const lastRow = productContainer.querySelector('.product-row:last-of-type');
+        const newRow = lastRow.cloneNode(true);
+
+        // Clear all input values
+        newRow.querySelectorAll('input').forEach(input => input.value = '');
+
+        attachRowEvents(newRow);
+        productContainer.appendChild(newRow);
+    });
+
+    // Initialize the first row
+    const initialRow = productContainer.querySelector('.product-row');
+    attachRowEvents(initialRow);
+});
