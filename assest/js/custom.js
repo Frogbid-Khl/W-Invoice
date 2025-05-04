@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const productContainer = document.getElementById('product-container');
     const addButton = document.getElementById('add-product-btn');
 
+    // Function to calculate the amount based on unit price and quantity
     function calculateAmount(row) {
         const unitPrice = parseFloat(row.querySelector('.unitPrice').value) || 0;
         const qty = parseFloat(row.querySelector('.qty').value) || 0;
@@ -63,26 +64,34 @@ document.addEventListener('DOMContentLoaded', function () {
         amountField.value = (unitPrice * qty).toFixed(2);
     }
 
+    // Function to attach events for input fields and delete button in a row
     function attachRowEvents(row) {
         const unitPriceInput = row.querySelector('.unitPrice');
         const qtyInput = row.querySelector('.qty');
         const deleteBtn = row.querySelector('.delete-btn');
 
+        // Event listeners for calculating the amount when input values change
         unitPriceInput.addEventListener('input', () => calculateAmount(row));
         qtyInput.addEventListener('input', () => calculateAmount(row));
 
+        // Event listener for the delete button to remove the row
         deleteBtn.addEventListener('click', () => {
-            row.remove();
+            const allRows = productContainer.querySelectorAll('.product-row');
+            if (allRows.length > 1) {
+                row.remove(); // Only delete the row if there is more than one row
+            }
         });
     }
 
+    // Event listener to add a new product row
     addButton.addEventListener('click', () => {
         const lastRow = productContainer.querySelector('.product-row:last-of-type');
         const newRow = lastRow.cloneNode(true);
 
-        // Clear all input values
+        // Clear all input values in the new row
         newRow.querySelectorAll('input').forEach(input => input.value = '');
 
+        // Attach event listeners to the new row
         attachRowEvents(newRow);
         productContainer.appendChild(newRow);
     });
