@@ -1,19 +1,114 @@
-﻿<!DOCTYPE html>
+﻿<?php
+require_once('connection/dbController.php');
+$db_handle = new DBController();
+
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    }
+
+    return $randomString;
+}
+
+if (isset($_POST['saveInvoice'])) {
+
+    $from = $_POST['from'] ?? '';
+    $billto = $_POST['billto'] ?? '';
+    $shipto = $_POST['shipto'] ?? '';
+    $invoice = $_POST['invoice'] ?? '';
+    $invoiceDate = $_POST['invoiceDate'] ?? '';
+    $po = $_POST['po'] ?? '';
+    $dueDate = $_POST['dueDate'] ?? '';
+    $terms = $_POST['terms'] ?? '';
+
+    $pname = $_POST['pname'] ?? [];
+    $unitPrice = $_POST['unitPrice'] ?? [];
+    $qty = $_POST['qty'] ?? [];
+    $amount = $_POST['amount'] ?? [];
+    $tax = $_POST['tax'] ?? '';
+
+    $inserted_at = $updated_at = date("Y-m-d H:i:s");
+    $sharable_url = generateRandomString(20);
+
+
+    // Example loop to insert line items if needed
+    foreach ($pname as $key => $name) {
+        $price = $unitPrice[$key];
+        $quantity = $qty[$key];
+        $line_amount = $amount[$key];
+        $line_tax = $tax[$key];
+
+        // You would need to get the invoice ID here if you want to link it properly
+        $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('0','$sharable_url','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
+    }
+
+    // Logo Upload
+    $logo = '';
+    if (!empty($_FILES['logo']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
+        $file_tmp = $_FILES['logo']['tmp_name'];
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+            if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
+                $logo = "assets/logo/" . $file_name;
+            }
+        }
+    }
+
+    // Signature Upload
+    $signature = '';
+    if (!empty($_FILES['signature']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
+        $file_tmp = $_FILES['signature']['tmp_name'];
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+            if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
+                $signature = "assets/signature/" . $file_name;
+            }
+        }
+    }
+
+    // Insert invoice data
+    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+        `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
+        VALUES ('0','$from','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        '$sharable_url','1','$inserted_at','$updated_at')");
+
+
+    if($insert){
+        ?>
+        <script>
+            alert('Value Inserted');
+        </script>
+<?php
+    }
+}
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Digital Invoica</title>
-    <link href="assest/images/icon.png" rel="icon">
-    <link href="assest/fonts/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+    <link href="assets/images/icon.png" rel="icon">
+    <link href="assets/fonts/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
           rel="stylesheet">
-    <link href="assest/css/all.min.css" rel="stylesheet">
-    <link href="assest/css/slick.css" rel="stylesheet">
-    <link href="assest/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assest/fonts/remixicon.css" rel="stylesheet">
-    <link href="assest/css/style.css" rel="stylesheet">
-    <link href="assest/css/media-query.css" rel="stylesheet">
+    <link href="assets/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/slick.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fonts/remixicon.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/media-query.css" rel="stylesheet">
     <style>
         .upload-card {
             width: 100%;
@@ -75,7 +170,7 @@
             <div class="header-full">
                 <div class="logo-sec">
                     <div>
-                        <a href="index.html"><img alt="logo" src="assest/images/logo.png"></a>
+                        <a href="index.html"><img alt="logo" src="assets/images/logo.png"></a>
                     </div>
                 </div>
                 <div class="logo-sec-details">
@@ -113,7 +208,7 @@
                 </div>
                 <div class="hero-full-second pb-5">
                     <div class="card p-4 bg-light">
-                        <form action="" method="post">
+                        <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
                                 <div class="text-center mb-4">
                                     <h2 class="fw-bold">Design Your Custom Invoice</h2>
@@ -124,19 +219,19 @@
                                     <div class="col-lg-8">
                                         <div class="mb-3">
                                             <label class="form-label" for="from">From</label>
-                                            <textarea class="form-control" id="from"
+                                            <textarea class="form-control" name="from" id="from"
                                                       placeholder="Your Company or Name, Address"
                                                       rows="5"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="billto">Bill To</label>
-                                            <textarea class="form-control" id="billto"
+                                            <textarea class="form-control" name="billto" id="billto"
                                                       placeholder="Customer Billing Address"
                                                       rows="5"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="shipto">Ship To</label>
-                                            <textarea class="form-control" id="shipto"
+                                            <textarea class="form-control" name="shipto" id="shipto"
                                                       placeholder="Shipping Address (Optional)"
                                                       rows="5"></textarea>
                                         </div>
@@ -147,26 +242,52 @@
                                         <div class="mb-4">
                                             <label class="form-label" for="logo">Upload Logo</label>
                                             <div class="upload-card">
-                                                <input class="form-control border-0" id="logo" style="width: 90%;"
+                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;"
                                                        type="file">
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoice">Invoice #</label>
-                                            <input class="form-control" id="invoice" placeholder="e.g. INV-1001"
+                                            <input class="form-control" id="invoice" name="invoice" placeholder="e.g. INV-1001"
                                                    type="text">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoiceDate">Invoice Date</label>
-                                            <input class="form-control" id="invoiceDate" type="date" value="2025-05-03">
+                                            <input class="form-control" name="invoiceDate" id="invoiceDate" type="date">
+
+                                            <script>
+                                                // Get today's date in YYYY-MM-DD format
+                                                const today = new Date().toISOString().split('T')[0];
+                                                // Set it as the value of the input field
+                                                document.getElementById('invoiceDate').value = today;
+                                            </script>
+
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="po">P.O #</label>
-                                            <input class="form-control" id="po" placeholder="Optional" type="text">
+                                            <input class="form-control" name="po" id="po" placeholder="Optional" type="text">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>
-                                            <input class="form-control" id="dueDate" type="date" value="2025-05-18">
+                                            <input class="form-control" name="dueDate" id="dueDate" type="date">
+
+                                            <script>
+                                                // Wait until the page content is fully loaded
+                                                document.addEventListener("DOMContentLoaded", function () {
+                                                    // Create a new Date object for today
+                                                    const today = new Date();
+
+                                                    // Add 15 days
+                                                    today.setDate(today.getDate() + 15);
+
+                                                    // Format to YYYY-MM-DD
+                                                    const dueDate = today.toISOString().split('T')[0];
+
+                                                    // Set the value of the input field
+                                                    document.getElementById('dueDate').value = dueDate;
+                                                });
+                                            </script>
+
                                         </div>
                                     </div>
 
@@ -177,23 +298,23 @@
                                             <div id="product-container">
                                                 <div class="product-row mb-3 custom-grid">
                                                     <div class="form-floating">
-                                                        <input class="form-control pname" placeholder="Product Name" type="text">
+                                                        <input class="form-control pname" name="pname[]" placeholder="Product Name" type="text">
                                                         <label>Product Name</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control unitPrice" placeholder="Unit Price" type="number">
+                                                        <input class="form-control unitPrice" name="unitPrice[]" placeholder="Unit Price" type="number">
                                                         <label>Unit Price</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control qty" placeholder="Quantity" type="number">
+                                                        <input class="form-control qty" name="qty[]" placeholder="Quantity" type="number">
                                                         <label>Quantity</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control amount" placeholder="Amount" readonly type="number">
+                                                        <input class="form-control amount" name="amount[]" placeholder="Amount" readonly type="number">
                                                         <label>Amount</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control tax" placeholder="Tax" type="text">
+                                                        <input class="form-control tax" name="tax[]" placeholder="Tax" type="text">
                                                         <label>Tax</label>
                                                     </div>
                                                     <div class="delete-wrapper d-flex align-items-center">
@@ -237,13 +358,13 @@
                                         <div class="mb-4">
                                             <label class="form-label" for="signature">Upload Signature</label>
                                             <div class="upload-card">
-                                                <input class="form-control border-0" id="signature" style="width: 90%;"
+                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;"
                                                        type="file">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <button class="btn btn-primary w-100">Save Invoice, Print or Send via Email
+                                        <button class="btn btn-primary w-100" type="submit" name="saveInvoice">Save Invoice, Print or Send via Email
                                         </button>
                                     </div>
                                 </div>
@@ -267,7 +388,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice1.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice1.png">
                         </div>
                         <h3 class="invoice-page-txt">Agency Service Invoice </h3>
                         <div class="content-details fadeIn-bottom">
@@ -283,7 +404,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice2.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice2.png">
                         </div>
                         <h3 class="invoice-page-txt">Hotel Booking Invoice </h3>
                         <div class="content-details fadeIn-bottom">
@@ -299,7 +420,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice3.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice3.png">
                         </div>
                         <h3 class="invoice-page-txt">Restaurant Bill Invoice </h3>
                         <div class="content-details fadeIn-bottom">
@@ -315,7 +436,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice4.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice4.png">
                         </div>
                         <h3 class="invoice-page-txt">Bus Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -331,7 +452,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice6.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice6.png">
                         </div>
                         <h3 class="invoice-page-txt">Hospital or Medical Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -347,7 +468,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice7.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice7.png">
                         </div>
                         <h3 class="invoice-page-txt">Movie Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -363,7 +484,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice9.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice9.png">
                         </div>
                         <h3 class="invoice-page-txt">Flight Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -379,7 +500,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice10.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice10.png">
                         </div>
                         <h3 class="invoice-page-txt">Car Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -395,7 +516,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice11.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice11.png">
                         </div>
                         <h3 class="invoice-page-txt">Train Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -411,7 +532,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice12.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice12.png">
                         </div>
                         <h3 class="invoice-page-txt">Photostudio Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -427,7 +548,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice13.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice13.png">
                         </div>
                         <h3 class="invoice-page-txt">Cleaning Service Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -443,7 +564,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice14.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice14.png">
                         </div>
                         <h3 class="invoice-page-txt">Fitness Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -459,7 +580,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice15.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice15.png">
                         </div>
                         <h3 class="invoice-page-txt">Travel Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -475,7 +596,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice16.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice16.png">
                         </div>
                         <h3 class="invoice-page-txt">Coffee Shop Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -491,7 +612,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice17.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice17.png">
                         </div>
                         <h3 class="invoice-page-txt">Internet Bill Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -507,7 +628,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice18.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice18.png">
                         </div>
                         <h3 class="invoice-page-txt">Domain & Hosting Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -523,7 +644,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice19.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice19.png">
                         </div>
                         <h3 class="invoice-page-txt">Student Billing Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -539,7 +660,7 @@
                     <div class="content">
                         <div class="light_img_sec">
                             <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assest/images/invoice20.png">
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice20.png">
                         </div>
                         <h3 class="invoice-page-txt">eCommerce Bill Invoice</h3>
                         <div class="content-details fadeIn-bottom">
@@ -723,9 +844,9 @@
     </div>
     <!--Scroll Top to Bottom Section End -->
 </div>
-<script src="assest/js/jquery.min.js"></script>
-<script src="assest/js/slick.min.js"></script>
-<script src="assest/js/bootstrap.bundle.min.js"></script>
-<script src="assest/js/custom.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/slick.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/custom.js"></script>
 </body>
 </html>
