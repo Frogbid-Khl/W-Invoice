@@ -25,6 +25,8 @@ if (isset($_POST['saveInvoice'])) {
     $dueDate = $_POST['dueDate'] ?? '';
     $terms = $_POST['terms'] ?? '';
 
+    $invoiceOption = $_POST['invoiceOption'];
+
     $pname = $_POST['pname'] ?? [];
     $unitPrice = $_POST['unitPrice'] ?? [];
     $qty = $_POST['qty'] ?? [];
@@ -77,9 +79,9 @@ if (isset($_POST['saveInvoice'])) {
     }
 
     // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$from','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        VALUES ('0','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')");
 
 
@@ -87,6 +89,7 @@ if (isset($_POST['saveInvoice'])) {
         ?>
         <script>
             alert('Value Inserted');
+            window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".html";
         </script>
 <?php
     }
@@ -160,6 +163,29 @@ if (isset($_POST['saveInvoice'])) {
             }
         }
 
+        .image-radio {
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .image-radio input[type="radio"] {
+            display: none;
+        }
+
+        .image-radio img {
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 5px;
+        }
+
+        .image-radio.selected {
+            border-color: #0d6efd;
+            background-color: #e7f1ff;
+        }
     </style>
 </head>
 <body>
@@ -363,6 +389,110 @@ if (isset($_POST['saveInvoice'])) {
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12">
+                                        <!-- Selected Image Preview -->
+                                        <div class="mb-3" id="selectedInvoicePreview" style="display: none;">
+                                            <strong>Selected Invoice:</strong><br>
+                                            <img id="selectedInvoiceImage" src="" alt="Selected Invoice" style="max-width: 200px; border: 1px solid #ccc; border-radius: 8px;">
+                                        </div>
+
+
+                                        <button id="chooseOptionBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageRadioModal">
+                                            Choose an Invoice
+                                        </button>
+
+                                    </div>
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="imageRadioModal" tabindex="-1" aria-labelledby="imageRadioModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="imageRadioModalLabel">Select an Invoice</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <!-- Modal Body -->
+                                                <div class="modal-body">
+                                                    <div class="row" id="invoiceGrid"></div>
+                                                </div>
+
+                                                <!-- Include this script at the end of your modal or page -->
+                                                <script>
+                                                    // Generate 20 invoice options
+                                                    const invoiceGrid = document.getElementById("invoiceGrid");
+                                                    for (let i = 1; i <= 18; i++) {
+                                                        const col = document.createElement("div");
+                                                        col.className = "col-6 col-md-4 col-lg-4 mb-3";
+                                                        col.innerHTML = `
+                                                              <label class="image-radio w-100">
+                                                                <input type="radio" name="invoiceOption" value="${i}">
+                                                                <img src="assets/images/invoice${i}.png" alt="Invoice ${i}" class="img-fluid">
+                                                                <div class="text-center">Invoice ${i}</div>
+                                                              </label>
+                                                            `;
+                                                        invoiceGrid.appendChild(col);
+                                                    }
+
+                                                    // Add selection highlighting
+                                                    document.addEventListener("change", function (e) {
+                                                        if (e.target.name === "invoiceOption") {
+                                                            document.querySelectorAll(".image-radio").forEach(label =>
+                                                                label.classList.remove("selected")
+                                                            );
+                                                            e.target.closest(".image-radio").classList.add("selected");
+                                                        }
+                                                    });
+                                                </script>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary" onclick="submitSelection()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        const radios = document.querySelectorAll('.image-radio input[type="radio"]');
+
+                                        radios.forEach(radio => {
+                                            radio.addEventListener('change', () => {
+                                                document.querySelectorAll('.image-radio').forEach(label => label.classList.remove('selected'));
+                                                radio.closest('.image-radio').classList.add('selected');
+
+                                                const selected = document.querySelector('input[name="invoiceOption"]:checked');
+                                                if (selected) {
+                                                    const selectedValue = selected.value;
+                                                    const imageSrc = `assets/images/invoice${selectedValue}.png`;
+
+                                                    // Show image preview
+                                                    document.getElementById("selectedInvoiceImage").src = imageSrc;
+                                                    document.getElementById("selectedInvoicePreview").style.display = "block";
+
+                                                    // Change button text
+                                                    document.getElementById("chooseOptionBtn").textContent = "Change the Invoice";
+
+                                                    // Hide modal
+                                                    const modal = bootstrap.Modal.getInstance(document.getElementById('imageRadioModal'));
+                                                    modal.hide();
+                                                } else {
+                                                    alert("Please select an option.");
+                                                }
+                                            });
+                                        });
+
+                                        function submitSelection() {
+                                            const selected = document.querySelector('input[name="invoiceOption"]:checked');
+                                            if (selected) {
+                                                alert("You selected option: " + selected.value);
+                                                const modal = bootstrap.Modal.getInstance(document.getElementById('imageRadioModal'));
+                                                modal.hide();
+                                            } else {
+                                                alert("Please select an option.");
+                                            }
+                                        }
+                                    </script>
                                     <div class="col-12 mt-4">
                                         <button class="btn btn-primary w-100" type="submit" name="saveInvoice">Save Invoice, Print or Send via Email
                                         </button>
@@ -392,7 +522,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Agency Service Invoice </h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/agency_service.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice1.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -408,7 +538,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Hotel Booking Invoice </h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/hotel_booking.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice2.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -424,7 +554,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Restaurant Bill Invoice </h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/restaurant_bill.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice3.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -440,7 +570,23 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Bus Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/bus_booking.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice4.html" target="_blank">
+                                <div class="button">
+                                    <p class="button1">Use</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom_img_sec">
+                    <div class="content">
+                        <div class="light_img_sec">
+                            <div class="content-overlay"></div>
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice5.png">
+                        </div>
+                        <h3 class="invoice-page-txt">Student Billing Invoice</h3>
+                        <div class="content-details fadeIn-bottom">
+                            <a class="link_under" href="invoice/invoice5.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -456,7 +602,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Hospital or Medical Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/hospital_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice6.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -472,7 +618,23 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Movie Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/movie_booking.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice7.html" target="_blank">
+                                <div class="button">
+                                    <p class="button1">Use</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom_img_sec">
+                    <div class="content">
+                        <div class="light_img_sec">
+                            <div class="content-overlay"></div>
+                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice8.png">
+                        </div>
+                        <h3 class="invoice-page-txt">eCommerce Bill Invoice</h3>
+                        <div class="content-details fadeIn-bottom">
+                            <a class="link_under" href="invoice/invoice8.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -488,7 +650,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Flight Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/flight_booking.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice9.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -504,7 +666,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Car Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/car_booking.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice10.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -520,7 +682,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Train Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/train_booking.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice11.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -536,7 +698,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Photostudio Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/photostudio_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice12.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -552,7 +714,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Cleaning Service Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/cleaning_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice13.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -568,7 +730,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Fitness Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/fitness_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice14.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -584,7 +746,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Travel Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/travel_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice15.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -600,7 +762,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Coffee Shop Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/coffee_shop_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice16.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -616,7 +778,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Internet Bill Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/internet_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice17.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -632,39 +794,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Domain & Hosting Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/domain_invoice.html" target="_blank">
-                                <div class="button">
-                                    <p class="button1">Use</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="bottom_img_sec">
-                    <div class="content">
-                        <div class="light_img_sec">
-                            <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice19.png">
-                        </div>
-                        <h3 class="invoice-page-txt">Student Billing Invoice</h3>
-                        <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/student_invoice.html" target="_blank">
-                                <div class="button">
-                                    <p class="button1">Use</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="bottom_img_sec">
-                    <div class="content">
-                        <div class="light_img_sec">
-                            <div class="content-overlay"></div>
-                            <img alt="invoice-img" class="invoice-img" src="assets/images/invoice20.png">
-                        </div>
-                        <h3 class="invoice-page-txt">eCommerce Bill Invoice</h3>
-                        <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/ecommerce_invoice.html" target="_blank">
+                            <a class="link_under" href="invoice/invoice18.html" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>

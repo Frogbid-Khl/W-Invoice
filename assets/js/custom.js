@@ -55,48 +55,60 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', function () {
     const productContainer = document.getElementById('product-container');
     const addButton = document.getElementById('add-product-btn');
+    const totalField = document.getElementById('total');
+    const subtotalField = document.getElementById('subtotal');
 
-    // Function to calculate the amount based on unit price and quantity
+    // Calculate total and subtotal
+    function updateTotals() {
+        let subtotal = 0;
+        const amountFields = productContainer.querySelectorAll('.amount');
+
+        amountFields.forEach(field => {
+            const value = parseFloat(field.value) || 0;
+            subtotal += value;
+        });
+
+        subtotalField.value = subtotal.toFixed(2);
+        totalField.value = subtotal.toFixed(2); // Add tax/shipping/discount if needed later
+    }
+
+    // Function to calculate amount and update totals
     function calculateAmount(row) {
         const unitPrice = parseFloat(row.querySelector('.unitPrice').value) || 0;
         const qty = parseFloat(row.querySelector('.qty').value) || 0;
         const amountField = row.querySelector('.amount');
         amountField.value = (unitPrice * qty).toFixed(2);
+        updateTotals();
     }
 
-    // Function to attach events for input fields and delete button in a row
+    // Attach event listeners to a row
     function attachRowEvents(row) {
         const unitPriceInput = row.querySelector('.unitPrice');
         const qtyInput = row.querySelector('.qty');
         const deleteBtn = row.querySelector('.delete-btn');
 
-        // Event listeners for calculating the amount when input values change
         unitPriceInput.addEventListener('input', () => calculateAmount(row));
         qtyInput.addEventListener('input', () => calculateAmount(row));
 
-        // Event listener for the delete button to remove the row
         deleteBtn.addEventListener('click', () => {
             const allRows = productContainer.querySelectorAll('.product-row');
             if (allRows.length > 1) {
-                row.remove(); // Only delete the row if there is more than one row
+                row.remove();
+                updateTotals(); // Recalculate after removing
             }
         });
     }
 
-    // Event listener to add a new product row
+    // Add new product row
     addButton.addEventListener('click', () => {
         const lastRow = productContainer.querySelector('.product-row:last-of-type');
         const newRow = lastRow.cloneNode(true);
-
-        // Clear all input values in the new row
         newRow.querySelectorAll('input').forEach(input => input.value = '');
-
-        // Attach event listeners to the new row
         attachRowEvents(newRow);
         productContainer.appendChild(newRow);
     });
 
-    // Initialize the first row
+    // Init
     const initialRow = productContainer.querySelector('.product-row');
     attachRowEvents(initialRow);
 });
