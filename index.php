@@ -89,7 +89,7 @@ if (isset($_POST['saveInvoice'])) {
         ?>
         <script>
             alert('Value Inserted');
-            window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".html";
+            window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".php?id=<?php echo $sharable_url; ?>";
         </script>
 <?php
     }
