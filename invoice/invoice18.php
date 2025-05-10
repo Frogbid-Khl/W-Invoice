@@ -31,18 +31,18 @@ if(isset($_GET['id'])){
 				<header class="domain-header" id="invo_header">
 					<div class="invoice-logo-content invoice-logo-content-domain">
 						<div class="invoice-logo invoice-logo-domain">
-							<a href="domain_invoice.html"><img src="assets/images/domain/logo.png" alt="logo"></a>
+							<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
 						</div>
 						<div class="domain-img">
 							<h1 class="domain-txt">INVOICE</h1>
 							<div class="invoice-agency-details">
 								<div class="invo-head-wrap">
 									<div class="color-light-black font-md">Invoice No:</div>
-									<div class="font-md-grey color-grey">#DI56789</div>
+									<div class="font-md-grey color-grey">#<?= $dataInvoice[0]['iinv_no']; ?></div>
 								</div>
 								<div class="invo-head-wrap invoi-date-wrap invoi-date-wrap-agency">
 									<div class="color-light-black font-md">Invoice Date:</div>
-									<div class="font-md-grey color-grey">15/12/2024</div>
+									<div class="font-md-grey color-grey"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
 								</div>
 							</div> 
 						</div>
@@ -56,17 +56,41 @@ if(isset($_GET['id'])){
 						<div class="invoice-owner-conte-wrap domain-owner">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-									<p class="font-md color-light-black">Bill To:</p>
-									<h2 class="font-lg domain-color pt-10 ">Jordon Smith</h2>
-									<p class="font-md-grey color-grey pt-10">Phone: +1 562 563 8899 <br> Email: jordon123@mail.com</p>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ifrom']);
+                                    ?>
+									<p class="font-md color-light-black">From:</p>
+									<h2 class="font-lg domain-color pt-10 "><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10">
+                                        <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
+                                    </p>
 								</div>
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
-									<p class="font-md color-light-black">Host Info:</p>
-									<h2 class="font-lg domain-color pt-10">Digital Invoico Hosting</h2>
-									<p class="font-md-grey color-grey pt-10">4510 E Dolphine St, IN 3526<br> Hills Road, New York, USA</p>
-								</div>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ibillto']);
+                                    ?>
+                                    <p class="font-md color-light-black">From:</p>
+                                    <h2 class="font-lg domain-color pt-10 "><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10">
+                                        <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
+                                    </p>
+                                </div>
+							</div>
+						</div>
+						<div class="invoice-owner-conte-wrap domain-owner pt-40">
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
+                                    ?>
+                                    <p class="font-md color-light-black">From:</p>
+                                    <h2 class="font-lg domain-color pt-10 "><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10">
+                                        <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
+                                    </p>
+                                </div>
 							</div>
 						</div>
 						<!--invoice owner name end here -->
@@ -81,16 +105,25 @@ if(isset($_GET['id'])){
 									</tr>
 								</thead>
 								<tbody class="invo-tb-body">
-									<tr class="invo-tb-row">
-										<td class="font-sm">1 Domain - (yourdomain.com Registration with SSL)</td>
-										<td class="font-sm">1 Year x $40.00</td>
-										<td class="font-sm ">$40.00</td>
-									</tr>
-									<tr class="invo-tb-row">
-										<td class="font-sm">25 GB Hosting - (Business Package #SHP2564874)</td>
-										<td class="font-sm ">2 Years x $100.00</td>
-										<td class="font-sm  ">$200.00</td>
-									</tr>
+                                <?php
+                                $subTotal = 0;
+                                $tax=0;
+                                if (!empty($dataInvoiceDetail)) {
+                                    foreach ($dataInvoiceDetail as $item) {
+                                        $total = $item['qty'] * $item['price'];
+                                        $tax+=($item['tax']/100)*$total;
+                                        $subTotal += $total;
+                                        ?>
+                                        <tr class="invo-tb-row">
+                                            <td class="font-sm"><?= htmlspecialchars($item['pname']); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($item['price'], 2); ?> x <?= htmlspecialchars($item['qty']); ?></td>
+                                            <td class="font-sm ">Tk<?= number_format($total, 2); ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+
 								</tbody>
 							</table>
 						</div>
@@ -99,22 +132,25 @@ if(isset($_GET['id'])){
 						<div class="invo-addition-wrap pt-20">
 							<div class="invo-add-info-content">
 								<h3 class="font-md color-light-black">Terms and Condition:</h3>
-								<p class="font-sm pt-10">Ultricies dolor adipiscing ullamcorper quis. Ornare bibendum leo euismod amet convallis tellus. Risus nibh amet pretium ut. Sem lorem sit diam nisl ante leo.</p>
+								<p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
 							<div class="invo-bill-total width-30">
 								<table class="invo-total-table">
 									<tbody>
+                                    <?php
+                                    $grandTotal = $subTotal + $tax;
+                                    ?>
 										<tr>
 											<td class="font-md color-light-black">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">$240.00</td>
+											<td class="font-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row bottom-border">
-											<td class="font-md color-light-black">Tax <span class="color-grey">(18%)</span></td>
-											<td class="font-md-grey color-grey text-right">$43.20</td>
+											<td class="font-md color-light-black">Tax <span class="color-grey">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
+											<td class="font-md-grey color-grey text-right">Tk<?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total">
 											<td class="font-md domain-color pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black pt-20 text-right">$283.20</td>
+											<td class="font-18-500 color-light-black pt-20 text-right">Tk<?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
@@ -124,7 +160,7 @@ if(isset($_GET['id'])){
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="assets/images/signature/sign-1.svg" alt="this is signature image">
+								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->

@@ -34,11 +34,11 @@ if(isset($_GET['id'])){
 						<div class="internet-invoice pt-15">
 							<div class="invo-head-wrap">
 								<div class="color-white font-md">Invoice No:</div>
-								<div class="font-md-grey color-white">#DI56789</div>
+								<div class="font-md-grey color-white">#<?= $dataInvoice[0]['iinv_no']; ?></div>
 							</div>
 							<div class="invo-head-wrap invoi-date-wrap invoi-date-wrap-agency">
 								<div class="color-white font-md">Invoice Date:</div>
-								<div class="font-md-grey color-white">15/12/2024</div>
+								<div class="font-md-grey color-white"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
 							</div>
 						</div>
 					</div>
@@ -51,18 +51,42 @@ if(isset($_GET['id'])){
 						<div class="invoice-owner-conte-wrap">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-									<p class="font-sm-700 color-light-black">Bill To:</p>
-									<h2 class="font-18-700 color-green">Jordon Smith</h2>
-									<p class="font-md-grey color-grey pt-15">Phone: +1 562 563 8899 <br> Email: jordon123@mail.com</p>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ifrom']);
+                                    ?>
+									<p class="font-sm-700 color-light-black">From:</p>
+									<h2 class="font-18-700 color-green"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-15"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 								</div>
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
 									<div>
-										<a href="internet_invoice.html"><img src="assets/images/internet/logo.png" alt="logo"></a>
+										<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
 									</div>
-									<p class="font-md-grey color-grey pt-15">4510 E Dolphine St, IN 3526<br> Hills Road, New York, USA</p>
 								</div>
+							</div>
+						</div>
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ibillto']);
+                                    ?>
+                                    <p class="font-sm-700 color-light-black">Bill To:</p>
+                                    <h2 class="font-18-700 color-green"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-15"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+                                </div>
+							</div>
+							<div class="invo-pay-to-wrap">
+								<div class="invoice-pay-content">
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
+                                    ?>
+                                    <p class="font-sm-700 color-light-black">Ship To:</p>
+                                    <h2 class="font-18-700 color-green"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-15"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+                                </div>
 							</div>
 						</div>
 						<!--Invoice owner name end here -->
@@ -73,47 +97,33 @@ if(isset($_GET['id'])){
 									<tr class="invo-tb-header">
 										<th class="font-md color-light-black ">Sr No</th>
 										<th class="font-md color-light-black details-width ">Details</th>
-										<th class="font-md color-light-black ">Period Date</th>
+										<th class="font-md color-light-black ">Price</th>
 										<th class="font-md color-light-black ">Amount</th>
 									</tr>
 								</thead>
 								<tbody class="invo-tb-body">
-									<tr class="invo-tb-row ">
-										<td class="font-sm">1</td>
-										<td class="font-sm">Monthly bandwidth usages - 230GB</td>
-										<td class="font-sm">01 May to 31 May</td>
-										<td class="font-sm">$80.00</td>
-									</tr>
-									<tr class="invo-tb-row table-bg">
-										<td class="font-sm">2</td>
-										<td class="font-sm">IP TV</td>
-										<td class="font-sm">01 May to 31 May</td>
-										<td class="font-sm">$50.00</td>
-									</tr>
-									<tr class="invo-tb-row ">
-										<td class="font-sm">3</td>
-										<td class="font-sm">Equipment rental</td>
-										<td class="font-sm">01 May to 31 May</td>
-										<td class="font-sm">$100.00</td>
-									</tr>
-									<tr class="invo-tb-row table-bg">
-										<td class="font-sm">4</td>
-										<td class="font-sm">Government fee & taxes (30%)</td>
-										<td class="font-sm"></td>
-										<td class="font-sm">$30.00</td>
-									</tr>
-									<tr class="invo-tb-row ">
-										<td class="font-sm">5</td>
-										<td class="font-sm">Monthly services</td>
-										<td class="font-sm"></td>
-										<td class="font-sm">$10.00</td>
-									</tr>
-									<tr class="invo-tb-row table-bg">
-										<td class="font-sm">6</td>
-										<td class="font-sm">Others</td>
-										<td class="font-sm"></td>
-										<td class="font-sm">$10.00</td>
-									</tr>
+                                <?php
+                                $subTotal = 0;
+                                $tax=0;
+                                if (!empty($dataInvoiceDetail)) {
+                                    $sl=1;
+                                    foreach ($dataInvoiceDetail as $item) {
+                                        $total = $item['qty'] * $item['price'];
+                                        $tax+=($item['tax']/100)*$total;
+                                        $subTotal += $total;
+                                        ?>
+                                        <tr class="invo-tb-row ">
+                                            <td class="font-sm"><?= $sl; ?></td>
+                                            <td class="font-sm"><?= htmlspecialchars($item['pname']); ?> X <?= htmlspecialchars($item['qty']); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($item['price'], 2); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($total, 2); ?></td>
+                                        </tr>
+                                        <?php
+                                        $sl+=1;
+                                    }
+                                }
+                                ?>
+
 								</tbody>
 							</table>
 						</div>
@@ -126,17 +136,20 @@ if(isset($_GET['id'])){
 							<div class="invo-bill-total invo-bill-total-internet">
 								<table class="invo-total-table">
 									<tbody>
+                                    <?php
+                                    $grandTotal = $subTotal + $tax;
+                                    ?>
 										<tr>
 											<td class="font-md color-light-black">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right pr-10">$280.00</td>
+											<td class="font-md-grey color-grey text-right pr-10">Tk<?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row bottom-border">
-											<td class="font-md color-light-black">Discount</td>
-											<td class="font-md-grey color-grey text-right pr-10">$0.00</td>
+											<td class="font-md color-light-black">Tax (<?= number_format(($tax/$subTotal)*100, 2); ?>%)</td>
+											<td class="font-md-grey color-grey text-right pr-10">Tk<?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total bottom-border">
 											<td class="font-md color-green pt-20">Grand Total:</td>
-											<td class="font-18-500 color-grey pt-20 text-right pr-10">$280.00</td>
+											<td class="font-18-500 color-grey pt-20 text-right pr-10">Tk<?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
@@ -146,14 +159,14 @@ if(isset($_GET['id'])){
 						<!--Internet must read start here -->
 						<div class="invo-addition-wrap pt-40">
 							<div class="invo-add-info-content-internet">
-								<h3 class="font-md color-light-black">Must Read:</h3>
-								<p class="font-sm pt-10">Ultrices tempor nibh elit cursus euismod cursus. Auctor in maecenas amet etiam faucibus. Proin sit viverra velit vitae enim in elementum diam a. Adipiscing euismod sed quis malesuada lorem tellus congue in donec. In fringilla mauris condimentum massa leo. In duis pellentesque viverra rhoncus tellus risus pretium.</p>
+								<h3 class="font-md color-light-black">Terms and Condition:</h3>
+								<p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
 						</div>
 						<!--Internet must read end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="assets/images/signature/sign-1.svg" alt="this is signature image">
+								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->

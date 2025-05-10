@@ -37,16 +37,16 @@ if(isset($_GET['id'])){
 							<div class="brown-bg"></div>
 						</div>
 						<div class="invoice-logo-coffee">
-							<a href="coffee_shop_invoice.html"><img src="assets/images/coffee-shop/logo.png" alt="logo"></a>
+							<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
 						</div>
 						<div class="invo-head-content-coffee">
 							<div class="invo-head-wrap">
 								<div class="font-sm-700 color-white">Invoice No:</div>
-								<div class="font-sm color-white">#DI56789</div>
+								<div class="font-sm color-white">#<?= $dataInvoice[0]['iinv_no']; ?></div>
 							</div>
 							<div class="invo-head-wrap">
 								<div class="font-sm-700 color-white">Invoice Date:</div>
-								<div class="font-sm color-white">15/12/2024</div>
+								<div class="font-sm color-white"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
 							</div>
 						</div>
 						<div class="coffee-triangle-image">	
@@ -65,25 +65,35 @@ if(isset($_GET['id'])){
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">From:</p>
-									<h2 class="font-lg color-coffe pt-10">Jordon Smith</h2>
-									<p class="font-md-grey color-grey pt-10">+1 562 563 8899</p>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ifrom']);
+                                    ?>
+									<h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 								</div>
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
-									<p class="font-md color-light-black">Bill To:</p>
-									<h2 class="font-lg color-coffe pt-10">Digital Invoico LTD</h2>
-									<p class="font-md-grey color-grey pt-10">4510 E Delphine St, NY, USA</p>
-								</div>
+                                    <p class="font-md color-light-black">Bill To:</p>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ibillto']);
+                                    ?>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+                                </div>
 							</div>
 						</div>
 						<div class="invoice-owner-conte-wrap pt-40">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-									<p class="font-md color-light-black">Ship To:</p>
-									<h2 class="font-lg color-coffe pt-10">Jordon Smith</h2>
-									<p class="font-md-grey color-grey pt-10">+1 562 563 8899</p>
-								</div>
+                                    <p class="font-md color-light-black">Ship To:</p>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
+                                    ?>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+
+                                </div>
 							</div>
 						</div>
 						<!--Invoice owner name end here -->
@@ -99,30 +109,27 @@ if(isset($_GET['id'])){
 									</tr>
 								</thead>
 								<tbody class="invo-tb-body">
-									<tr class="invo-tb-row">
-										<td class="font-sm">Colombia Dark Roast</td>
-										<td class="font-sm">$20</td>
-										<td class="font-sm ">2</td>
-										<td class="font-sm">$40.00</td>
-									</tr>
-									<tr class="invo-tb-row">
-										<td class="font-sm">Swiss Water Decaf</td>
-										<td class="font-sm">$30</td>
-										<td class="font-sm ">2</td>
-										<td class="font-sm">$60.00</td>
-									</tr>
-									<tr class="invo-tb-row">
-										<td class="font-sm">Double Espresso</td>
-										<td class="font-sm">$25</td>
-										<td class="font-sm ">1</td>
-										<td class="font-sm">$25.00</td>
-									</tr>
-									<tr class="invo-tb-row">
-										<td class="font-sm">Coffee Mug</td>
-										<td class="font-sm">$20</td>
-										<td class="font-sm ">1</td>
-										<td class="font-sm">$20.00</td>
-									</tr>
+                                <?php
+                                $subTotal = 0;
+                                $tax=0;
+                                if (!empty($dataInvoiceDetail)) {
+                                    foreach ($dataInvoiceDetail as $item) {
+                                        $total = $item['qty'] * $item['price'];
+                                        $tax+=($item['tax']/100)*$total;
+                                        $subTotal += $total;
+                                        ?>
+                                        <tr class="invo-tb-row">
+                                            <td class="font-sm"><?= htmlspecialchars($item['pname']); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($item['price'], 2); ?></td>
+                                            <td class="font-sm "><?= htmlspecialchars($item['qty']); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($total, 2); ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+
+
 								</tbody>
 							</table>
 						</div>
@@ -131,22 +138,25 @@ if(isset($_GET['id'])){
 						<div class="invo-addition-wrap pt-20">
 							<div class="invo-add-info-content">
 								<h3 class="font-md color-light-black">Terms & Conditions:</h3>
-								<p class="font-sm pt-10">Your use of the Website shall be deemed to constitute your understanding and approval of, and agreementto be bound by, the Privacy Policy and you consent to the collection.</p>
+                                <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
 							<div class="invo-bill-total width-30">
 								<table class="invo-total-table">
 									<tbody>
+                                    <?php
+                                    $grandTotal = $subTotal + $tax;
+                                    ?>
 										<tr>
 											<td class="font-md color-light-black ">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">$145.00</td>
+											<td class="font-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row">
-											<td class="font-md color-light-black ">Tax <span class="">(18%)</span></td>
-											<td class="font-md-grey color-grey text-right">$26.10</td>
+											<td class="font-md color-light-black ">Tax <span class="">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
+											<td class="font-md-grey color-grey text-right">Tk<?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total">
 											<td class="font-18-700 color-coffe pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black text-right pt-20">$160.00</td>
+											<td class="font-18-500 color-light-black text-right pt-20">Tk<?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
@@ -156,7 +166,7 @@ if(isset($_GET['id'])){
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="assets/images/signature/sign-1.svg" alt="this is signature image">
+								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->
