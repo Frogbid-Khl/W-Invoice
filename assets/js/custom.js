@@ -58,57 +58,59 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalField = document.getElementById('total');
     const subtotalField = document.getElementById('subtotal');
 
-    // Calculate total and subtotal
+    // Calculate all totals
     function updateTotals() {
         let subtotal = 0;
-        const amountFields = productContainer.querySelectorAll('.amount');
+        let totalTax = 0;
 
-        amountFields.forEach(field => {
-            const value = parseFloat(field.value) || 0;
-            subtotal += value;
+        // Get all product rows
+        const rows = productContainer.querySelectorAll('.product-row');
+
+        rows.forEach(row => {
+            const amount = parseFloat(row.querySelector('.amount').value) || 0;
+            const taxRate = parseFloat(row.querySelector('.tax').value) || 0;
+
+            subtotal += amount;
+            totalTax += (amount * taxRate / 100);
         });
 
-        subtotalField.value = subtotal.toFixed(2);
-        totalField.value = subtotal.toFixed(2); // Add tax/shipping/discount if needed later
+        // Update display
+        subtotalField.innerHTML = subtotal.toFixed(2);
+        totalField.innerHTML = (subtotal + totalTax).toFixed(2);
     }
 
-    // Function to calculate amount and update totals
+    // Calculate amount for a single row
     function calculateAmount(row) {
         const unitPrice = parseFloat(row.querySelector('.unitPrice').value) || 0;
         const qty = parseFloat(row.querySelector('.qty').value) || 0;
-        const amountField = row.querySelector('.amount');
-        amountField.value = (unitPrice * qty).toFixed(2);
+        const amount = (unitPrice * qty).toFixed(2);
+
+        row.querySelector('.amount').value = amount;
         updateTotals();
     }
 
-    // Attach event listeners to a row
+    // Set up event listeners for a row
     function attachRowEvents(row) {
-        const unitPriceInput = row.querySelector('.unitPrice');
-        const qtyInput = row.querySelector('.qty');
-        const deleteBtn = row.querySelector('.delete-btn');
+        row.querySelector('.unitPrice').addEventListener('input', () => calculateAmount(row));
+        row.querySelector('.qty').addEventListener('input', () => calculateAmount(row));
+        row.querySelector('.tax').addEventListener('input', () => updateTotals());
 
-        unitPriceInput.addEventListener('input', () => calculateAmount(row));
-        qtyInput.addEventListener('input', () => calculateAmount(row));
-
-        deleteBtn.addEventListener('click', () => {
-            const allRows = productContainer.querySelectorAll('.product-row');
-            if (allRows.length > 1) {
+        row.querySelector('.delete-btn').addEventListener('click', function() {
+            if (productContainer.querySelectorAll('.product-row').length > 1) {
                 row.remove();
-                updateTotals(); // Recalculate after removing
+                updateTotals();
             }
         });
     }
 
     // Add new product row
-    addButton.addEventListener('click', () => {
-        const lastRow = productContainer.querySelector('.product-row:last-of-type');
-        const newRow = lastRow.cloneNode(true);
+    addButton.addEventListener('click', function() {
+        const newRow = productContainer.querySelector('.product-row').cloneNode(true);
         newRow.querySelectorAll('input').forEach(input => input.value = '');
         attachRowEvents(newRow);
         productContainer.appendChild(newRow);
     });
 
-    // Init
-    const initialRow = productContainer.querySelector('.product-row');
-    attachRowEvents(initialRow);
+    // Initialize first row
+    attachRowEvents(productContainer.querySelector('.product-row'));
 });

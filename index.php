@@ -25,7 +25,7 @@ if (isset($_POST['saveInvoice'])) {
     $dueDate = $_POST['dueDate'] ?? '';
     $terms = $_POST['terms'] ?? '';
 
-    $invoiceOption = $_POST['invoiceOption'];
+    $invoiceOption = $_POST['invoiceOption'] ?? '1';
 
     $pname = $_POST['pname'] ?? [];
     $unitPrice = $_POST['unitPrice'] ?? [];
@@ -196,7 +196,7 @@ if (isset($_POST['saveInvoice'])) {
             <div class="header-full">
                 <div class="logo-sec">
                     <div>
-                        <a href="index.html"><img alt="logo" src="assets/images/logo.png"></a>
+                        <a href="#"><img alt="logo" src="assets/images/logo.png"></a>
                     </div>
                 </div>
                 <div class="logo-sec-details">
@@ -375,7 +375,7 @@ if (isset($_POST['saveInvoice'])) {
 
                                     <div class="col-lg-8 mt-4">
                                         <div class="form-floating">
-                                            <textarea class="form-control" id="terms" placeholder="Leave a comment here"
+                                            <textarea class="form-control" name="terms" id="terms" placeholder="Leave a comment here"
                                                       style="height: 180px"></textarea>
                                             <label for="terms">Terms and Condition</label>
                                         </div>
