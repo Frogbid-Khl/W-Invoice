@@ -64,7 +64,7 @@ if (isset($_POST['createAccount'])) {
     if($insert){
         ?>
         <script>
-            alert('Signup Successful');
+            alert('Signup Successful. Now Verify Email and Login.');
             window.location.href="index.php";
         </script>
         <?php

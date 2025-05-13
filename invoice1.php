@@ -1,6 +1,16 @@
 ﻿<?php
+session_start();
 require_once('../connection/dbController.php');
 $db_handle = new DBController();
+
+if(!isset($_SESSION['uid'])){
+    ?>
+    <script>
+        alert('For View Invoice Please Login');
+        window.location.href="createAccount.php";
+    </script>
+    <?php
+}
 
 if(isset($_GET['id'])){
     $sharable_url=$_GET['id'];
