@@ -17,10 +17,10 @@ if(isset($_GET['id'])){
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Digital Invoica</title>
-	<link href="assets/images/favicon/icon-8.png" rel="icon">
-	<link href="../assets/fonts/css2-9?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/custom-8.css">
-	<link rel="stylesheet" href="assets/css/media-query-8.css">
+	<link href="invoiceassets/images/favicon/icon-8.png" rel="icon">
+	<link href="assets/fonts/css2-9?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="invoiceassets/css/custom-8.css">
+	<link rel="stylesheet" href="invoiceassets/css/media-query-8.css">
 </head>
 <body>
 	<!--Invoice wrap Start here -->
@@ -31,10 +31,10 @@ if(isset($_GET['id'])){
 				<header class="invoice-header flight-header" id="invo_header">
 					<div class="flight-bg-top">
 						<div class="flight-img1">
-							<img src="assets/images/flight/black-img.svg" alt="background-img">
+							<img src="invoiceassets/images/flight/black-img.svg" alt="background-img">
 						</div>
 						<div class="flight-img2">
-							<img src="assets/images/flight/purple-img.svg" alt="background-img">
+							<img src="invoiceassets/images/flight/purple-img.svg" alt="background-img">
 						</div>
 					</div>
 					<div class="invoice-logo-content invoice-logo-content-flight">
@@ -42,7 +42,7 @@ if(isset($_GET['id'])){
 							<a href="#" class="logo-flight"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
 						</div>
 						<div class="flight-img">
-							<img src="assets/images/flight/flight.svg" alt="flight-img">
+							<img src="invoiceassets/images/flight/flight.svg" alt="flight-img">
 						</div>
 					</div>
 				</header>
@@ -182,7 +182,7 @@ if(isset($_GET['id'])){
 					<!--Flight footer image start here -->
 					<div class="footer-img-sec">
 						<div class="footer-img1">
-							<img src="assets/images/flight/footer-purple-img.png" alt="background-img">
+							<img src="invoiceassets/images/flight/footer-purple-img.png" alt="background-img">
 						</div>
 						<div class="flight-thanks-bg">
 							<p class="">Thank you for choosing to 🛫 travelling 🛬 with us. See you soon 🙂</p>
@@ -238,10 +238,10 @@ if(isset($_GET['id'])){
 		</div>
 	</div>
 	<!--Invoice wrap end here -->
-	<script src="assets/js/jquery.min-8.js"></script>
-	<script src="assets/js/jspdf.min-8.js"></script>
-	<script src="assets/js/html2canvas.min-8.js"></script>
-	<script src="assets/js/custom-8.js"></script>
+	<script src="invoiceassets/js/jquery.min-8.js"></script>
+	<script src="invoiceassets/js/jspdf.min-8.js"></script>
+	<script src="invoiceassets/js/html2canvas.min-8.js"></script>
+	<script src="invoiceassets/js/custom-8.js"></script>
 </body>
 </html>
 <?php
@@ -249,7 +249,7 @@ if(isset($_GET['id'])){
         ?>
         <script>
             alert('Page Not Found');
-            window.location.href="../index.php";
+            window.location.href="index.php";
         </script>
         <?php
     }
@@ -257,7 +257,7 @@ if(isset($_GET['id'])){
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }

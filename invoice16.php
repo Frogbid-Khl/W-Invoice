@@ -17,95 +17,95 @@ if(isset($_GET['id'])){
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Digital Invoica</title>
-	<link href="assets/images/favicon/icon-9.png" rel="icon">
-	<link href="../assets/fonts/css2-10?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/custom-9.css">
-	<link rel="stylesheet" href="assets/css/media-query-9.css">
+	<link href="invoiceassets/images/favicon/icon-15.png" rel="icon">
+	<link href="assets/fonts/css2-16?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="invoiceassets/css/custom-15.css">
+	<link rel="stylesheet" href="invoiceassets/css/media-query-15.css">
 </head>
 <body>
 	<!--Invoice wrap start here -->
-	<div class="invoice_wrap car-invoice">
+	<div class="invoice_wrap coffee-invoice">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
 				<!--Header start here -->
-				<header class="car-header-img" id="invo_header">
-					<div class="invoice-logo-content invoice-logo-content-car ">
-						<div class="invoice-logo width-70">
-							<a href="#" class="logo-car"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
-							<div class="invo-to-wrap pt-40">
+				<header class="coffee_header" id="invo_header">
+					<div class="header-top-coffee width-70">
+						<h1 class="coffee-txt">INVOICE</h1>
+					</div>
+					<div class="invoice-logo-content-coffee ">
+						<div class="coffee-black">
+							<div class="brown-bg"></div>
+						</div>
+						<div class="invoice-logo-coffee">
+							<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
+						</div>
+						<div class="invo-head-content-coffee">
+							<div class="invo-head-wrap">
+								<div class="font-sm-700 color-white">Invoice No:</div>
+								<div class="font-sm color-white">#<?= $dataInvoice[0]['iinv_no']; ?></div>
+							</div>
+							<div class="invo-head-wrap">
+								<div class="font-sm-700 color-white">Invoice Date:</div>
+								<div class="font-sm color-white"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
+							</div>
+						</div>
+						<div class="coffee-triangle-image">	
+						</div>
+					</div>
+				</header>
+				<!--Header end here -->
+				<!--Invoice content start here -->
+				<section class="agency-service-content ecommerce-invoice-content" id="coffee_shop_invoice">
+					<div class="coffee-shop-back-img-one">
+						<img src="invoiceassets/images/coffee-shop/coffee-back-img.png" alt="this is a back image">
+					</div>
+					<div class="container">
+						<!--Invoice owner name start here -->
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-									<p class="font-md color-light-black">Form:</p>
+									<p class="font-md color-light-black">From:</p>
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                                     ?>
-									<p class="font-md-grey color-grey pt-10"><?= htmlspecialchars($lines[0]); ?></p>
-									<p class="font-md-grey color-grey pt-10">
-                                        <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
-                                    </p>
+									<h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 								</div>
 							</div>
-							<div class="pt-20">
+							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
                                     <p class="font-md color-light-black">Bill To:</p>
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                                     ?>
-                                    <p class="font-md-grey color-grey pt-10"><?= htmlspecialchars($lines[0]); ?></p>
-                                    <p class="font-md-grey color-grey pt-10">
-                                        <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
-                                    </p>
-								</div>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+                                </div>
 							</div>
 						</div>
-						<div class="invo-head-content width-30">
-							<h1 class="car-txt">INVOICE</h1>
-							<div class="invo-head-wrap pt-15">
-								<div class="font-md color-light-black">Invoice No:</div>
-								<div class="font-md-grey color-grey">#<?= $dataInvoice[0]['iinv_no']; ?></div>
-							</div>
-							<div class="invo-head-wrap invoi-date-wrap pt-10">
-								<div class="font-md color-light-black">Invoice Date:</div>
-								<div class="font-md-grey color-grey"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
-							</div>
-						</div>
-					</div>
-				</header>
-				<!--Header end here -->
-				<!--Invoice content start -->
-				<section class="agency-service-content car-invoice-content" id="car_booking">
-					<div class="container">
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+                                    <p class="font-md color-light-black">Ship To:</p>
+                                    <?php
+                                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
+                                    ?>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 
-						<!--Hire details start -->
-						<div class="money-send-title-wrap hire-mt pt-40">
-							<h3 class="font-lg color-dark-yellow transfer-title">Ship To</h3>
-							<div class="mon-sent-content-wrap">
-                                <?php
-                                $lines = explode("\n", $dataInvoice[0]['ishipto']);
-                                ?>
-								<div class="mon-send-left-data">
-									<div class="mon-send-col-one">
-										<span class="font-sm-500 color-light-black">
-                                            <?= htmlspecialchars($lines[0]); ?>
-                                        </span>
-									</div>
-									<div class="mon-send-col-one">
-										<span class="font-sm-500 color-light-black">
-                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
-                                        </span>
-									</div>
-								</div>
+                                </div>
 							</div>
 						</div>
-						<!--Hire details end -->
-						<!--Car detail table start here -->
+						<!--Invoice owner name end here -->
+						<!--Coffee table data start here -->
 						<div class="table-wrapper pt-40">
-							<table class="invoice-table car-detail-table">
+							<table class="invoice-table coffee-table">
 								<thead>
 									<tr class="invo-tb-header">
-										<th class="font-md color-light-black font-sm flight-details ">Product</th>
-										<th class="font-md color-light-black flight-re-price-wid ">Price</th>
-										<th class="font-md color-light-black flight-re-price-wid  ">Quantity</th>
-										<th class="font-md color-light-black flight-re-price-wid text-right ">Total</th>
+										<th class="font-md color-grey">Item</th>
+										<th class="font-md color-grey">Price</th>
+										<th class="font-md color-grey">Qty</th>
+										<th class="font-md color-grey">Total</th>
 									</tr>
 								</thead>
 								<tbody class="invo-tb-body">
@@ -120,41 +120,43 @@ if(isset($_GET['id'])){
                                         ?>
                                         <tr class="invo-tb-row">
                                             <td class="font-sm"><?= htmlspecialchars($item['pname']); ?></td>
-                                            <td class="font-sm text-center">Tk<?= number_format($item['price'], 2); ?></td>
-                                            <td class="font-sm text-center"><?= htmlspecialchars($item['qty']); ?></td>
-                                            <td class="font-sm text-right pr-10">Tk<?= number_format($total, 2); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($item['price'], 2); ?></td>
+                                            <td class="font-sm "><?= htmlspecialchars($item['qty']); ?></td>
+                                            <td class="font-sm">Tk<?= number_format($total, 2); ?></td>
                                         </tr>
                                         <?php
                                     }
                                 }
                                 ?>
+
+
 								</tbody>
 							</table>
 						</div>
-						<!--Car detail table end here -->
+						<!--Coffee table data end here -->
 						<!--Invoice additional info start here -->
-						<div class="invo-addition-wrap invo-addition-wrap-car pt-20">
-							<div class="invo-add-info-content width-50">
-								<h3 class="font-md color-light-black">Terms and Condition:</h3>
-								<p class="add-info-desc inter-400 mtb-0 font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
+						<div class="invo-addition-wrap pt-20">
+							<div class="invo-add-info-content">
+								<h3 class="font-md color-light-black">Terms & Conditions:</h3>
+                                <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
 							<div class="invo-bill-total width-30">
 								<table class="invo-total-table">
+									<tbody>
                                     <?php
                                     $grandTotal = $subTotal + $tax;
                                     ?>
-									<tbody>
 										<tr>
-											<td class="font-md color-light-black">Sub Total:</td>
-											<td class="ifont-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
+											<td class="font-md color-light-black ">Sub Total:</td>
+											<td class="font-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
 										</tr>
-										<tr class="tax-row bottom-border">
-											<td class="font-md color-light-black">Tax <span class="invo-total-data inter-700 medium-font second-color">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
+										<tr class="tax-row">
+											<td class="font-md color-light-black ">Tax <span class="">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
 											<td class="font-md-grey color-grey text-right">Tk<?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total">
-											<td class="color-dark-yellow font-18-700 pt-20">Grand Total:</td>
-											<td class="font-md-grey color-grey text-right pt-20">Tk<?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-700 color-coffe pt-20">Grand Total:</td>
+											<td class="font-18-500 color-light-black text-right pt-20">Tk<?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
@@ -169,15 +171,21 @@ if(isset($_GET['id'])){
 						</div>
 						<!--Flight contact us detail start here -->
 					</div>
-					<!--Car contact us detail start here -->
-					<div class="car-bottom-sec">
-						<div class="text-center pt-30 car-bottom">
-							<p class="font-sm color-light-black">Thank you for choosing to 🚗 travelling 🚗 with us. See you soon 🙂</p>
+					<!--Coffee shop contact us detail start here -->
+					<div class="coffee-bottom-sec-footer">
+						<div class="coffee-bottom-sec">
+							<div class="coffee-triangle-image coffee-triangle-image-footer">
+							</div>
+						</div>
+						<div class="coffee-bottom-contact">
+							<div class="bus-conta-mail-wrap coffee-conta-mail-wrap">
+							</div>
+							<div class="coffee-thank-txt"><p class="font-sm color-light-black coffee-txt-bottom">Thank you for choosing us. See you soon 🙂</p></div>
 						</div>
 					</div>
-					<!--Car contact us detail end here -->
+					<!--Coffee shop contact us detail end here -->
 				</section>
-				<!--Invoice content end  -->
+				<!--Invoice content end here -->
 			</div>
 			<!--Bottom content start here -->
 			<section class="agency-bottom-content d-print-none" id="agency_bottom">
@@ -220,15 +228,15 @@ if(isset($_GET['id'])){
 					<h3 class="font-md-grey color-grey note-desc">This is computer generated receipt and does not require physical signature.</h3>
 				</div>
 				<!--Note content end -->
-			</section>
+			</section> 
 			<!--Bottom content end here -->
 		</div>
 	</div>
 	<!--Invoice wrap end here -->
-	<script src="assets/js/jquery.min-9.js"></script>
-	<script src="assets/js/jspdf.min-9.js"></script>
-	<script src="assets/js/html2canvas.min-9.js"></script>
-	<script src="assets/js/custom-9.js"></script>
+	<script src="invoiceassets/js/jquery.min-15.js"></script>
+	<script src="invoiceassets/js/jspdf.min-15.js"></script>
+	<script src="invoiceassets/js/html2canvas.min-15.js"></script>
+	<script src="invoiceassets/js/custom-15.js"></script>
 </body>
 </html>
 <?php
@@ -236,7 +244,7 @@ if(isset($_GET['id'])){
         ?>
         <script>
             alert('Page Not Found');
-            window.location.href="../index.php";
+            window.location.href="index.php";
         </script>
         <?php
     }
@@ -244,7 +252,7 @@ if(isset($_GET['id'])){
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }

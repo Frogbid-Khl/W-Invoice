@@ -17,10 +17,10 @@ if(isset($_GET['id'])){
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <title>Digital Invoica</title>
-            <link href="assets/images/favicon/icon.png" rel="icon">
-            <link href="../assets/fonts/css2-1?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="assets/css/custom.css">
-            <link rel="stylesheet" href="assets/css/media-query.css">
+            <link href="invoiceassets/images/favicon/icon.png" rel="icon">
+            <link href="assets/fonts/css2-1?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="invoiceassets/css/custom.css">
+            <link rel="stylesheet" href="invoiceassets/css/media-query.css">
         </head>
         <body>
         <!--Invoice wrap start here -->
@@ -231,10 +231,10 @@ if(isset($_GET['id'])){
             </div>
         </div>
         <!--Invoice wrap End here -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jspdf.min.js"></script>
-        <script src="assets/js/html2canvas.min.js"></script>
-        <script src="assets/js/custom.js"></script>
+        <script src="invoiceassets/js/jquery.min.js"></script>
+        <script src="invoiceassets/js/jspdf.min.js"></script>
+        <script src="invoiceassets/js/html2canvas.min.js"></script>
+        <script src="invoiceassets/js/custom.js"></script>
         </body>
         </html>
 <?php
@@ -242,7 +242,7 @@ if(isset($_GET['id'])){
         ?>
         <script>
             alert('Page Not Found');
-            window.location.href="../index.php";
+            window.location.href="index.php";
         </script>
         <?php
     }
@@ -250,7 +250,7 @@ if(isset($_GET['id'])){
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }

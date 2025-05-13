@@ -17,49 +17,53 @@ if(isset($_GET['id'])){
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Digital Invoica</title>
-	<link href="assets/images/favicon/icon-15.png" rel="icon">
-	<link href="../assets/fonts/css2-16?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/custom-15.css">
-	<link rel="stylesheet" href="assets/css/media-query-15.css">
+	<link href="invoiceassets/images/favicon/icon-14.png" rel="icon">
+	<link href="assets/fonts/css2-15?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="invoiceassets/css/custom-14.css">
+	<link rel="stylesheet" href="invoiceassets/css/media-query-14.css">
 </head>
 <body>
 	<!--Invoice wrap start here -->
-	<div class="invoice_wrap coffee-invoice">
+	<div class="invoice_wrap travel-invoice">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
 				<!--Header start here -->
-				<header class="coffee_header" id="invo_header">
-					<div class="header-top-coffee width-70">
-						<h1 class="coffee-txt">INVOICE</h1>
-					</div>
-					<div class="invoice-logo-content-coffee ">
-						<div class="coffee-black">
-							<div class="brown-bg"></div>
+				<header class="bg-black" id="invo_header">
+					<div class="travel-contact-sec ">
+						<div class="invoice-header-contact">
+
 						</div>
-						<div class="invoice-logo-coffee">
-							<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
-						</div>
-						<div class="invo-head-content-coffee">
-							<div class="invo-head-wrap">
-								<div class="font-sm-700 color-white">Invoice No:</div>
-								<div class="font-sm color-white">#<?= $dataInvoice[0]['iinv_no']; ?></div>
+					</div>	
+					<div class="travel-logo-sec">
+						<div class="travel-logo-sec-wrap">
+							<div class="travel-logo">
+								<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
 							</div>
-							<div class="invo-head-wrap">
-								<div class="font-sm-700 color-white">Invoice Date:</div>
-								<div class="font-sm color-white"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
+							<div class="travel-txt">
+								<h1 class="travel-txt-bg">INVOICE</h1>
 							</div>
 						</div>
-						<div class="coffee-triangle-image">	
-						</div>
-					</div>
+					</div>	
 				</header>
 				<!--Header end here -->
 				<!--Invoice content start here -->
-				<section class="agency-service-content ecommerce-invoice-content" id="coffee_shop_invoice">
-					<div class="coffee-shop-back-img-one">
-						<img src="assets/images/coffee-shop/coffee-back-img.png" alt="this is a back image">
-					</div>
+				<section class="agency-service-content ecommerce-invoice-content" id="travel_invoice">
+					<div class="travel-bottom-sec-img">
+						<img src="invoiceassets/images/travel/green-bg.svg" alt="background-img">
+					</div>	
 					<div class="container">
+						<!--Header invoice details start here -->
+						<div class="bus-invo-no-date-wrap bus-invo-no-date-wrap-travel ">
+							<div class="bus-invo-num bus-invo-num-travel ">
+								<div class="font-md color-light-black">Invoice Date:</div>
+								<div class="font-md-grey color-grey"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
+							</div>
+							<div class="bus-invo-date bus-invo-num-travel">
+								<div class="font-md color-light-black">Invoice No:</div>
+								<div class="font-md-grey color-grey">#<?= $dataInvoice[0]['iinv_no']; ?></div>
+							</div>
+						</div>
+						<!--Header invoice details end here -->
 						<!--Invoice owner name start here -->
 						<div class="invoice-owner-conte-wrap pt-40">
 							<div class="invo-to-wrap">
@@ -68,44 +72,43 @@ if(isset($_GET['id'])){
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                                     ?>
-									<h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<h2 class="travel-color font-lg pt-10 "><?= htmlspecialchars($lines[0]); ?></h2>
 									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 								</div>
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
-                                    <p class="font-md color-light-black">Bill To:</p>
+									<p class="font-md color-light-black">Bill To:</p>
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                                     ?>
-                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
-                                </div>
+									<h2 class="travel-color font-lg pt-10 "><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+								</div>
 							</div>
 						</div>
 						<div class="invoice-owner-conte-wrap pt-40">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-                                    <p class="font-md color-light-black">Ship To:</p>
+									<p class="font-md color-light-black">Ship To:</p>
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ishipto']);
                                     ?>
-                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
-
-                                </div>
+									<h2 class="travel-color font-lg pt-10 "><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+								</div>
 							</div>
 						</div>
 						<!--Invoice owner name end here -->
-						<!--Coffee table data start here -->
+						<!--Travel table data start here -->
 						<div class="table-wrapper pt-40">
-							<table class="invoice-table coffee-table">
+							<table class="invoice-table travel-table">
 								<thead>
 									<tr class="invo-tb-header">
-										<th class="font-md color-grey">Item</th>
-										<th class="font-md color-grey">Price</th>
-										<th class="font-md color-grey">Qty</th>
-										<th class="font-md color-grey">Total</th>
+										<th class="font-md color-light-black width-50">Item</th>
+										<th class="font-md color-light-black fit-price">Price</th>
+										<th class="font-md color-light-black flight-re-price-wid">Qty</th>
+										<th class="font-md color-light-black fit-price">Total</th>
 									</tr>
 								</thead>
 								<tbody class="invo-tb-body">
@@ -118,51 +121,53 @@ if(isset($_GET['id'])){
                                         $tax+=($item['tax']/100)*$total;
                                         $subTotal += $total;
                                         ?>
-                                        <tr class="invo-tb-row">
+                                        <tr class="invo-tb-row table-bg">
                                             <td class="font-sm"><?= htmlspecialchars($item['pname']); ?></td>
                                             <td class="font-sm">Tk<?= number_format($item['price'], 2); ?></td>
-                                            <td class="font-sm "><?= htmlspecialchars($item['qty']); ?></td>
+                                            <td class="font-sm"><?= htmlspecialchars($item['qty']); ?></td>
                                             <td class="font-sm">Tk<?= number_format($total, 2); ?></td>
                                         </tr>
                                         <?php
+                                        $sl+=1;
                                     }
                                 }
                                 ?>
-
-
 								</tbody>
 							</table>
 						</div>
-						<!--Coffee table data end here -->
+						<!--Travel table data end here -->
 						<!--Invoice additional info start here -->
-						<div class="invo-addition-wrap pt-20">
+						<div class="invo-addition-wrap invo-addition-wrap-travel pt-20">
 							<div class="invo-add-info-content">
-								<h3 class="font-md color-light-black">Terms & Conditions:</h3>
-                                <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
+								<div>
+									<div class="term-condi-list pt-40">
+										<h3 class="font-md color-light-black">Terms &amp; Condition:</h3>
+                                        <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
+									</div>
+								</div>
 							</div>
-							<div class="invo-bill-total width-30">
+							<div class="invo-bill-total">
 								<table class="invo-total-table">
 									<tbody>
                                     <?php
                                     $grandTotal = $subTotal + $tax;
                                     ?>
 										<tr>
-											<td class="font-md color-light-black ">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
+											<td class="font-md color-light-black">Sub Total:</td>
+											<td class="font-md-grey color-grey text-right pr-10">Tk<?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row">
-											<td class="font-md color-light-black ">Tax <span class="">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
-											<td class="font-md-grey color-grey text-right">Tk<?= number_format($tax, 2); ?></td>
+											<td class="font-md color-light-black">Tax <span class="color-grey">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
+											<td class="font-md-grey color-grey text-right pr-10">Tk<?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total">
-											<td class="font-18-700 color-coffe pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black text-right pt-20">Tk<?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-700 travel-color pt-20 ">Grand Total:</td>
+											<td class="font-18-500 color-light-black pt-20 text-right pr-10 ">Tk<?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
-						<!--Invoice additional info end here -->
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
@@ -171,24 +176,17 @@ if(isset($_GET['id'])){
 						</div>
 						<!--Flight contact us detail start here -->
 					</div>
-					<!--Coffee shop contact us detail start here -->
-					<div class="coffee-bottom-sec-footer">
-						<div class="coffee-bottom-sec">
-							<div class="coffee-triangle-image coffee-triangle-image-footer">
-							</div>
-						</div>
-						<div class="coffee-bottom-contact">
-							<div class="bus-conta-mail-wrap coffee-conta-mail-wrap">
-							</div>
-							<div class="coffee-thank-txt"><p class="font-sm color-light-black coffee-txt-bottom">Thank you for choosing us. See you soon 🙂</p></div>
+					<div class="travel-bottom-sec pt-20">
+						<div class="travel-bottom-sec-wrap">
+							<div class="footer-img1"><img src="invoiceassets/images/travel/footer-img1.svg" alt="background-img"></div>
+							<div class="footer-img2"><img src="invoiceassets/images/travel/footer-img2.svg" alt="background-img"></div>
 						</div>
 					</div>
-					<!--Coffee shop contact us detail end here -->
 				</section>
 				<!--Invoice content end here -->
 			</div>
 			<!--Bottom content start here -->
-			<section class="agency-bottom-content d-print-none" id="agency_bottom">
+			<section class="agency-bottom-content agency-bottom-content-travel d-print-none" id="agency_bottom">
 				<!--Print-download content start here -->
 				<div class="invo-buttons-wrap">
 					<div class="invo-print-btn invo-btns">
@@ -218,7 +216,7 @@ if(isset($_GET['id'])){
 					</div>
 				</div>
 				<!--Print-download content end here -->
-				<!--Note content start -->
+				<!--Note content start here -->
 				<div class="invo-note-wrap">
 					<div class="note-title">
 						<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_8_240)"><path d="M14 3V7C14 7.26522 14.1054 7.51957 14.2929 7.70711C14.4804 7.89464 14.7348 8 15 8H19" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H14L19 8V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21Z" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 7H10" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 13H15" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 17H15" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_8_240"><rect width="24" height="24" fill="white"></rect>
@@ -227,16 +225,16 @@ if(isset($_GET['id'])){
 					</div>
 					<h3 class="font-md-grey color-grey note-desc">This is computer generated receipt and does not require physical signature.</h3>
 				</div>
-				<!--Note content end -->
+				<!--Note content End here -->
 			</section> 
-			<!--Bottom content end here -->
+			<!--bottom content end here -->
 		</div>
 	</div>
-	<!--Invoice wrap end here -->
-	<script src="assets/js/jquery.min-15.js"></script>
-	<script src="assets/js/jspdf.min-15.js"></script>
-	<script src="assets/js/html2canvas.min-15.js"></script>
-	<script src="assets/js/custom-15.js"></script>
+	<!--Invoice Wrap End here -->
+	<script src="invoiceassets/js/jquery.min-14.js"></script>
+	<script src="invoiceassets/js/jspdf.min-14.js"></script>
+	<script src="invoiceassets/js/html2canvas.min-14.js"></script>
+	<script src="invoiceassets/js/custom-14.js"></script>
 </body>
 </html>
 <?php
@@ -244,7 +242,7 @@ if(isset($_GET['id'])){
         ?>
         <script>
             alert('Page Not Found');
-            window.location.href="../index.php";
+            window.location.href="index.php";
         </script>
         <?php
     }
@@ -252,7 +250,7 @@ if(isset($_GET['id'])){
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }

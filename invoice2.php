@@ -17,62 +17,52 @@ if (!empty($dataInvoice)) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Digital Invoica</title>
-	<link href="assets/images/favicon/icon-3.png" rel="icon">
-	<link href="../assets/fonts/css2-4?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/custom-3.css">
-	<link rel="stylesheet" href="assets/css/media-query-3.css">
+	<link href="invoiceassets/images/favicon/icon-1.png" rel="icon">
+	<link href="assets/fonts/css2-2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="invoiceassets/css/custom-1.css">
+	<link rel="stylesheet" href="invoiceassets/css/media-query-1.css">
 </head>
 <body>
 	<!--Invoice wrap start here -->
-	<div class="invoice_wrap bus-invoice">
+	<div class="invoice_wrap hotel">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
-				<!--Header start Here -->
-				<header class="bus-header " id="invo_header">
-					<div class="bus-header-img">
-						<img src="assets/images/bus/black-img1.svg" alt="background-img" class="wid-100">
-						<img src="assets/images/bus/pink-img.svg" alt="background-img" class="pink-img">
-						<img src="assets/images/bus/black-img2.svg" alt="background-img">
-					</div>
-					<div class="container">
-						<div class="bus-header-logo res-contact">
-							<div class="wid-50">
-								<a href="#" class="logo"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
+				<!--Header start here -->
+				<header class="hotel-header" id="invo_header">
+					<div class="invoice-logo-content pink-bg">
+						<div class="invoice-logo invoice-logo-hotel">
+							<a href="#" class="logo"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
+						</div>
+						<div class="invo-head-content invoice-logo-hotel-left ">
+							<img src="invoiceassets/images/hotel/txt-img-1.png" class="txt-img" alt="txt-img">
+							<div class="invo-head-wrap">
+								<div class="color-white font-md wid-40-hotel">Invoice No:</div>
+								<div class="font-md-grey color-white wid-20">#<?= $dataInvoice[0]['iinv_no']; ?></div>
 							</div>
-							<div class="wid-50">
-								<h1 class="bus-txt">INVOICE</h1>
-								<div class="invoice-agency-details">
-									<div class="invo-head-wrap">
-										<div class="color-light-black font-md wid-40 ">Invoice No:</div>
-										<div class="font-md-grey color-grey wid-20">#<?= $dataInvoice[0]['iinv_no']; ?></div>
-									</div>
-									<div class="invo-head-wrap invoi-date-wrap invoi-date-wrap-agency">
-										<div class="color-light-black font-md wid-40 ">Invoice Date:</div>
-										<div class="font-md-grey color-grey wid-20 "><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
-									</div>
-								</div>
+							<div class="invo-head-wrap invoi-date-wrap invoi-date-wrap-agency">
+								<div class="color-white font-md wid-40-hotel">Invoice Date:</div>
+								<div class="font-md-grey color-white wid-20"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
 							</div>
 						</div>
 					</div>
-				</header>
-				<!--Header end Here -->
+				</header> 
+				<!--Header end here -->
 				<!--Invoice content start here -->
-				<section class="bus-booking-content" id="bus_booking">
+				<section class="agency-service-content hotel-booking-content" id="hotel_invoice">
 					<div class="container">
-						<!--Invoice owner name content start here -->
-						<div class="invoice-owner-conte-wrap pt-40">
+						<!--Invoice owner name start here -->
+						<div class="invoice-owner-conte-wrap pt-20">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">From:</p>
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                                     ?>
-
-                                    <h2 class="font-lg color-pink pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                    <p class="font-md-grey color-grey pt-10">
+									<h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+									<p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
-                                </div>
+								</div>
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
@@ -80,79 +70,75 @@ if (!empty($dataInvoice)) {
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                                     ?>
-
-                                    <h2 class="font-lg color-pink pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
                                     <p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
                                 </div>
 							</div>
 						</div>
-						<div class="invoice-owner-conte-wrap pt-40">
+						<div class="invoice-owner-conte-wrap pt-20">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">Ship To:</p>
                                     <?php
                                     $lines = explode("\n", $dataInvoice[0]['ishipto']);
                                     ?>
-
-                                    <h2 class="font-lg color-pink pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                    <p class="font-md-grey color-grey pt-10">
+									<h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+									<p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
-                                </div>
+								</div>
 							</div>
 						</div>
-						<!--Invoice owner name content end here -->
+						<!--Invoice owner name end here -->
 						<!--Invoice table data start here -->
 						<div class="table-wrapper pt-40">
-							<table class="invoice-table bus-detail-table">
+							<table class="invoice-table hotel-table">
 								<thead>
 									<tr class="invo-tb-header">
-										<th class="font-md color-light-black width-50 ">Details</th>
-										<th class="font-md color-light-black re-price-wid text-center">Price</th>
-										<th class="font-md color-light-black re-qty-wid text-center">Qty</th>
-										<th class="font-md color-light-black tota-wid text-right">Total</th>
+										<th class="font-md color-light-black item-wid pl-10 ">Items</th>
+										<th class="font-md color-light-black desc-wid ">Description</th>
+										<th class="font-md color-light-black qty-wid text-center">Rate</th>
+										<th class="font-md color-light-black tota-wid text-right">Amount</th>
 									</tr>
 								</thead>
 								<tbody class="invo-tb-body">
-                                <?php
-                                $subTotal = 0;
-                                $tax=0;
-                                if (!empty($dataInvoiceDetail)) {
-                                    foreach ($dataInvoiceDetail as $item) {
-                                        $total = $item['qty'] * $item['price'];
-                                        $tax+=($item['tax']/100)*$total;
-                                        $subTotal += $total;
-                                        ?>
-                                        <tr class="invo-tb-row">
-                                            <td class="font-sm color-grey"><?= htmlspecialchars($item['pname']); ?></td>
-                                            <td class="font-sm color-grey text-center">Tk<?= number_format($item['price'], 2); ?></td>
-                                            <td class="font-sm color-grey text-center"><?= htmlspecialchars($item['qty']); ?></td>
-                                            <td class="font-sm color-grey text-right">Tk<?= number_format($total, 2); ?></td>
-                                        </tr>
-                                        <?php
+                                    <?php
+                                    $subTotal = 0;
+                                    $tax=0;
+                                    if (!empty($dataInvoiceDetail)) {
+                                        foreach ($dataInvoiceDetail as $item) {
+                                            $total = $item['qty'] * $item['price'];
+                                            $tax+=($item['tax']/100)*$total;
+                                            $subTotal += $total;
+                                            ?>
+                                            <tr class="invo-tb-row">
+                                                <td class="font-sm pl-10"><?= htmlspecialchars($item['pname']); ?></td>
+                                                <td class="font-sm"><?= htmlspecialchars($item['qty']); ?></td>
+                                                <td class="font-sm text-center">Tk<?= number_format($item['price'], 2); ?></td>
+                                                <td class="font-sm text-right">Tk<?= number_format($total, 2); ?></td>
+                                            </tr>
+                                            <?php
+                                        }
                                     }
-                                }
-                                ?>
+                                    ?>
 								</tbody>
 							</table>
 						</div>
 						<!--Invoice table data end here -->
 						<!--Invoice additional info start here -->
 						<div class="invo-addition-wrap pt-20">
-							<div class="invo-add-info-content bus-term-cond-content">
-								<h3 class="font-md color-light-black">Terms & Condition:</h3>
-								<div class="term-condi-list pt-10">
-                                    <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
-								</div>
+							<div class="invo-add-info-content">
+								<h3 class="font-md color-light-black ">Terms & Condition:</h3>
+								<p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
-							<div class="invo-bill-total bus-invo-total  ">
+							<div class="invo-bill-total width-30">
 								<table class="invo-total-table">
-									<tbody>
                                     <?php
                                     $grandTotal = $subTotal + $tax;
                                     ?>
+									<tbody>
 										<tr>
 											<td class="font-md color-light-black">Sub Total:</td>
 											<td class="font-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
@@ -162,14 +148,13 @@ if (!empty($dataInvoice)) {
 											<td class="font-md-grey color-grey text-right">Tk<?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total">
-											<td class="font-18-700 color-pink pt-20">Grand Total:</td>
-											<td class="font-18-500 pt-20 color-light-black text-right">Tk<?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-700 color-purple pt-20">Grand Total:</td>
+											<td class="font-18-500 color-light-black text-right pt-20">Tk<?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
-						<!--Invoice additional info end here -->
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
@@ -177,10 +162,14 @@ if (!empty($dataInvoice)) {
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->
-						<div class="res-contact res-bottom">
-							<p class="font-sm color-light-black text-center">Thank you for choosing to dine with us. See you soon 🙂</p>
+					</div>
+					<!--Contact details start here -->
+					<div class="agency-contact-sec bg-black">
+						<div class="invoice-header-contact">
+
 						</div>
 					</div>
+					<!--Contact details end here -->
 				</section>
 				<!--Invoice content end here -->
 			</div>
@@ -215,7 +204,7 @@ if (!empty($dataInvoice)) {
 					</div>
 				</div>
 				<!--Print-download content end here -->
-				<!--Note content start-->
+				<!--Note content start here -->
 				<div class="invo-note-wrap">
 					<div class="note-title">
 						<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_8_240)"><path d="M14 3V7C14 7.26522 14.1054 7.51957 14.2929 7.70711C14.4804 7.89464 14.7348 8 15 8H19" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H14L19 8V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21Z" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 7H10" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 13H15" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 17H15" stroke="#12151C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clippath id="clip0_8_240"><rect width="24" height="24" fill="white"></rect>
@@ -224,16 +213,16 @@ if (!empty($dataInvoice)) {
 					</div>
 					<h3 class="font-md-grey color-grey note-desc">This is computer generated receipt and does not require physical signature.</h3>
 				</div>
-				<!--Note content End-->
+				<!--Note content end here -->
 			</section> 
 			<!--Bottom content end here -->
 		</div>
 	</div>
 	<!--Invoice wrap end here -->
-	<script src="assets/js/jquery.min-3.js"></script>
-	<script src="assets/js/jspdf.min-3.js"></script>
-	<script src="assets/js/html2canvas.min-3.js"></script>
-	<script src="assets/js/custom-3.js"></script>
+	<script src="invoiceassets/js/jquery.min-1.js"></script>
+	<script src="invoiceassets/js/jspdf.min-1.js"></script>
+	<script src="invoiceassets/js/html2canvas.min-1.js"></script>
+	<script src="invoiceassets/js/custom-1.js"></script>
 </body>
 </html>
     <?php
@@ -241,7 +230,7 @@ if (!empty($dataInvoice)) {
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }
@@ -249,7 +238,7 @@ if (!empty($dataInvoice)) {
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }

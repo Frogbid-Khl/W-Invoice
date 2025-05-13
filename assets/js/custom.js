@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const subtotalField = document.getElementById('subtotal');
 
     // Calculate all totals
-    function updateTotals() {
+    async function updateTotals() {
         let subtotal = 0;
         let totalTax = 0;
 
@@ -74,23 +74,26 @@ document.addEventListener('DOMContentLoaded', function () {
             totalTax += (amount * taxRate / 100);
         });
 
+        console.log("Total"+subtotal.toFixed(2));
+
         // Update display
         subtotalField.innerHTML = subtotal.toFixed(2);
         totalField.innerHTML = (subtotal + totalTax).toFixed(2);
     }
 
     // Calculate amount for a single row
-    function calculateAmount(row) {
+    async function calculateAmount(row) {
         const unitPrice = parseFloat(row.querySelector('.unitPrice').value) || 0;
         const qty = parseFloat(row.querySelector('.qty').value) || 0;
         const amount = (unitPrice * qty).toFixed(2);
 
         row.querySelector('.amount').value = amount;
+        console.log("Amount"+amount.toFixed(2));
         updateTotals();
     }
 
     // Set up event listeners for a row
-    function attachRowEvents(row) {
+    async function attachRowEvents(row) {
         row.querySelector('.unitPrice').addEventListener('input', () => calculateAmount(row));
         row.querySelector('.qty').addEventListener('input', () => calculateAmount(row));
         row.querySelector('.tax').addEventListener('input', () => updateTotals());

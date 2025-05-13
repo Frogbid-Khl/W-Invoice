@@ -17,10 +17,10 @@ if (!empty($dataInvoice)) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Digital Invoica</title>
-	<link href="assets/images/favicon/icon-2.png" rel="icon">
-	<link href="../assets/fonts/css2-3?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/custom-2.css">
-	<link rel="stylesheet" href="assets/css/media-query-2.css">
+	<link href="invoiceassets/images/favicon/icon-2.png" rel="icon">
+	<link href="assets/fonts/css2-3?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="invoiceassets/css/custom-2.css">
+	<link rel="stylesheet" href="invoiceassets/css/media-query-2.css">
 </head>
 <body>
 	<!--Invoice wrap start here -->
@@ -34,7 +34,7 @@ if (!empty($dataInvoice)) {
 							<a href="#" class="restaurant-logo"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
 						</div>
 						<div class="invoice-logo-res wid-50">
-							<a href="#" class="logo"><img src="assets/images/hotel/restaurant-header-img.png" style="max-width: 170px" alt="this is a invoice logo"></a>
+							<a href="#" class="logo"><img src="invoiceassets/images/hotel/restaurant-header-img.png" style="max-width: 170px" alt="this is a invoice logo"></a>
 						</div>
 					</div>
 				</header>
@@ -215,10 +215,10 @@ if (!empty($dataInvoice)) {
 		</div>
 	</div>
 	<!--Invoice wrap End here -->
-	<script src="assets/js/jquery.min-2.js"></script>
-	<script src="assets/js/jspdf.min-2.js"></script>
-	<script src="assets/js/html2canvas.min-2.js"></script>
-	<script src="assets/js/custom-2.js"></script>
+	<script src="invoiceassets/js/jquery.min-2.js"></script>
+	<script src="invoiceassets/js/jspdf.min-2.js"></script>
+	<script src="invoiceassets/js/html2canvas.min-2.js"></script>
+	<script src="invoiceassets/js/custom-2.js"></script>
 </body>
 </html>
     <?php
@@ -226,7 +226,7 @@ if (!empty($dataInvoice)) {
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }
@@ -234,7 +234,7 @@ if (!empty($dataInvoice)) {
     ?>
     <script>
         alert('Page Not Found');
-        window.location.href="../index.php";
+        window.location.href="index.php";
     </script>
     <?php
 }

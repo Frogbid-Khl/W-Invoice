@@ -1,4 +1,5 @@
 ﻿<?php
+session_start();
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
@@ -57,8 +58,8 @@ if (isset($_POST['saveInvoice'])) {
         $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
         if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
-                $logo = "assets/logo/" . $file_name;
+            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
+                $logo = "invoiceassets/logo/" . $file_name;
             }
         }
     }
@@ -72,8 +73,8 @@ if (isset($_POST['saveInvoice'])) {
         $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
         if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
-                $signature = "assets/signature/" . $file_name;
+            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
+                $signature = "invoiceassets/signature/" . $file_name;
             }
         }
     }
@@ -88,7 +89,7 @@ if (isset($_POST['saveInvoice'])) {
     if($insert){
         ?>
         <script>
-            alert('Value Inserted');
+            alert('Invoice Added');
             window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".php?id=<?php echo $sharable_url; ?>";
         </script>
 <?php
@@ -204,7 +205,7 @@ if (isset($_POST['saveInvoice'])) {
                         <ul class="menu-sec-details">
                             <li class="demo-txt"><a href="#pages-sec">Demos</a></li>
                             <li class="template-txt"><a href="#features-sec">Features</a></li>
-                            <li class="purchase-btn"><a href="#">Create Invoice</a></li>
+                            <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
                         </ul>
                     </div>
                 </div>
