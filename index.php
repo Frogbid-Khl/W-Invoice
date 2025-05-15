@@ -90,7 +90,7 @@ if (isset($_POST['saveInvoice'])) {
         ?>
         <script>
             alert('Invoice Added');
-            window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".php?id=<?php echo $sharable_url; ?>";
+            window.location.href="invoice"+"<?php echo $invoiceOption; ?>"+".php?id=<?php echo $sharable_url; ?>";
         </script>
 <?php
     }
@@ -203,9 +203,24 @@ if (isset($_POST['saveInvoice'])) {
                 <div class="logo-sec-details">
                     <div class="menu-sec">
                         <ul class="menu-sec-details">
-                            <li class="demo-txt"><a href="#pages-sec">Demos</a></li>
-                            <li class="template-txt"><a href="#features-sec">Features</a></li>
-                            <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
+                            <?php
+                            if(!isset($_SESSION['uid'])){
+                                ?>
+                                <li class="demo-txt"><a href="index.php#pages-sec">Demos</a></li>
+                                <li class="template-txt"><a href="index.php#features-sec">Features</a></li>
+                                <li class="template-txt"><a href="login.php">Login</a></li>
+                                <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
+                            <?php
+                            }else{
+                                ?>
+                                <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
+                                <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
+                                <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
+                                <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
+                                <?php
+                            }
+                            ?>
+
                         </ul>
                     </div>
                 </div>
@@ -229,11 +244,11 @@ if (isset($_POST['saveInvoice'])) {
                             of project </p>
                         <div class="hero-sec1">
                             <a class="demo-btn" href="#pages-sec">Demos</a>
-                            <a class="buy-btn" href="#">Create Invoice</a>
+                            <a class="buy-btn" href="#create-invoice">Create Invoice</a>
                         </div>
                     </div>
                 </div>
-                <div class="hero-full-second pb-5">
+                <div class="hero-full-second pb-5" id="create-invoice">
                     <div class="card p-4 bg-light">
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
@@ -523,7 +538,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Agency Service Invoice </h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice1.html" target="_blank">
+                            <a class="link_under" href="invoice1.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -539,7 +554,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Hotel Booking Invoice </h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice2.html" target="_blank">
+                            <a class="link_under" href="invoice2.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -555,7 +570,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Restaurant Bill Invoice </h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice3.html" target="_blank">
+                            <a class="link_under" href="invoice3.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -571,7 +586,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Bus Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice4.html" target="_blank">
+                            <a class="link_under" href="invoice4.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -587,7 +602,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Student Billing Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice5.html" target="_blank">
+                            <a class="link_under" href="invoice5.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -603,7 +618,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Hospital or Medical Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice6.html" target="_blank">
+                            <a class="link_under" href="invoice6.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -619,7 +634,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Movie Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice7.html" target="_blank">
+                            <a class="link_under" href="invoice7.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -635,7 +650,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">eCommerce Bill Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice8.html" target="_blank">
+                            <a class="link_under" href="invoice8.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -651,7 +666,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Flight Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice9.html" target="_blank">
+                            <a class="link_under" href="invoice9.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -667,7 +682,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Car Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice10.html" target="_blank">
+                            <a class="link_under" href="invoice10.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -683,7 +698,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Train Booking Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice11.html" target="_blank">
+                            <a class="link_under" href="invoice11.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -699,7 +714,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Photostudio Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice12.html" target="_blank">
+                            <a class="link_under" href="invoice12.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -715,7 +730,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Cleaning Service Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice13.html" target="_blank">
+                            <a class="link_under" href="invoice13.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -731,7 +746,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Fitness Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice14.html" target="_blank">
+                            <a class="link_under" href="invoice14.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -747,7 +762,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Travel Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice15.html" target="_blank">
+                            <a class="link_under" href="invoice15.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -763,7 +778,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Coffee Shop Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice16.html" target="_blank">
+                            <a class="link_under" href="invoice16.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -779,7 +794,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Internet Bill Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice17.html" target="_blank">
+                            <a class="link_under" href="invoice17.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>
@@ -795,7 +810,7 @@ if (isset($_POST['saveInvoice'])) {
                         </div>
                         <h3 class="invoice-page-txt">Domain & Hosting Invoice</h3>
                         <div class="content-details fadeIn-bottom">
-                            <a class="link_under" href="invoice/invoice18.html" target="_blank">
+                            <a class="link_under" href="invoice18.php" target="_blank">
                                 <div class="button">
                                     <p class="button1">Use</p>
                                 </div>

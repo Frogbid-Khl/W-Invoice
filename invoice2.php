@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-require_once('../connection/dbController.php');
+require_once('connection/dbController.php');
 $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
@@ -41,7 +41,7 @@ if (!empty($dataInvoice)) {
 				<header class="hotel-header" id="invo_header">
 					<div class="invoice-logo-content pink-bg">
 						<div class="invoice-logo invoice-logo-hotel">
-							<a href="#" class="logo"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
+							<a href="#" class="logo"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
 						</div>
 						<div class="invo-head-content invoice-logo-hotel-left ">
 							<img src="invoiceassets/images/hotel/txt-img-1.png" class="txt-img" alt="txt-img">
@@ -168,7 +168,7 @@ if (!empty($dataInvoice)) {
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
+								<img src="<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->

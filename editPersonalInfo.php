@@ -15,8 +15,13 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
-
-
+if(!isset($_SESSION['uid'])){
+    ?>
+    <script>
+        window.location.href="index.php";
+    </script>
+    <?php
+}
 
 if (isset($_POST['createAccount'])) {
 
@@ -68,7 +73,7 @@ if (isset($_POST['createAccount'])) {
         ?>
         <script>
             alert('Signup Successful. Now Verify Email and Login.');
-            window.location.href="index.php";
+            window.location.href="editPersonalInfo.php";
         </script>
         <?php
     }
@@ -210,12 +215,12 @@ if (isset($_POST['createAccount'])) {
     <section class="hero-sec">
         <div class="container">
             <div class="hero-full-sec">
-                <div class="hero-full-second pb-5">
+                <div class="hero-full-second pb-5 pt-5">
                     <div class="card p-4 bg-light">
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
                                 <div class="text-center mb-4">
-                                    <h2 class="fw-bold">Create Account</h2>
+                                    <h2 class="fw-bold">Edit Personal Info</h2>
                                 </div>
 
                                 <div class="row g-4">

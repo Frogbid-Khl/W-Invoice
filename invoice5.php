@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-require_once('../connection/dbController.php');
+require_once('connection/dbController.php');
 $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
@@ -42,7 +42,7 @@ if (!empty($dataInvoice)) {
 					<div class="student-header-details">
 						<div class="student-logo-content width-50">
 							<div>
-								<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
+								<a href="#"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="logo"></a>
 							</div>
 							<div class="pt-30">
 								<h2 class="d-none">Hidden</h2>
@@ -180,7 +180,7 @@ if (!empty($dataInvoice)) {
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
+								<img src="<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->

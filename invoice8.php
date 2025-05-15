@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-require_once('../connection/dbController.php');
+require_once('connection/dbController.php');
 $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
@@ -42,7 +42,7 @@ if(isset($_GET['id'])){
 					<div class="ecommerce-header">
 						<div class="invoice-logo">
 							<div class="ecommerce-img">
-								<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="ecommerce-img"></a>
+								<a href="#"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="ecommerce-img"></a>
 							</div>
 						</div>
 						<div class="invo-head-content">
@@ -177,7 +177,7 @@ if(isset($_GET['id'])){
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
+								<img src="<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->

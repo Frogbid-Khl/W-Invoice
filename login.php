@@ -3,71 +3,28 @@ session_start();
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
-function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[random_int(0, $charactersLength - 1)];
-    }
-
-    return $randomString;
+if(isset($_SESSION['uid'])){
+    ?>
+    <script>
+        window.location.href="index.php";
+    </script>
+    <?php
 }
 
+if (isset($_POST['login'])) {
 
-
-
-if (isset($_POST['createAccount'])) {
-
-    $name = $_POST['name'] ?? '';
-    $address = $_POST['address'] ?? '';
     $email = $_POST['email'] ?? '';
     $pass = $_POST['pass'] ?? '';
-    $terms = $_POST['terms'] ?? '';
-
-    $inserted_at = $updated_at = date("Y-m-d H:i:s");
-    $sharable_url = generateRandomString(20);
-
-
-    // Logo Upload
-    $logo = '';
-    if (!empty($_FILES['logo']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
-        $file_tmp = $_FILES['logo']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                $logo = "invoiceassets/logo/" . $file_name;
-            }
-        }
-    }
-
-    // Signature Upload
-    $signature = '';
-    if (!empty($_FILES['signature']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
-        $file_tmp = $_FILES['signature']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                $signature = "invoiceassets/signature/" . $file_name;
-            }
-        }
-    }
 
     // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','0','1','$inserted_at','$updated_at')");
+    $select=$db_handle->selectQuery("select * from `user` where `email`='$email' and `pass`='$pass'");
 
 
-    if($insert){
+    if($select){
+        $_SESSION['uid']=$select[0]['uid'];
         ?>
         <script>
-            alert('Signup Successful. Now Verify Email and Login.');
+            alert('Login Successful.');
             window.location.href="index.php";
         </script>
         <?php
@@ -215,63 +172,29 @@ if (isset($_POST['createAccount'])) {
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
                                 <div class="text-center mb-4">
-                                    <h2 class="fw-bold">Create Account</h2>
+                                    <h2 class="fw-bold">Login</h2>
                                 </div>
 
                                 <div class="row g-4">
                                     <!-- Sender and Addresses -->
                                     <!-- Invoice Details -->
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="name" placeholder="" type="text">
-                                                <label>Name</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <input class="form-control" name="address" placeholder="" type="text">
-                                                <label>Address</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <input class="form-control" name="email" placeholder="" type="text">
+                                                <input class="form-control" name="email" placeholder="" type="text" required>
                                                 <label>Email</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="pass" placeholder="" type="password">
+                                                <input class="form-control" name="pass" placeholder="" type="password" required>
                                                 <label>Password</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label" for="logo">Upload Logo</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;"
-                                                       type="file">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 mt-4">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" name="terms" id="terms" placeholder="Leave a comment here"
-                                                      style="height: 290px"></textarea>
-                                            <label for="terms">Terms and Condition</label>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label" for="signature">Upload Signature</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;"
-                                                       type="file">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-12 mt-4">
-                                        <button class="btn btn-primary w-100" type="submit" name="createAccount">Submit
+                                        <button class="btn btn-primary w-100" type="submit" name="login">Submit
                                         </button>
                                     </div>
                                 </div>

@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-require_once('../connection/dbController.php');
+require_once('connection/dbController.php');
 $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
@@ -43,7 +43,7 @@ if(isset($_GET['id'])){
 						<div class="invo-head-content">
 							<div class="phtotstudio-img">
 								<img src="invoiceassets/images/photostudio/header-img.svg" alt="phtotstudio-img" class="photo-header-img">
-								<a href="#"><img src="../<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="phtotstudio-img" class="photo-logo"></a>
+								<a href="#"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="phtotstudio-img" class="photo-logo"></a>
 							</div>
 						</div>
 					</div>
@@ -178,7 +178,7 @@ if(isset($_GET['id'])){
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="../<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
+								<img src="<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
 							</div>
 						</div>
 						<!--Flight contact us detail start here -->
