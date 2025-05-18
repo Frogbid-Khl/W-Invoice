@@ -25,83 +25,115 @@ if(!isset($_SESSION['uid'])){
 
 if (isset($_POST['saveInvoice'])) {
 
-    $from = $_POST['from'] ?? '';
-    $billto = $_POST['billto'] ?? '';
-    $shipto = $_POST['shipto'] ?? '';
-    $invoice = $_POST['invoice'] ?? '';
-    $invoiceDate = $_POST['invoiceDate'] ?? '';
-    $po = $_POST['po'] ?? '';
-    $dueDate = $_POST['dueDate'] ?? '';
-    $terms = $_POST['terms'] ?? '';
 
-    $invoiceOption = $_POST['invoiceOption'] ?? '1';
+    $query="SELECT * FROM `user` WHERE `uid`={$_SESSION['uid']}";
 
-    $pname = $_POST['pname'] ?? [];
-    $unitPrice = $_POST['unitPrice'] ?? [];
-    $qty = $_POST['qty'] ?? [];
-    $amount = $_POST['amount'] ?? [];
-    $tax = $_POST['tax'] ?? '';
+    $data=$db_handle->selectQuery($query);
+    $credit=$data[0]['credit'];
 
-    $inserted_at = $updated_at = date("Y-m-d H:i:s");
-    $sharable_url = generateRandomString(20);
+    if($credit>0){
+        $query="update `user` set  credit=credit-1 WHERE `uid`={$_SESSION['uid']}";
+        $update=$db_handle->insertQuery($query);
 
+        $from = $_POST['from'] ?? '';
+        $billto = $_POST['billto'] ?? '';
+        $shipto = $_POST['shipto'] ?? '';
+        $invoice = $_POST['invoice'] ?? '';
+        $invoiceDate = $_POST['invoiceDate'] ?? '';
+        $po = $_POST['po'] ?? '';
+        $dueDate = $_POST['dueDate'] ?? '';
+        $terms = $_POST['terms'] ?? '';
 
-    // Example loop to insert line items if needed
-    foreach ($pname as $key => $name) {
-        $price = $unitPrice[$key];
-        $quantity = $qty[$key];
-        $line_amount = $amount[$key];
-        $line_tax = $tax[$key];
+        $invoiceOption = $_POST['invoiceOption'] ?? '1';
 
-        // You would need to get the invoice ID here if you want to link it properly
-        $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `invoiceDate`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('0','$sharable_url','$invoiceDate','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
-    }
+        $pname = $_POST['pname'] ?? [];
+        $unitPrice = $_POST['unitPrice'] ?? [];
+        $qty = $_POST['qty'] ?? [];
+        $amount = $_POST['amount'] ?? [];
+        $tax = $_POST['tax'] ?? '';
 
-    // Logo Upload
-    $logo = '';
-    if (!empty($_FILES['logo']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
-        $file_tmp = $_FILES['logo']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        $updated_at = date("Y-m-d H:i:s");
+        $sharable_url = $_POST['sharable_url'] ?? '';
 
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                $logo = "invoiceassets/logo/" . $file_name;
+        // Logo Upload
+        $logo = $_POST['inlogo'] ?? '';
+        if (!empty($_FILES['logo']['name'])) {
+            $RandomAccountNumber = mt_rand(1, 99999);
+            $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
+            $file_tmp = $_FILES['logo']['tmp_name'];
+            $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+            if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
+                    $logo = "assets/logo/" . $file_name;
+                }
             }
         }
-    }
 
-    // Signature Upload
-    $signature = '';
-    if (!empty($_FILES['signature']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
-        $file_tmp = $_FILES['signature']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        // Signature Upload
+        $signature = $_POST['insignature'] ?? '';
+        if (!empty($_FILES['signature']['name'])) {
+            $RandomAccountNumber = mt_rand(1, 99999);
+            $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
+            $file_tmp = $_FILES['signature']['tmp_name'];
+            $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                $signature = "invoiceassets/signature/" . $file_name;
+            if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
+                    $signature = "assets/signature/" . $file_name;
+                }
             }
         }
-    }
 
-    // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
-        `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
-        '$sharable_url','1','$inserted_at','$updated_at')");
+        // UPDATE main invoice record
+        $updateQuery = "
+        UPDATE `invoice` SET
+            `ifrom` = '$from',
+            `inv_view` = '$invoiceOption',
+            `ibillto` = '$billto',
+            `ishipto` = '$shipto',
+            `ilogo` = '$logo',
+            `iinv_no` = '$invoice',
+            `ipo` = '$po',
+            `idue_date` = '$dueDate',
+            `itoc` = '$terms',
+            `isignature` = '$signature',
+            `updated_at` = '$updated_at'
+        WHERE `sharable_url` = '$sharable_url'
+    ";
 
+        $update = $db_handle->insertQuery($updateQuery);
 
-    if($insert){
+        // Remove existing invoice line items before adding updated ones
+        $db_handle->insertQuery("DELETE FROM `invoice_detail` WHERE `isharable_url` = '$sharable_url'");
+
+        // Insert updated line items
+        foreach ($pname as $key => $name) {
+            $price = $unitPrice[$key];
+            $quantity = $qty[$key];
+            $line_amount = $amount[$key];
+            $line_tax = $tax[$key];
+
+            $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) 
+        VALUES ('0','$sharable_url','$name','$price','$quantity','$line_amount','$line_tax','$updated_at','$updated_at')");
+        }
+
+        if ($update) {
+            ?>
+            <script>
+                alert('Invoice Updated');
+                window.location.href = "invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+            </script>
+            <?php
+        }
+    }else{
         ?>
         <script>
-            alert('Invoice Added');
-            window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".php?id=<?php echo $sharable_url; ?>";
+            alert('Reload The Credit First for Updated');
         </script>
         <?php
     }
+
 }
 
 $invoice='';
@@ -260,6 +292,7 @@ if (isset($_GET['id'])) {
                                 <div class="text-center mb-4">
                                     <h2 class="fw-bold">Edit Your Custom Invoice</h2>
                                 </div>
+                                <input type="hidden" name="sharable_url" value="<?= $invoice[0]['sharable_url'] ?>" required>
 
                                 <div class="row g-4">
                                     <!-- Sender and Addresses -->
@@ -268,39 +301,47 @@ if (isset($_GET['id'])) {
                                             <label class="form-label" for="from">From</label>
                                             <textarea class="form-control" name="from" id="from"
                                                       placeholder="Your Company or Name, Address"
-                                                      rows="5"><?= $invoice[0]['ifrom'] ?></textarea>
+                                                      rows="5" required><?= $invoice[0]['ifrom'] ?></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="billto">Bill To</label>
                                             <textarea class="form-control" name="billto" id="billto"
                                                       placeholder="Customer Billing Address"
-                                                      rows="5"><?= $invoice[0]['ibillto'] ?></textarea>
+                                                      rows="5" required><?= $invoice[0]['ibillto'] ?></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="shipto">Ship To</label>
                                             <textarea class="form-control" name="shipto" id="shipto"
                                                       placeholder="Shipping Address (Optional)"
-                                                      rows="5"><?= $invoice[0]['ishipto'] ?></textarea>
+                                                      rows="5" required><?= $invoice[0]['ishipto'] ?></textarea>
                                         </div>
                                     </div>
 
                                     <!-- Invoice Details -->
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            <label class="form-label" for="logo">Upload Logo</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;"
-                                                       type="file">
+                                            <label class="form-label" for="logo">Logo</label>
+                                            <input type="hidden" name="inlogo" value="<?= $invoice[0]['ilogo'] ?>"/>
+                                            <div id="logoPreviewWrapper" class="<?= !empty($invoice[0]['ilogo']) ? '' : 'd-none' ?>">
+                                                <div class="position-relative d-inline-block">
+                                                    <img src="<?= $invoice[0]['ilogo'] ?>" alt="Logo" class="img-fluid" id="logoPreview" />
+                                                    <button type="button" class="btn-close position-absolute top-0 end-0" onclick="removeImage('logo')"></button>
+                                                </div>
                                             </div>
+
+                                            <div id="logoUpload" class="<?= empty($invoice[0]['ilogo']) ? '' : 'd-none' ?>">
+                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;" type="file">
+                                            </div>
+
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoice">Invoice #</label>
                                             <input class="form-control" id="invoice" name="invoice" value="<?= $invoice[0]['iinv_no'] ?>" placeholder="e.g. INV-1001"
-                                                   type="text">
+                                                   type="text" required>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoiceDate">Invoice Date</label>
-                                            <input class="form-control" name="invoiceDate" id="invoiceDate" value="<?= date("Y-m-d",strtotime($invoice[0]['invoiceDate'])) ?>" type="date">
+                                            <input class="form-control" required name="invoiceDate" id="invoiceDate" value="<?= date("Y-m-d",strtotime($invoice[0]['invoiceDate'])) ?>" type="date">
 
                                             <script>
                                                 // Get today's date in YYYY-MM-DD format
@@ -353,19 +394,19 @@ if (isset($_GET['id'])) {
                                                     ?>
                                                     <div class="product-row mb-3 custom-grid">
                                                         <div class="form-floating">
-                                                            <input class="form-control pname" name="pname[]" value="<?= $invoiceData[$i]['pname'] ?>" placeholder="Product Name" type="text">
+                                                            <input class="form-control pname" name="pname[]" value="<?= $invoiceData[$i]['pname'] ?>" required placeholder="Product Name" type="text">
                                                             <label>Product Name</label>
                                                         </div>
                                                         <div class="form-floating">
-                                                            <input class="form-control unitPrice" name="unitPrice[]" value="<?= $invoiceData[$i]['price'] ?>" placeholder="Unit Price" type="number">
+                                                            <input class="form-control unitPrice" name="unitPrice[]" value="<?= $invoiceData[$i]['price'] ?>" required placeholder="Unit Price" type="number">
                                                             <label>Unit Price</label>
                                                         </div>
                                                         <div class="form-floating">
-                                                            <input class="form-control qty" name="qty[]" placeholder="Quantity" value="<?= $invoiceData[$i]['qty'] ?>" type="number">
+                                                            <input class="form-control qty" name="qty[]" placeholder="Quantity" value="<?= $invoiceData[$i]['qty'] ?>" required type="number">
                                                             <label>Quantity</label>
                                                         </div>
                                                         <div class="form-floating">
-                                                            <input class="form-control amount" name="amount[]" placeholder="Amount" value="<?= $invoiceData[$i]['amount'] ?>" readonly type="number">
+                                                            <input class="form-control amount" name="amount[]" placeholder="Amount" value="<?= $invoiceData[$i]['amount'] ?>" required readonly type="number">
                                                             <label>Amount</label>
                                                         </div>
                                                         <div class="form-floating">
@@ -417,11 +458,67 @@ if (isset($_GET['id'])) {
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            <label class="form-label" for="signature">Upload Signature</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;"
-                                                       type="file">
+                                            <label class="form-label" for="logo">Signature</label>
+                                            <input type="hidden" name="insign" value="<?= $invoice[0]['isignature'] ?>"/>
+                                            <div id="signaturePreviewWrapper" class="<?= !empty($invoice[0]['isignature']) ? '' : 'd-none' ?>">
+                                                <div class="position-relative d-inline-block">
+                                                    <img src="<?= $invoice[0]['isignature'] ?>" alt="Signature" class="img-fluid" id="signaturePreview" />
+                                                    <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Remove"
+                                                            onclick="removeImage('signature')"></button>
+                                                </div>
                                             </div>
+
+                                            <div id="signatureUpload" class="<?= empty($invoice[0]['isignature']) ? '' : 'd-none' ?>">
+                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;" type="file">
+                                            </div>
+
+
+                                            <script>
+                                                function removeImage(type) {
+                                                    if (type === 'logo') {
+                                                        document.getElementById('logoPreviewWrapper').classList.add('d-none');
+                                                        document.getElementById('logoUpload').classList.remove('d-none');
+                                                    }
+                                                    if (type === 'signature') {
+                                                        document.getElementById('signaturePreviewWrapper').classList.add('d-none');
+                                                        document.getElementById('signatureUpload').classList.remove('d-none');
+                                                    }
+                                                }
+
+
+                                            function updateAmounts() {
+                                                    let subtotal = 0;
+                                                    let taxTotal = 0;
+
+                                                    document.querySelectorAll('.product-row').forEach(row => {
+                                                        const price = parseFloat(row.querySelector('.unitPrice').value) || 0;
+                                                        const qty = parseFloat(row.querySelector('.qty').value) || 0;
+                                                        const tax = parseFloat(row.querySelector('.tax').value) || 0;
+
+                                                        const amount = price * qty;
+                                                        row.querySelector('.amount').value = amount.toFixed(2);
+
+                                                        subtotal += amount;
+                                                        taxTotal += (amount * tax / 100);
+                                                    });
+
+                                                    document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+                                                    document.getElementById('total').textContent = (subtotal + taxTotal).toFixed(2);
+                                                }
+
+                                                // Trigger update on change
+                                                document.addEventListener('input', function (e) {
+                                                    if (e.target.classList.contains('unitPrice') ||
+                                                        e.target.classList.contains('qty') ||
+                                                        e.target.classList.contains('tax')) {
+                                                        updateAmounts();
+                                                    }
+                                                });
+
+                                                // Trigger update on page load just in case
+                                                document.addEventListener('DOMContentLoaded', updateAmounts);
+                                            </script>
+
                                         </div>
                                     </div>
                                     <div class="col-lg-12">

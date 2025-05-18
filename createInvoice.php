@@ -3,7 +3,8 @@ session_start();
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
-function generateRandomString($length = 10) {
+function generateRandomString($length = 10)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -15,93 +16,112 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
-if(!isset($_SESSION['uid'])){
+if (!isset($_SESSION['uid'])) {
     ?>
     <script>
-        window.location.href="index.php";
+        window.location.href = "index.php";
     </script>
     <?php
 }
 
 if (isset($_POST['saveInvoice'])) {
+    $query = "SELECT * FROM `user` WHERE `uid`={$_SESSION['uid']}";
 
-    $from = $_POST['from'] ?? '';
-    $billto = $_POST['billto'] ?? '';
-    $shipto = $_POST['shipto'] ?? '';
-    $invoice = $_POST['invoice'] ?? '';
-    $invoiceDate = $_POST['invoiceDate'] ?? '';
-    $po = $_POST['po'] ?? '';
-    $dueDate = $_POST['dueDate'] ?? '';
-    $terms = $_POST['terms'] ?? '';
+    $data = $db_handle->selectQuery($query);
+    $credit = $data[0]['credit'];
 
-    $invoiceOption = $_POST['invoiceOption'] ?? '1';
+    if ($credit > 0) {
+        $from = $_POST['from'] ?? '';
+        $billto = $_POST['billto'] ?? '';
+        $shipto = $_POST['shipto'] ?? '';
+        $invoice = $_POST['invoice'] ?? '';
+        $invoiceDate = $_POST['invoiceDate'] ?? '';
+        $po = $_POST['po'] ?? '';
+        $dueDate = $_POST['dueDate'] ?? '';
+        $terms = $_POST['terms'] ?? '';
 
-    $pname = $_POST['pname'] ?? [];
-    $unitPrice = $_POST['unitPrice'] ?? [];
-    $qty = $_POST['qty'] ?? [];
-    $amount = $_POST['amount'] ?? [];
-    $tax = $_POST['tax'] ?? '';
+        $invoiceOption = $_POST['invoiceOption'] ?? '1';
 
-    $inserted_at = $updated_at = date("Y-m-d H:i:s");
-    $sharable_url = generateRandomString(20);
+        $pname = $_POST['pname'] ?? [];
+        $unitPrice = $_POST['unitPrice'] ?? [];
+        $qty = $_POST['qty'] ?? [];
+        $amount = $_POST['amount'] ?? [];
+        $tax = $_POST['tax'] ?? '';
+
+        $inserted_at = $updated_at = date("Y-m-d H:i:s");
+        $sharable_url = generateRandomString(20);
 
 
-    // Example loop to insert line items if needed
-    foreach ($pname as $key => $name) {
-        $price = $unitPrice[$key];
-        $quantity = $qty[$key];
-        $line_amount = $amount[$key];
-        $line_tax = $tax[$key];
+        // Example loop to insert line items if needed
+        foreach ($pname as $key => $name) {
+            $price = $unitPrice[$key];
+            $quantity = $qty[$key];
+            $line_amount = $amount[$key];
+            $line_tax = $tax[$key];
 
-        // You would need to get the invoice ID here if you want to link it properly
-        $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `invoiceDate`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('0','$sharable_url','$invoiceDate','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
-    }
+            // You would need to get the invoice ID here if you want to link it properly
+            $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `invoiceDate`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('0','$sharable_url','$invoiceDate','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
+        }
 
-    // Logo Upload
-    $logo = '';
-    if (!empty($_FILES['logo']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
-        $file_tmp = $_FILES['logo']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        // Logo Upload
+        $logo = $_POST['inlogo'] ?? '';
+        if (!empty($_FILES['logo']['name'])) {
+            $RandomAccountNumber = mt_rand(1, 99999);
+            $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
+            $file_tmp = $_FILES['logo']['tmp_name'];
+            $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                $logo = "invoiceassets/logo/" . $file_name;
+            if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
+                    $logo = "invoiceassets/logo/" . $file_name;
+                }
             }
         }
-    }
 
-    // Signature Upload
-    $signature = '';
-    if (!empty($_FILES['signature']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
-        $file_tmp = $_FILES['signature']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        // Signature Upload
+        $signature = $_POST['insignature'] ?? '';
+        if (!empty($_FILES['signature']['name'])) {
+            $RandomAccountNumber = mt_rand(1, 99999);
+            $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
+            $file_tmp = $_FILES['signature']['tmp_name'];
+            $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                $signature = "invoiceassets/signature/" . $file_name;
+            if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
+                    $signature = "invoiceassets/signature/" . $file_name;
+                }
             }
         }
-    }
 
-    // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+        // Insert invoice data
+        $insert = $db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
         VALUES ('0','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')");
 
 
-    if($insert){
+        if ($insert) {
+            ?>
+            <script>
+                alert('Invoice Added');
+                window.location.href = "invoice/invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+            </script>
+            <?php
+        }
+    } else {
         ?>
         <script>
-            alert('Invoice Added');
-            window.location.href="invoice/invoice"+"<?php echo $invoiceOption; ?>"+".php?id=<?php echo $sharable_url; ?>";
+            alert('Reload The Credit First for Updated');
         </script>
         <?php
     }
+}
+
+$userData='';
+
+if(isset($_SESSION['uid'])){
+    $query="SELECT * FROM `user` where uid='{$_SESSION['uid']}'";
+    $userData=$db_handle->selectQuery($query);
 }
 ?>
 
@@ -212,14 +232,14 @@ if (isset($_POST['saveInvoice'])) {
                     <div class="menu-sec">
                         <ul class="menu-sec-details">
                             <?php
-                            if(!isset($_SESSION['uid'])){
+                            if (!isset($_SESSION['uid'])) {
                                 ?>
                                 <li class="demo-txt"><a href="index.php#pages-sec">Demos</a></li>
                                 <li class="template-txt"><a href="index.php#features-sec">Features</a></li>
                                 <li class="template-txt"><a href="login.php">Login</a></li>
                                 <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
                                 <?php
-                            }else{
+                            } else {
                                 ?>
                                 <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
                                 <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
@@ -256,39 +276,48 @@ if (isset($_POST['saveInvoice'])) {
                                             <label class="form-label" for="from">From</label>
                                             <textarea class="form-control" name="from" id="from"
                                                       placeholder="Your Company or Name, Address"
-                                                      rows="5"></textarea>
+                                                      rows="5" required><?= $userData[0]['name'] . "\n" . $userData[0]['address'] ?></textarea>
+
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="billto">Bill To</label>
                                             <textarea class="form-control" name="billto" id="billto"
                                                       placeholder="Customer Billing Address"
-                                                      rows="5"></textarea>
+                                                      rows="5" required></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="shipto">Ship To</label>
                                             <textarea class="form-control" name="shipto" id="shipto"
                                                       placeholder="Shipping Address (Optional)"
-                                                      rows="5"></textarea>
+                                                      rows="5" required></textarea>
                                         </div>
                                     </div>
 
                                     <!-- Invoice Details -->
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            <label class="form-label" for="logo">Upload Logo</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;"
-                                                       type="file">
+                                            <label class="form-label" for="logo">Logo</label>
+                                            <input type="hidden" name="inlogo" value="<?= $userData[0]['logo'] ?>"/>
+                                            <div id="logoPreviewWrapper" class="<?= !empty($userData[0]['logo']) ? '' : 'd-none' ?>">
+                                                <div class="position-relative d-inline-block">
+                                                    <img src="<?= $userData[0]['logo'] ?>" alt="Logo" class="img-fluid" id="logoPreview" />
+                                                    <button type="button" class="btn-close position-absolute top-0 end-0" onclick="removeImage('logo')"></button>
+                                                </div>
+                                            </div>
+
+                                            <div id="logoUpload" class="<?= empty($userData[0]['logo']) ? '' : 'd-none' ?>">
+                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;" type="file">
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoice">Invoice #</label>
-                                            <input class="form-control" id="invoice" name="invoice" placeholder="e.g. INV-1001"
-                                                   type="text">
+                                            <input class="form-control" id="invoice" name="invoice"
+                                                   placeholder="e.g. INV-1001"
+                                                   type="text" required>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoiceDate">Invoice Date</label>
-                                            <input class="form-control" name="invoiceDate" id="invoiceDate" type="date">
+                                            <input class="form-control" name="invoiceDate" id="invoiceDate" type="date" required>
 
                                             <script>
                                                 // Get today's date in YYYY-MM-DD format
@@ -300,7 +329,8 @@ if (isset($_POST['saveInvoice'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="po">P.O #</label>
-                                            <input class="form-control" name="po" id="po" placeholder="Optional" type="text">
+                                            <input class="form-control" name="po" id="po" placeholder="Optional"
+                                                   type="text">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>
@@ -333,32 +363,39 @@ if (isset($_POST['saveInvoice'])) {
                                             <div id="product-container">
                                                 <div class="product-row mb-3 custom-grid">
                                                     <div class="form-floating">
-                                                        <input class="form-control pname" name="pname[]" placeholder="Product Name" type="text">
+                                                        <input class="form-control pname" name="pname[]"
+                                                               placeholder="Product Name" type="text" required>
                                                         <label>Product Name</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control unitPrice" name="unitPrice[]" placeholder="Unit Price" type="number">
+                                                        <input class="form-control unitPrice" name="unitPrice[]"
+                                                               placeholder="Unit Price" type="number" required>
                                                         <label>Unit Price</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control qty" name="qty[]" placeholder="Quantity" type="number">
+                                                        <input class="form-control qty" name="qty[]"
+                                                               placeholder="Quantity" type="number" required>
                                                         <label>Quantity</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control amount" name="amount[]" placeholder="Amount" readonly type="number">
+                                                        <input class="form-control amount" name="amount[]"
+                                                               placeholder="Amount" readonly type="number" required>
                                                         <label>Amount</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control tax" name="tax[]" placeholder="Tax" type="text">
+                                                        <input class="form-control tax" name="tax[]" placeholder="Tax"
+                                                               type="text">
                                                         <label>Tax</label>
                                                     </div>
                                                     <div class="delete-wrapper d-flex align-items-center">
-                                                        <button class="btn btn-danger delete-btn" type="button">X</button>
+                                                        <button class="btn btn-danger delete-btn" type="button">X
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <button class="btn btn-outline-primary w-100 mt-3" id="add-product-btn" type="button">
+                                            <button class="btn btn-outline-primary w-100 mt-3" id="add-product-btn"
+                                                    type="button">
                                                 + Add New Item
                                             </button>
                                         </div>
@@ -384,29 +421,55 @@ if (isset($_POST['saveInvoice'])) {
 
                                     <div class="col-lg-8 mt-4">
                                         <div class="form-floating">
-                                            <textarea class="form-control" name="terms" id="terms" placeholder="Leave a comment here"
-                                                      style="height: 180px"></textarea>
+                                            <textarea class="form-control" name="terms" id="terms"
+                                                      placeholder="Leave a comment here"
+                                                      style="height: 180px"><?= $userData[0]['toc'] ?></textarea>
                                             <label for="terms">Terms and Condition</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            <label class="form-label" for="signature">Upload Signature</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;"
-                                                       type="file">
+                                            <label class="form-label" for="logo">Signature</label>
+                                            <input type="hidden" name="insign" value="<?= $userData[0]['signature'] ?>"/>
+                                            <div id="signaturePreviewWrapper" class="<?= !empty($userData[0]['signature']) ? '' : 'd-none' ?>">
+                                                <div class="position-relative d-inline-block">
+                                                    <img src="<?= $userData[0]['signature'] ?>" alt="Signature" class="img-fluid" id="signaturePreview" />
+                                                    <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Remove"
+                                                            onclick="removeImage('signature')"></button>
+                                                </div>
                                             </div>
+
+                                            <div id="signatureUpload" class="<?= empty($userData[0]['signature']) ? '' : 'd-none' ?>">
+                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;" type="file">
+                                            </div>
+
+
+                                            <script>
+                                                function removeImage(type) {
+                                                    if (type === 'logo') {
+                                                        document.getElementById('logoPreviewWrapper').classList.add('d-none');
+                                                        document.getElementById('logoUpload').classList.remove('d-none');
+                                                    }
+                                                    if (type === 'signature') {
+                                                        document.getElementById('signaturePreviewWrapper').classList.add('d-none');
+                                                        document.getElementById('signatureUpload').classList.remove('d-none');
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <!-- Selected Image Preview -->
                                         <div class="mb-3" id="selectedInvoicePreview" style="display: none;">
                                             <strong>Selected Invoice:</strong><br>
-                                            <img id="selectedInvoiceImage" src="" alt="Selected Invoice" style="max-width: 200px; border: 1px solid #ccc; border-radius: 8px;">
+                                            <img id="selectedInvoiceImage" src="" alt="Selected Invoice"
+                                                 style="max-width: 200px; border: 1px solid #ccc; border-radius: 8px;">
                                         </div>
 
 
-                                        <button id="chooseOptionBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageRadioModal">
+                                        <button id="chooseOptionBtn" type="button" class="btn btn-primary mt-3"
+                                                data-bs-toggle="modal" data-bs-target="#imageRadioModal">
                                             Choose an Invoice
                                         </button>
 
@@ -414,12 +477,15 @@ if (isset($_POST['saveInvoice'])) {
 
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="imageRadioModal" tabindex="-1" aria-labelledby="imageRadioModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="imageRadioModal" tabindex="-1"
+                                         aria-labelledby="imageRadioModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="imageRadioModalLabel">Select an Invoice</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="imageRadioModalLabel">Select an
+                                                        Invoice</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                 </div>
                                                 <!-- Modal Body -->
                                                 <div class="modal-body">
@@ -455,8 +521,12 @@ if (isset($_POST['saveInvoice'])) {
                                                 </script>
 
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary" onclick="submitSelection()">Submit</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary"
+                                                            onclick="submitSelection()">Submit
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -503,7 +573,8 @@ if (isset($_POST['saveInvoice'])) {
                                         }
                                     </script>
                                     <div class="col-12 mt-4">
-                                        <button class="btn btn-primary w-100" type="submit" name="saveInvoice">Save Invoice, Print or Send via Email
+                                        <button class="btn btn-primary w-100" type="submit" name="saveInvoice">Save
+                                            Invoice, Print or Send via Email
                                         </button>
                                     </div>
                                 </div>

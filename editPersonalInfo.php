@@ -36,7 +36,7 @@ if (isset($_POST['createAccount'])) {
 
 
     // Logo Upload
-    $logo = '';
+    $logo = $_POST['inlogo'] ?? '';
     if (!empty($_FILES['logo']['name'])) {
         $RandomAccountNumber = mt_rand(1, 99999);
         $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
@@ -44,14 +44,14 @@ if (isset($_POST['createAccount'])) {
         $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
         if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                $logo = "invoiceassets/logo/" . $file_name;
+            if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
+                $logo = "assets/logo/" . $file_name;
             }
         }
     }
 
     // Signature Upload
-    $signature = '';
+    $signature = $_POST['insignature'] ?? '';
     if (!empty($_FILES['signature']['name'])) {
         $RandomAccountNumber = mt_rand(1, 99999);
         $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
@@ -59,24 +59,41 @@ if (isset($_POST['createAccount'])) {
         $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
         if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                $signature = "invoiceassets/signature/" . $file_name;
+            if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
+                $signature = "assets/signature/" . $file_name;
             }
         }
     }
 
     // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','0','1','$inserted_at','$updated_at')");
+    $update = $db_handle->insertQuery("
+    UPDATE `user` SET 
+        `name` = '$name',
+        `address` = '$address',
+        `logo` = '$logo',
+        `pass` = '$pass',
+        `signature` = '$signature',
+        `toc` = '$terms',
+        `status` = '1',
+        `updated_at` = '$updated_at'
+    WHERE `email` = '$email'
+");
 
-
-    if($insert){
+    if($update){
         ?>
         <script>
-            alert('Signup Successful. Now Verify Email and Login.');
+            alert('Update Successful.');
             window.location.href="editPersonalInfo.php";
         </script>
         <?php
     }
+}
+
+$userData='';
+
+if(isset($_SESSION['uid'])){
+    $query="SELECT * FROM `user` where uid='{$_SESSION['uid']}'";
+    $userData=$db_handle->selectQuery($query);
 }
 ?>
 
@@ -229,33 +246,40 @@ if (isset($_POST['createAccount'])) {
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="name" placeholder="" type="text">
+                                                <input class="form-control" name="name" placeholder="" value="<?= $userData[0]['name'] ?>" type="text" required>
                                                 <label>Name</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="address" placeholder="" type="text">
+                                                <input class="form-control" name="address" value="<?= $userData[0]['address'] ?>" placeholder="" type="text">
                                                 <label>Address</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="email" placeholder="" type="text">
+                                                <input class="form-control" name="email" value="<?= $userData[0]['email'] ?>" placeholder="" type="text">
                                                 <label>Email</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="pass" placeholder="" type="password">
+                                                <input class="form-control" name="pass" value="<?= $userData[0]['pass'] ?>" placeholder="" type="password">
                                                 <label>Password</label>
                                             </div>
                                         </div>
                                         <div class="mb-4">
-                                            <label class="form-label" for="logo">Upload Logo</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;"
-                                                       type="file">
+                                            <label class="form-label" for="logo">Logo</label>
+                                            <input type="hidden" name="inlogo" value="<?= $userData[0]['logo'] ?>"/>
+                                            <div id="logoPreviewWrapper" class="<?= !empty($userData[0]['logo']) ? '' : 'd-none' ?>">
+                                                <div class="position-relative d-inline-block">
+                                                    <img src="<?= $userData[0]['logo'] ?>" alt="Logo" class="img-fluid" id="logoPreview" />
+                                                    <button type="button" class="btn-close position-absolute top-0 end-0" onclick="removeImage('logo')"></button>
+                                                </div>
+                                            </div>
+
+                                            <div id="logoUpload" class="<?= empty($userData[0]['logo']) ? '' : 'd-none' ?>">
+                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;" type="file">
                                             </div>
                                         </div>
                                     </div>
@@ -263,15 +287,37 @@ if (isset($_POST['createAccount'])) {
                                     <div class="col-lg-6 mt-4">
                                         <div class="form-floating">
                                             <textarea class="form-control" name="terms" id="terms" placeholder="Leave a comment here"
-                                                      style="height: 290px"></textarea>
+                                                      style="height: 290px"><?= $userData[0]['toc'] ?></textarea>
                                             <label for="terms">Terms and Condition</label>
                                         </div>
                                         <div class="mb-4">
-                                            <label class="form-label" for="signature">Upload Signature</label>
-                                            <div class="upload-card">
-                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;"
-                                                       type="file">
+                                            <label class="form-label" for="logo">Signature</label>
+                                            <input type="hidden" name="insign" value="<?= $userData[0]['signature'] ?>"/>
+                                            <div id="signaturePreviewWrapper" class="<?= !empty($userData[0]['signature']) ? '' : 'd-none' ?>">
+                                                <div class="position-relative d-inline-block">
+                                                    <img src="<?= $userData[0]['signature'] ?>" alt="Signature" class="img-fluid" id="signaturePreview" />
+                                                    <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Remove"
+                                                            onclick="removeImage('signature')"></button>
+                                                </div>
                                             </div>
+
+                                            <div id="signatureUpload" class="<?= empty($userData[0]['signature']) ? '' : 'd-none' ?>">
+                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;" type="file">
+                                            </div>
+
+
+                                            <script>
+                                                function removeImage(type) {
+                                                    if (type === 'logo') {
+                                                        document.getElementById('logoPreviewWrapper').classList.add('d-none');
+                                                        document.getElementById('logoUpload').classList.remove('d-none');
+                                                    }
+                                                    if (type === 'signature') {
+                                                        document.getElementById('signaturePreviewWrapper').classList.add('d-none');
+                                                        document.getElementById('signatureUpload').classList.remove('d-none');
+                                                    }
+                                                }
+                                            </script>
                                         </div>
                                     </div>
 
