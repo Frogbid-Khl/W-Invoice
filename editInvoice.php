@@ -25,7 +25,7 @@ if(!isset($_SESSION['uid'])){
 
 if (isset($_POST['saveInvoice'])) {
 
-
+    $uid=$_SESSION['uid'];
     $query="SELECT * FROM `user` WHERE `uid`={$_SESSION['uid']}";
 
     $data=$db_handle->selectQuery($query);
@@ -115,7 +115,7 @@ if (isset($_POST['saveInvoice'])) {
             $line_tax = $tax[$key];
 
             $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$sharable_url','$name','$price','$quantity','$line_amount','$line_tax','$updated_at','$updated_at')");
+        VALUES ('$uid','$sharable_url','$name','$price','$quantity','$line_amount','$line_tax','$updated_at','$updated_at')");
         }
 
         if ($update) {

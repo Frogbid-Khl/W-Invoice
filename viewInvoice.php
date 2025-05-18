@@ -4,13 +4,13 @@ require_once('connection/dbController.php');
 $db_handle = new DBController();
 
 
-/*if(!isset($_SESSION['uid'])){
-    */?><!--
+if(!isset($_SESSION['uid'])){
+    ?>
     <script>
         window.location.href="index.php";
     </script>
-    --><?php
-/*}*/
+    <?php
+}
 ?>
 
 <!DOCTYPE html>
@@ -173,7 +173,7 @@ $db_handle = new DBController();
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $query="SELECT * FROM `invoice`";
+                                        $query="SELECT * FROM `invoice` where uid='{$_SESSION['uid']}'";
                                         $data=$db_handle->selectQuery($query);
                                         $row=$db_handle->numRows($query);
 

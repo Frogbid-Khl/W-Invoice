@@ -30,6 +30,8 @@ if (isset($_POST['saveInvoice'])) {
     $data = $db_handle->selectQuery($query);
     $credit = $data[0]['credit'];
 
+    $uid=$_SESSION['uid'];
+
     if ($credit > 0) {
         $from = $_POST['from'] ?? '';
         $billto = $_POST['billto'] ?? '';
@@ -60,7 +62,7 @@ if (isset($_POST['saveInvoice'])) {
             $line_tax = $tax[$key];
 
             // You would need to get the invoice ID here if you want to link it properly
-            $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `invoiceDate`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('0','$sharable_url','$invoiceDate','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
+            $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `invoiceDate`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('$uid','$sharable_url','$invoiceDate','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
         }
 
         // Logo Upload
@@ -96,7 +98,7 @@ if (isset($_POST['saveInvoice'])) {
         // Insert invoice data
         $insert = $db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        VALUES ('$uid','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')");
 
 
