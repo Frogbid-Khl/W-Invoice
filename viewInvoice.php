@@ -194,7 +194,7 @@ if(!isset($_SESSION['uid'])){
                                                     <a href="editInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-warning me-1">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-sm btn-danger">
+                                                    <a href="deleteInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-danger">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
