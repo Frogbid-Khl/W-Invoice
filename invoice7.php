@@ -137,10 +137,10 @@ if(isset($_GET['id'])){
                                         ?>
                                         <tr class="invo-tb-row">
                                             <td class="font-sm"><?= htmlspecialchars($item['pname']); ?></td>
-                                            <td class="font-sm">Tk<?= number_format($item['price'], 2); ?></td>
+                                            <td class="font-sm">Tk <?= number_format($item['price'], 2); ?></td>
                                             <td class="font-sm text-center"><?= htmlspecialchars($item['qty']); ?></td>
                                             <td class="font-sm text-center"><?= htmlspecialchars($item['tax']); ?>%</td>
-                                            <td class="font-sm text-right">Tk<?= number_format($total+$tax, 2); ?></td>
+                                            <td class="font-sm text-right">Tk <?= number_format($total+$tax, 2); ?></td>
                                         </tr>
                                         <?php
                                     }
@@ -158,7 +158,7 @@ if(isset($_GET['id'])){
                                     ?>
 										<tr class="invo-grand-total">
 											<td class="font-18-700 color-dark-blue pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black pt-20 text-right">Tk<?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-500 color-light-black pt-20 text-right">Tk <?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>

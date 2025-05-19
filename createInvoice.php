@@ -62,7 +62,7 @@ if (isset($_POST['saveInvoice'])) {
             $line_tax = $tax[$key];
 
             // You would need to get the invoice ID here if you want to link it properly
-            $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `invoiceDate`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('$uid','$sharable_url','$invoiceDate','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
+            $db_handle->insertQuery("INSERT INTO `invoice_detail`(`uid`, `isharable_url`, `pname`, `price`, `qty`, `amount`, `tax`, `inserted_at`, `updated_at`) VALUES ('$uid','$sharable_url','$name','$price','$quantity','$line_amount','$line_tax','$inserted_at','$updated_at')");
         }
 
         // Logo Upload
@@ -74,14 +74,14 @@ if (isset($_POST['saveInvoice'])) {
             $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
             if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-                if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                    $logo = "invoiceassets/logo/" . $file_name;
+                if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
+                    $logo = "assets/logo/" . $file_name;
                 }
             }
         }
 
         // Signature Upload
-        $signature = $_POST['insignature'] ?? '';
+        $signature = $_POST['insign'] ?? '';
         if (!empty($_FILES['signature']['name'])) {
             $RandomAccountNumber = mt_rand(1, 99999);
             $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
@@ -89,16 +89,16 @@ if (isset($_POST['saveInvoice'])) {
             $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
             if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-                if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                    $signature = "invoiceassets/signature/" . $file_name;
+                if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
+                    $signature = "assets/signature/" . $file_name;
                 }
             }
         }
 
         // Insert invoice data
-        $insert = $db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+        $insert = $db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('$uid','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        VALUES ('$uid','$from','$invoiceOption','$invoiceDate','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')");
 
 
@@ -106,7 +106,7 @@ if (isset($_POST['saveInvoice'])) {
             ?>
             <script>
                 alert('Invoice Added');
-                window.location.href = "invoice/invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+                window.location.href = "invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
             </script>
             <?php
         }

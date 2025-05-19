@@ -44,7 +44,9 @@ if (isset($_POST['saveInvoice'])) {
         $dueDate = $_POST['dueDate'] ?? '';
         $terms = $_POST['terms'] ?? '';
 
-        $invoiceOption = $_POST['invoiceOption'] ?? '1';
+
+        $invoiceOption = $_POST['invoiceOption'] ?? $_POST['inOption'];
+
 
         $pname = $_POST['pname'] ?? [];
         $unitPrice = $_POST['unitPrice'] ?? [];
@@ -71,7 +73,7 @@ if (isset($_POST['saveInvoice'])) {
         }
 
         // Signature Upload
-        $signature = $_POST['insignature'] ?? '';
+        $signature = $_POST['insign'] ?? '';
         if (!empty($_FILES['signature']['name'])) {
             $RandomAccountNumber = mt_rand(1, 99999);
             $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
@@ -90,6 +92,7 @@ if (isset($_POST['saveInvoice'])) {
         UPDATE `invoice` SET
             `ifrom` = '$from',
             `inv_view` = '$invoiceOption',
+            `invoiceDate` = '$invoiceDate',
             `ibillto` = '$billto',
             `ishipto` = '$shipto',
             `ilogo` = '$logo',
@@ -523,9 +526,10 @@ if (isset($_GET['id'])) {
                                     </div>
                                     <div class="col-lg-12">
                                         <!-- Selected Image Preview -->
-                                        <div class="mb-3" id="selectedInvoicePreview" style="display: none;">
+                                        <input type="hidden" name="inOption" value="<?= $invoice[0]['inv_view'] ?>"/>
+                                        <div class="mb-3" id="selectedInvoicePreview">
                                             <strong>Selected Invoice:</strong><br>
-                                            <img id="selectedInvoiceImage" src="" alt="Selected Invoice" style="max-width: 200px; border: 1px solid #ccc; border-radius: 8px;">
+                                            <img id="selectedInvoiceImage" src="assets/images/invoice<?= $invoice[0]['inv_view'] ?>.png" alt="Selected Invoice" style="max-width: 200px; border: 1px solid #ccc; border-radius: 8px;">
                                         </div>
 
 

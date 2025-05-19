@@ -25,7 +25,7 @@ if (isset($_POST['login'])) {
         ?>
         <script>
             alert('Login Successful.');
-            window.location.href="index.php";
+            window.location.href="createInvoice.php";
         </script>
         <?php
     }

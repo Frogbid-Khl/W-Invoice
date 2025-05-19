@@ -138,8 +138,8 @@ if (!empty($dataInvoice)) {
                                         <tr class="invo-tb-row">
                                             <td class="font-sm"><?= $sl; ?></td>
                                             <td class="font-sm"><?= htmlspecialchars($item['pname']); ?> X <?= htmlspecialchars($item['qty']); ?></td>
-                                            <td class="font-sm">Tk<?= number_format($item['price'], 2); ?></td>
-                                            <td class="font-sm text-right pr-10">Tk<?= number_format($total, 2); ?></td>
+                                            <td class="font-sm">Tk <?= number_format($item['price'], 2); ?></td>
+                                            <td class="font-sm text-right pr-10">Tk <?= number_format($total, 2); ?></td>
                                         </tr>
                                         <?php
                                         $sl+=1;
@@ -163,15 +163,15 @@ if (!empty($dataInvoice)) {
 									<tbody>
 										<tr>
 											<td class="font-md color-light-black">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">Tk<?= number_format($subTotal, 2); ?></td>
+											<td class="font-md-grey color-grey text-right">Tk <?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row bottom-border">
 											<td class="font-md color-light-black">Tax <span class="font-md color-grey">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
-											<td class="font-md-grey color-grey text-right">Tk<?= number_format($tax, 2); ?></td>
+											<td class="font-md-grey color-grey text-right">Tk <?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total bottom-border">
 											<td class="font-18-700 student-color pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black text-right pt-20">Tk<?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-500 color-light-black text-right pt-20">Tk <?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
