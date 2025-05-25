@@ -9,11 +9,11 @@ class DBController {
     private $conn;
 
     function __construct() {
-        if($_SERVER['SERVER_NAME']=="www.invoiz.frogbid.com"||$_SERVER['SERVER_NAME']=="invoiz.frogbid.com"){
+        if($_SERVER['SERVER_NAME']=="www.invoicespark.com"||$_SERVER['SERVER_NAME']=="invoicespark.com"){
             $this->host = "localhost";
-            $this->user = "ugmjneuvqhufp";
-            $this->password = "+91iexAy61@)";
-            $this->database = "dbz2s6yvylxdv7";
+            $this->user = "u994228968_invoiced";
+            $this->password = "1a~+cHhZB";
+            $this->database = "u994228968_invoiced";
         }
 
         $this->conn = $this->connectDB();

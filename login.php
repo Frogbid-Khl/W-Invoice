@@ -181,7 +181,7 @@ if (isset($_POST['login'])) {
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="email" placeholder="" type="text" required>
+                                                <input class="form-control" name="email" placeholder="" type="email" required>
                                                 <label>Email</label>
                                             </div>
                                         </div>

@@ -32,7 +32,11 @@ if (isset($_POST['saveInvoice'])) {
 
     $uid=$_SESSION['uid'];
 
-    if ($credit > 0) {
+    if ($credit > 5) {
+
+        $query="update `user` set  credit=credit-5 WHERE `uid`={$_SESSION['uid']}";
+        $update=$db_handle->insertQuery($query);
+
         $from = $_POST['from'] ?? '';
         $billto = $_POST['billto'] ?? '';
         $shipto = $_POST['shipto'] ?? '';

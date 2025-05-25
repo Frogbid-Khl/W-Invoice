@@ -245,7 +245,7 @@ if(!isset($_SESSION['uid'])){
 
 <script>
     function copyCurrentPageURL(inv,id) {
-        const url = 'https://invoice.com/invoice'+inv+'.php?id='+id;
+        const url = 'https://invoice.dotest.click/invoice'+inv+'.php?id='+id;
         const text = 'Share Your Invoice!';
 
         if (navigator.share) {

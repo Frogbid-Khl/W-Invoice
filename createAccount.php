@@ -29,46 +29,67 @@ if (isset($_POST['createAccount'])) {
     $inserted_at = $updated_at = date("Y-m-d H:i:s");
     $sharable_url = generateRandomString(20);
 
+    $query = "SELECT * FROM `user` WHERE `email`='$email'";
+    $row = $db_handle->numRows($query);
 
-    // Logo Upload
-    $logo = '';
-    if (!empty($_FILES['logo']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
-        $file_tmp = $_FILES['logo']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    if($row==0){
+        // Logo Upload
+        $logo = '';
+        if (!empty($_FILES['logo']['name'])) {
+            $RandomAccountNumber = mt_rand(1, 99999);
+            $file_name = $RandomAccountNumber . "_" . basename($_FILES['logo']['name']);
+            $file_tmp = $_FILES['logo']['tmp_name'];
+            $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                $logo = "invoiceassets/logo/" . $file_name;
+            if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
+                    $logo = "invoiceassets/logo/" . $file_name;
+                }
             }
         }
-    }
 
-    // Signature Upload
-    $signature = '';
-    if (!empty($_FILES['signature']['name'])) {
-        $RandomAccountNumber = mt_rand(1, 99999);
-        $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
-        $file_tmp = $_FILES['signature']['tmp_name'];
-        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        // Signature Upload
+        $signature = '';
+        if (!empty($_FILES['signature']['name'])) {
+            $RandomAccountNumber = mt_rand(1, 99999);
+            $file_name = $RandomAccountNumber . "_" . basename($_FILES['signature']['name']);
+            $file_tmp = $_FILES['signature']['tmp_name'];
+            $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-        if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                $signature = "invoiceassets/signature/" . $file_name;
+            if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
+                    $signature = "invoiceassets/signature/" . $file_name;
+                }
             }
         }
-    }
 
-    // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','0','1','$inserted_at','$updated_at')");
+        // Insert invoice data
+        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','0','1','$inserted_at','$updated_at')");
 
 
-    if($insert){
+        if($insert){
+            if(isset($_SESSION['invoiceUrl'])){
+                $sharableUrl=$_SESSION['invoiceUrl'];
+                $query = "SELECT * FROM `user` WHERE `email`='$email'";
+
+                $data = $db_handle->selectQuery($query);
+                $uid = $data[0]['uid'];
+
+                $query = "update `invoice` set uid='$uid' WHERE `sharable_url`='$sharableUrl'";
+                $update = $db_handle->selectQuery($query);
+            }
+            ?>
+            <script>
+                alert('Signup Successful. Now Verify Email and Login.');
+                window.location.href="index.php";
+            </script>
+            <?php
+        }
+    }else{
         ?>
         <script>
-            alert('Signup Successful. Now Verify Email and Login.');
-            window.location.href="index.php";
+            alert('Signup Failed. Already have account. Please Login.');
+            window.location.href="login.php";
         </script>
         <?php
     }
@@ -236,7 +257,7 @@ if (isset($_POST['createAccount'])) {
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="email" placeholder="" type="text">
+                                                <input class="form-control" name="email" placeholder="" type="email">
                                                 <label>Email</label>
                                             </div>
                                         </div>

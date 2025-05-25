@@ -58,8 +58,8 @@ if (isset($_POST['saveInvoice'])) {
         $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
         if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                $logo = "invoiceassets/logo/" . $file_name;
+            if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
+                $logo = "assets/logo/" . $file_name;
             }
         }
     }
@@ -73,20 +73,22 @@ if (isset($_POST['saveInvoice'])) {
         $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
         if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-            if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                $signature = "invoiceassets/signature/" . $file_name;
+            if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
+                $signature = "assets/signature/" . $file_name;
             }
         }
     }
 
     // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`,`invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$from','$invoiceOption','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        VALUES ('0','$from','$invoiceOption',,'$invoiceDate','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')");
 
 
     if($insert){
+
+        $_SESSION['invoiceURL']=$sharable_url;
         ?>
         <script>
             alert('Invoice Added');
