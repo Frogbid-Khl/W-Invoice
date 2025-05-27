@@ -57,6 +57,11 @@ if (isset($_POST['saveInvoice'])) {
         $inserted_at = $updated_at = date("Y-m-d H:i:s");
         $sharable_url = generateRandomString(20);
 
+        $history="-5 credit deduct from your credit for create ".$invoice;
+
+        $query="INSERT INTO `credit_history`(`uid`, `history`, `inserted_at`) VALUES ('$uid','$history','$updated_at')";
+        $update=$db_handle->insertQuery($query);
+
 
         // Example loop to insert line items if needed
         foreach ($pname as $key => $name) {
@@ -118,6 +123,7 @@ if (isset($_POST['saveInvoice'])) {
         ?>
         <script>
             alert('Reload The Credit First for Updated');
+            window.location.href='createInvoice.php';
         </script>
         <?php
     }
@@ -250,6 +256,7 @@ if(isset($_SESSION['uid'])){
                                 <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
                                 <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
                                 <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
+                                <li class="template-txt"><a href="creditHistory.php">Credit History</a></li>
                                 <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
                                 <?php
                             }

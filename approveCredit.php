@@ -3,13 +3,40 @@ session_start();
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
+if(isset($_POST['approve'])){
+    $uid=$_POST['uid'];
+    $credit_id=$_POST['credit_id'];
+    $credit=$_POST['credit_amount'];
+    $amount=$_POST['amount'];
 
-if(!isset($_SESSION['uid'])){
-    ?>
-    <script>
-        window.location.href="index.php";
-    </script>
-    <?php
+    $inserted_at = $updated_at = date("Y-m-d H:i:s");
+
+    $history="Buy Credit ".$credit." amount BDT ".$amount. " successful.";
+
+    $query="INSERT INTO `credit_history`(`uid`, `history`, `inserted_at`) VALUES ('$uid','$history','$inserted_at')";
+    $update=$db_handle->insertQuery($query);
+
+    $query="UPDATE `user` SET credit=credit+'$credit' where `uid`='$uid'";
+    $update=$db_handle->insertQuery($query);
+
+    $query="UPDATE `credit` SET status=1 where `id`='$credit_id'";
+    $update=$db_handle->insertQuery($query);
+
+    if($update){
+        ?>
+        <script>
+            alert('Approve Successful');
+            window.location.href="approveCredit.php";
+        </script>
+        <?php
+    }else{
+        ?>
+        <script>
+            alert('Something went wrong');
+            window.location.href="approveCredit.php";
+        </script>
+        <?php
+    }
 }
 ?>
 
@@ -122,25 +149,7 @@ if(!isset($_SESSION['uid'])){
                 <div class="logo-sec-details">
                     <div class="menu-sec">
                         <ul class="menu-sec-details">
-                            <?php
-                            if(!isset($_SESSION['uid'])){
-                                ?>
-                                <li class="demo-txt"><a href="index.php#pages-sec">Demos</a></li>
-                                <li class="template-txt"><a href="index.php#features-sec">Features</a></li>
-                                <li class="template-txt"><a href="login.php">Login</a></li>
-                                <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
-                                <?php
-                            }else{
-                                ?>
-                                <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
-                                <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
-                                <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
-                                <li class="template-txt"><a href="creditHistory.php">Credit History</a></li>
-                                <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
-                                <?php
-                            }
-                            ?>
-
+                            <li class="demo-txt"><a href="index.php">Home</a></li>
                         </ul>
                     </div>
                 </div>
@@ -155,59 +164,57 @@ if(!isset($_SESSION['uid'])){
             <div class="hero-full-sec">
                 <div class="hero-full-second pb-5 pt-5" id="create-invoice">
                     <div class="card p-4 bg-light">
-                        <form action="" method="post" enctype="multipart/form-data">
-                            <div class="container py-5">
-                                <div class="text-center mb-4">
-                                    <h2 class="fw-bold">View Invoice</h2>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                        <thead class="table-dark">
-                                        <tr>
-                                            <th>SL</th>
-                                            <th>Bill To</th>
-                                            <th>Date</th>
-                                            <th>Inv No</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                        $query="SELECT * FROM `invoice` where uid='{$_SESSION['uid']}'";
-                                        $data=$db_handle->selectQuery($query);
-                                        $row=$db_handle->numRows($query);
-
-                                        for($i=0;$i<$row;$i++){
-                                            ?>
-                                            <tr>
-                                                <td><?= $i + 1; ?></td>
-                                                <td><?= $data[$i]['ibillto']; ?></td>
-                                                <td><?= $data[$i]['invoiceDate']; ?></td>
-                                                <td><?= $data[$i]['iinv_no']; ?></td>
-                                                <td>
-                                                    <a href="invoice<?= $data[$i]['inv_view']; ?>.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-info me-1 text-white">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a onclick="copyCurrentPageURL('<?= $data[$i]['inv_view']; ?>','<?= $data[$i]['sharable_url']; ?>');" class="btn btn-sm btn-primary me-1">
-                                                        <i class="fas fa-share"></i>
-                                                    </a>
-                                                    <a href="editInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-warning me-1">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="deleteInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                        ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="container py-5">
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold">Approve Credit</h2>
                             </div>
-                        </form>
+                            <div class="table-responsive">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead class="table-dark">
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>User ID</th>
+                                        <th>Credit</th>
+                                        <th>Amount (BDT)</th>
+                                        <th>Gateway</th>
+                                        <th>Transaction ID</th>
+                                        <th>Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $query = "SELECT * FROM credit WHERE status = 0";
+                                    $data = $db_handle->selectQuery($query);
+                                    $row = $db_handle->numRows($query);
+
+                                    for ($i = 0; $i < $row; $i++) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $i + 1; ?></td>
+                                            <td><?= $data[$i]['uid']; ?></td>
+                                            <td><?= $data[$i]['credit_amount']; ?></td>
+                                            <td><?= $data[$i]['amount']; ?></td>
+                                            <td><?= $data[$i]['gateway']; ?></td>
+                                            <td><?= $data[$i]['transaction']; ?></td>
+                                            <td><?= date("H:i A d/m/Y", strtotime($data[$i]['inserted_at'])); ?></td>
+                                            <td>
+                                                <form method="POST" action="">
+                                                    <input type="hidden" name="credit_id" value="<?= $data[$i]['id']; ?>">
+                                                    <input type="hidden" name="uid" value="<?= $data[$i]['uid']; ?>">
+                                                    <input type="hidden" name="credit_amount" value="<?= $data[$i]['credit_amount']; ?>">
+                                                    <input type="hidden" name="amount" value="<?= $data[$i]['amount']; ?>">
+                                                    <button type="submit" name="approve" class="btn btn-success btn-sm">Approve</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

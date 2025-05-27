@@ -3,39 +3,13 @@ session_start();
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
-if(isset($_SESSION['uid'])){
+
+if(!isset($_SESSION['uid'])){
     ?>
     <script>
         window.location.href="index.php";
     </script>
     <?php
-}
-
-if (isset($_POST['login'])) {
-
-    $email = $_POST['email'] ?? '';
-    $pass = $_POST['pass'] ?? '';
-
-    // Insert invoice data
-    $select=$db_handle->selectQuery("select * from `user` where `email`='$email' and `pass`='$pass'");
-
-
-    if($select){
-        $_SESSION['uid']=$select[0]['uid'];
-        ?>
-        <script>
-            alert('Login Successful.');
-            window.location.href="createInvoice.php";
-        </script>
-        <?php
-    }else{
-        ?>
-        <script>
-            alert('User Not Registered.');
-            window.location.href="createAccount.php";
-        </script>
-        <?php
-    }
 }
 ?>
 
@@ -55,6 +29,9 @@ if (isset($_POST['login'])) {
     <link href="assets/fonts/remixicon.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/media-query.css" rel="stylesheet">
+
+    <!-- DataTables CSS for Bootstrap 5 -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <style>
         .upload-card {
             width: 100%;
@@ -158,10 +135,12 @@ if (isset($_POST['login'])) {
                                 <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
                                 <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
                                 <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
+                                <li class="template-txt"><a href="creditHistory.php">Credit History</a></li>
                                 <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
                                 <?php
                             }
                             ?>
+
                         </ul>
                     </div>
                 </div>
@@ -174,47 +153,51 @@ if (isset($_POST['login'])) {
     <section class="hero-sec">
         <div class="container">
             <div class="hero-full-sec">
-                <div class="hero-full-second pb-5">
+                <div class="hero-full-second pb-5 pt-5" id="create-invoice">
                     <div class="card p-4 bg-light">
-                        <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
                                 <div class="text-center mb-4">
-                                    <h2 class="fw-bold">Login</h2>
+                                    <h2 class="fw-bold">Credit History</h2>
+                                </div>
+                                <div class="text-end mb-5">
+                                    <a href="buyCredit.php" class="btn btn-primary">Buy Credit</a>
                                 </div>
 
-                                <div class="row g-4">
-                                    <!-- Sender and Addresses -->
-                                    <!-- Invoice Details -->
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <input class="form-control" name="email" placeholder="" type="email" required>
-                                                <label>Email</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <input class="form-control" name="pass" placeholder="" type="password" required>
-                                                <label>Password</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                        <thead class="table-dark">
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>Time</th>
+                                            <th>History</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $query="SELECT * FROM `credit_history` where uid='{$_SESSION['uid']}' order by id desc";
+                                        $data=$db_handle->selectQuery($query);
+                                        $row=$db_handle->numRows($query);
 
-                                    <div class="col-12 mt-4">
-                                        <button class="btn btn-primary w-100" type="submit" name="login">Submit
-                                        </button>
-                                    </div>
+                                        for($i=0;$i<$row;$i++){
+                                            ?>
+                                            <tr>
+                                                <td><?= $i + 1; ?></td>
+                                                <td><?= date("H:i A d/m/Y", strtotime($data[$i]['inserted_at'])) ?></td>
+                                                <td><?= $data[$i]['history']; ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Hero Section End -->
-
-
 
     <!-- Footer Section Start  -->
     <footer id="copyright-sec">
@@ -239,5 +222,59 @@ if (isset($_POST['login'])) {
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/slick.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/custom.js"></script>
+
+<!-- DataTables JS and Bootstrap 5 integration -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    function copyCurrentPageURL(inv,id) {
+        const url = 'https://invoice.dotest.click/invoice'+inv+'.php?id='+id;
+        const text = 'Share Your Invoice!';
+
+        if (navigator.share) {
+            // If the Web Share API is supported
+            navigator.share({
+                title: 'Sharing Software',
+                text: text,
+                url: url,
+            })
+                .then(() => console.log('Successfully shared!'))
+                .catch((error) => console.error('Error sharing:', error));
+        } else {
+            // If Web Share API is not supported, show custom share options
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    console.log('Invoice copied to clipboard!');
+                    alert('Invoice copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy Invoice: ', err);
+                    alert('Failed to copy Invoice. Please try again.');
+                });
+        }
+    }
+
+
+    function visibleProfile(value) {
+        let profile = document.getElementById('profile');
+
+        if (value == 0)
+            profile.style.display = 'none';
+        else
+            profile.style.display = 'block';
+    }
+
+
+    $(document).ready(function () {
+        $('#example').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+        });
+    });
+
+
+</script>
 </body>
 </html>

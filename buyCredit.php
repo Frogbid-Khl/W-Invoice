@@ -4,12 +4,63 @@ require_once('connection/dbController.php');
 $db_handle = new DBController();
 
 
-if(!isset($_SESSION['uid'])){
+if (!isset($_SESSION['uid'])) {
     ?>
     <script>
-        window.location.href="index.php";
+        window.location.href = "index.php";
     </script>
     <?php
+}
+
+if (isset($_POST['buyCredit'])) {
+
+    $uid = $_SESSION['uid'];
+
+
+
+
+    $payment_gateway = $_POST['payment_gateway'] ?? '';
+    $credit_amount = $_POST['credit_amount'] ?? '';
+    $credit = '';
+    $amount = '';
+
+    if (!empty($credit_amount)) {
+        $parts = explode('_', $credit_amount); // ['credit', '2500', 'amount', '220']
+        if (count($parts) === 4) {
+            $credit = $parts[1]; // 2500
+            $amount = $parts[3]; // 220
+        }
+    }
+    $transaction_id = $_POST['transaction_id'] ?? '';
+
+
+    $inserted_at = $updated_at = date("Y-m-d H:i:s");
+
+    $history="Buy Credit ".$credit." amount BDT ".$amount. " transaction id ".$transaction_id. " wait for admin confirmation.";
+
+    $query="INSERT INTO `credit_history`(`uid`, `history`, `inserted_at`) VALUES ('$uid','$history','$inserted_at')";
+    $update=$db_handle->insertQuery($query);
+
+
+    // Insert invoice data
+    $insert = $db_handle->insertQuery("INSERT INTO `credit`(`uid`, `credit_amount`, `amount`, `gateway`, `transaction`, `status`, `inserted_at`) VALUES ('$uid','$credit','$amount','$payment_gateway','$transaction_id','0','$updated_at')");
+
+
+    if ($insert) {
+        ?>
+        <script>
+            alert('Credit Buy Successful. Please wait For Confirmation.');
+            window.location.href = 'buyCredit.php';
+        </script>
+        <?php
+    } else {
+        ?>
+        <script>
+            alert('Something Went Wrong.');
+            window.location.href = 'buyCredit.php';
+        </script>
+        <?php
+    }
 }
 ?>
 
@@ -31,7 +82,7 @@ if(!isset($_SESSION['uid'])){
     <link href="assets/css/media-query.css" rel="stylesheet">
 
     <!-- DataTables CSS for Bootstrap 5 -->
-    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
     <style>
         .upload-card {
             width: 100%;
@@ -123,14 +174,14 @@ if(!isset($_SESSION['uid'])){
                     <div class="menu-sec">
                         <ul class="menu-sec-details">
                             <?php
-                            if(!isset($_SESSION['uid'])){
+                            if (!isset($_SESSION['uid'])) {
                                 ?>
                                 <li class="demo-txt"><a href="index.php#pages-sec">Demos</a></li>
                                 <li class="template-txt"><a href="index.php#features-sec">Features</a></li>
                                 <li class="template-txt"><a href="login.php">Login</a></li>
                                 <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
                                 <?php
-                            }else{
+                            } else {
                                 ?>
                                 <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
                                 <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
@@ -158,53 +209,83 @@ if(!isset($_SESSION['uid'])){
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
                                 <div class="text-center mb-4">
-                                    <h2 class="fw-bold">View Invoice</h2>
+                                    <h2 class="fw-bold">Buy Credit</h2>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <!-- Your existing inputs here -->
 
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                        <thead class="table-dark">
-                                        <tr>
-                                            <th>SL</th>
-                                            <th>Bill To</th>
-                                            <th>Date</th>
-                                            <th>Inv No</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                        $query="SELECT * FROM `invoice` where uid='{$_SESSION['uid']}'";
-                                        $data=$db_handle->selectQuery($query);
-                                        $row=$db_handle->numRows($query);
+                                        <!-- Select Credit and Amount as Radio Buttons -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Select Credit and Amount</label>
+                                            <div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="credit_amount"
+                                                           id="credit_50" value="credit_50_amount_10" required>
+                                                    <label class="form-check-label" for="credit_50">Credit 50 - BDT
+                                                        10</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="credit_amount"
+                                                           id="credit_500" value="credit_500_amount_100">
+                                                    <label class="form-check-label" for="credit_500">Credit 500 - BDT
+                                                        100</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="credit_amount"
+                                                           id="credit_1000" value="credit_1000_amount_180">
+                                                    <label class="form-check-label" for="credit_1000">Credit 1000 - BDT
+                                                        180</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="credit_amount"
+                                                           id="credit_2500" value="credit_2500_amount_220">
+                                                    <label class="form-check-label" for="credit_2500">Credit 2500 - BDT
+                                                        220</label>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                        for($i=0;$i<$row;$i++){
-                                            ?>
-                                            <tr>
-                                                <td><?= $i + 1; ?></td>
-                                                <td><?= $data[$i]['ibillto']; ?></td>
-                                                <td><?= $data[$i]['invoiceDate']; ?></td>
-                                                <td><?= $data[$i]['iinv_no']; ?></td>
-                                                <td>
-                                                    <a href="invoice<?= $data[$i]['inv_view']; ?>.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-info me-1 text-white">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a onclick="copyCurrentPageURL('<?= $data[$i]['inv_view']; ?>','<?= $data[$i]['sharable_url']; ?>');" class="btn btn-sm btn-primary me-1">
-                                                        <i class="fas fa-share"></i>
-                                                    </a>
-                                                    <a href="editInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-warning me-1">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="deleteInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                        ?>
-                                        </tbody>
-                                    </table>
+                                        <!-- Payment Gateway Options as Radio Buttons -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Payment Gateway</label>
+                                            <div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment_gateway"
+                                                           id="bkash" value="Bkash" required>
+                                                    <label class="form-check-label" for="bkash">Bkash</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment_gateway"
+                                                           id="nagad" value="Nagad">
+                                                    <label class="form-check-label" for="nagad">Nagad</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment_gateway"
+                                                           id="rocket" value="Rocket">
+                                                    <label class="form-check-label" for="rocket">Rocket</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="payment_gateway"
+                                                           id="upay" value="Upay">
+                                                    <label class="form-check-label" for="upay">Upay</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Transaction ID input -->
+                                        <div class="mb-3">
+                                            <div class="form-floating">
+                                                <input class="form-control" name="transaction_id"
+                                                       placeholder="Transaction ID" type="text" required>
+                                                <label>Transaction ID</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <button class="btn btn-primary w-100" type="submit" name="buyCredit">Submit
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -245,8 +326,8 @@ if(!isset($_SESSION['uid'])){
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-    function copyCurrentPageURL(inv,id) {
-        const url = 'https://invoice.dotest.click/invoice'+inv+'.php?id='+id;
+    function copyCurrentPageURL(inv, id) {
+        const url = 'https://invoice.dotest.click/invoice' + inv + '.php?id=' + id;
         const text = 'Share Your Invoice!';
 
         if (navigator.share) {

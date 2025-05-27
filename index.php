@@ -79,11 +79,14 @@ if (isset($_POST['saveInvoice'])) {
         }
     }
 
-    // Insert invoice data
-    $insert=$db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`,`invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+    $query="INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`,`invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$from','$invoiceOption',,'$invoiceDate','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
-        '$sharable_url','1','$inserted_at','$updated_at')");
+        VALUES ('0','$from','$invoiceOption','$invoiceDate','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        '$sharable_url','1','$inserted_at','$updated_at')";
+
+    echo $query;
+    // Insert invoice data
+    $insert=$db_handle->insertQuery($query);
 
 
     if($insert){

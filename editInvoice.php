@@ -35,6 +35,10 @@ if (isset($_POST['saveInvoice'])) {
         $query="update `user` set  credit=credit-1 WHERE `uid`={$_SESSION['uid']}";
         $update=$db_handle->insertQuery($query);
 
+
+
+
+
         $from = $_POST['from'] ?? '';
         $billto = $_POST['billto'] ?? '';
         $shipto = $_POST['shipto'] ?? '';
@@ -43,6 +47,13 @@ if (isset($_POST['saveInvoice'])) {
         $po = $_POST['po'] ?? '';
         $dueDate = $_POST['dueDate'] ?? '';
         $terms = $_POST['terms'] ?? '';
+        $updated_at = date("Y-m-d H:i:s");
+
+        $history="-1 credit deduct from your credit for edit ".$invoice;
+
+        $query="INSERT INTO `credit_history`(`uid`, `history`, `inserted_at`) VALUES ('$uid','$history','$updated_at')";
+        $update=$db_handle->insertQuery($query);
+
 
 
         $invoiceOption = $_POST['invoiceOption'] ?? $_POST['inOption'];
@@ -54,7 +65,7 @@ if (isset($_POST['saveInvoice'])) {
         $amount = $_POST['amount'] ?? [];
         $tax = $_POST['tax'] ?? '';
 
-        $updated_at = date("Y-m-d H:i:s");
+
         $sharable_url = $_POST['sharable_url'] ?? '';
 
         // Logo Upload
@@ -271,6 +282,7 @@ if (isset($_GET['id'])) {
                                 <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
                                 <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
                                 <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
+                                <li class="template-txt"><a href="creditHistory.php">Credit History</a></li>
                                 <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
                                 <?php
                             }

@@ -216,6 +216,7 @@ if(isset($_SESSION['uid'])){
                                 <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
                                 <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
                                 <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
+                                <li class="template-txt"><a href="creditHistory.php">Credit History</a></li>
                                 <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
                                 <?php
                             }

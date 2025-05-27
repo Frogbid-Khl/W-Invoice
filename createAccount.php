@@ -42,8 +42,8 @@ if (isset($_POST['createAccount'])) {
             $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
             if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-                if (move_uploaded_file($file_tmp, "invoiceassets/logo/" . $file_name)) {
-                    $logo = "invoiceassets/logo/" . $file_name;
+                if (move_uploaded_file($file_tmp, "assets/logo/" . $file_name)) {
+                    $logo = "assets/logo/" . $file_name;
                 }
             }
         }
@@ -57,8 +57,8 @@ if (isset($_POST['createAccount'])) {
             $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
             if (in_array($file_type, ['jpg', 'jpeg', 'png', 'gif'])) {
-                if (move_uploaded_file($file_tmp, "invoiceassets/signature/" . $file_name)) {
-                    $signature = "invoiceassets/signature/" . $file_name;
+                if (move_uploaded_file($file_tmp, "assets/signature/" . $file_name)) {
+                    $signature = "assets/signature/" . $file_name;
                 }
             }
         }
@@ -68,22 +68,32 @@ if (isset($_POST['createAccount'])) {
 
 
         if($insert){
-            if(isset($_SESSION['invoiceUrl'])){
-                $sharableUrl=$_SESSION['invoiceUrl'];
+            if(isset($_SESSION['invoiceURL'])){
+                $sharableUrl=$_SESSION['invoiceURL'];
                 $query = "SELECT * FROM `user` WHERE `email`='$email'";
 
                 $data = $db_handle->selectQuery($query);
                 $uid = $data[0]['uid'];
 
                 $query = "update `invoice` set uid='$uid' WHERE `sharable_url`='$sharableUrl'";
-                $update = $db_handle->selectQuery($query);
+                $update = $db_handle->insertQuery($query);
+
+                $query = "update `invoice_detail` set uid='$uid' WHERE `isharable_url`='$sharableUrl'";
+                $update = $db_handle->insertQuery($query);
+                ?>
+                <script>
+                    alert('Signup Successful. Now Verify Email and Login.');
+                    window.location.href="index.php";
+                </script>
+                <?php
+            }else{
+                ?>
+                <script>
+                    alert('Signup Successful. Now Verify Email and Login.');
+                    window.location.href="index.php";
+                </script>
+                <?php
             }
-            ?>
-            <script>
-                alert('Signup Successful. Now Verify Email and Login.');
-                window.location.href="index.php";
-            </script>
-            <?php
         }
     }else{
         ?>
