@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2025 at 12:30 PM
+-- Generation Time: May 27, 2025 at 07:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,12 +24,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `credit`
+--
+
+CREATE TABLE `credit` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `credit_amount` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `gateway` varchar(20) NOT NULL,
+  `transaction` varchar(50) NOT NULL,
+  `status` int(11) NOT NULL,
+  `inserted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `credit_history`
+--
+
+CREATE TABLE `credit_history` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `history` text NOT NULL,
+  `inserted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `invoice`
 --
 
 CREATE TABLE `invoice` (
   `iid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
+  `inv_view` varchar(20) NOT NULL,
+  `invoiceDate` date DEFAULT NULL,
   `ifrom` varchar(250) NOT NULL,
   `ibillto` varchar(250) NOT NULL,
   `ishipto` varchar(250) NOT NULL,
@@ -54,7 +86,7 @@ CREATE TABLE `invoice` (
 CREATE TABLE `invoice_detail` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `iid` int(11) NOT NULL,
+  `isharable_url` varchar(50) NOT NULL,
   `pname` varchar(100) NOT NULL,
   `price` double(10,2) NOT NULL,
   `qty` int(11) NOT NULL,
@@ -91,6 +123,18 @@ CREATE TABLE `user` (
 --
 
 --
+-- Indexes for table `credit`
+--
+ALTER TABLE `credit`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `credit_history`
+--
+ALTER TABLE `credit_history`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `invoice`
 --
 ALTER TABLE `invoice`
@@ -111,6 +155,18 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `credit`
+--
+ALTER TABLE `credit`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `credit_history`
+--
+ALTER TABLE `credit_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `invoice`

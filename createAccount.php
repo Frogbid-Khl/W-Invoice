@@ -89,7 +89,7 @@ if (isset($_POST['createAccount'])) {
             }else{
                 ?>
                 <script>
-                    alert('Signup Successful. Now Verify Email and Login.');
+                    alert('Signup Successful. Now Login.');
                     window.location.href="index.php";
                 </script>
                 <?php
