@@ -32,7 +32,7 @@ if (isset($_POST['login'])) {
         ?>
         <script>
             alert('User Not Registered.');
-            window.location.href="createAccount.php";
+            window.location.href="login.php";
         </script>
         <?php
     }

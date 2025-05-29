@@ -7,7 +7,7 @@ if(!isset($_SESSION['uid'])){
     ?>
     <script>
         alert('For View Invoice Please Login');
-        window.location.href="createAccount.php";
+        window.location.href="login.php";
     </script>
     <?php
 }

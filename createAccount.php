@@ -64,7 +64,7 @@ if (isset($_POST['createAccount'])) {
         }
 
         // Insert invoice data
-        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','0','1','$inserted_at','$updated_at')");
+        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','10','1','$inserted_at','$updated_at')");
 
 
         if($insert){
