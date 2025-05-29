@@ -19,7 +19,7 @@ if(!isset($_SESSION['uid'])){
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Digital Invoica</title>
+    <title>Invoice Spark</title>
     <link href="assets/images/icon.png" rel="icon">
     <link href="assets/fonts/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
           rel="stylesheet">
@@ -116,7 +116,7 @@ if(!isset($_SESSION['uid'])){
             <div class="header-full">
                 <div class="logo-sec">
                     <div>
-                        <a href="#"><img alt="logo" src="assets/images/logo.png"></a>
+                        <a href="index.php"><img alt="logo" src="assets/images/logo.png"></a>
                     </div>
                 </div>
                 <div class="logo-sec-details">
@@ -186,18 +186,30 @@ if(!isset($_SESSION['uid'])){
                                                 <td><?= $data[$i]['invoiceDate']; ?></td>
                                                 <td><?= $data[$i]['iinv_no']; ?></td>
                                                 <td>
-                                                    <a href="invoice<?= $data[$i]['inv_view']; ?>.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-info me-1 text-white">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a onclick="copyCurrentPageURL('<?= $data[$i]['inv_view']; ?>','<?= $data[$i]['sharable_url']; ?>');" class="btn btn-sm btn-primary me-1">
-                                                        <i class="fas fa-share"></i>
-                                                    </a>
-                                                    <a href="editInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-warning me-1">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="deleteInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
+                                                    <?php if($data[$i]['istatus']==0){
+                                                        ?>
+                                                        <a href="invoice<?= $data[$i]['inv_view']; ?>.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-info me-1 text-white">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <a onclick="copyCurrentPageURL('<?= $data[$i]['inv_view']; ?>','<?= $data[$i]['sharable_url']; ?>');" class="btn btn-sm btn-primary me-1">
+                                                            <i class="fas fa-share"></i>
+                                                        </a>
+                                                        <a href="editInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-warning me-1">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <a href="deleteInvoice.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </a>
+                                                    <?php
+                                                    }else{
+                                                        ?>
+                                                        <a href="unlock.php?id=<?= $data[$i]['sharable_url']; ?>" class="btn btn-sm btn-danger me-1 text-white">
+                                                            <i class="fas fa-lock"></i>
+                                                        </a>
+                                                    <?php
+                                                    }
+                                                    ?>
+
                                                 </td>
                                             </tr>
                                             <?php

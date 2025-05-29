@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------
-Project:Digital Invoica
+Project:Invoice Spark
 Author: The_Krishna       
 Last change: 6 December, 2023  
 Primary use:  Invoice Generate
@@ -426,6 +426,14 @@ a:focus, a {
 	display: flex;
 	align-items: center;
 	color: white;
+}
+
+.invo-buttons-wrap .invo-btns .back-btn {
+	background: #ffffff;
+	padding: 12px 24px;
+	display: flex;
+	align-items: center;
+	color: black;
 }
 .invo-social-icon{
 	display: flex;

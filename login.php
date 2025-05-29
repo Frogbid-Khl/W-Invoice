@@ -21,7 +21,31 @@ if (isset($_POST['login'])) {
 
 
     if($select){
+        $sharableUrl=$_SESSION['invoiceURL'];
         $_SESSION['uid']=$select[0]['uid'];
+
+        $uid = $select[0]['uid'];
+
+        if(!empty($sharableUrl)){
+            $credit = $select[0]['credit'];
+
+            if($credit>5){
+                $query="update `user` set  credit=credit-5 WHERE `uid`={$uid}";
+                $update=$db_handle->insertQuery($query);
+
+                $query = "update `invoice` set uid='$uid' WHERE `sharable_url`='$sharableUrl'";
+                $update = $db_handle->insertQuery($query);
+
+                $query = "update `invoice_detail` set uid='$uid' WHERE `isharable_url`='$sharableUrl'";
+                $update = $db_handle->insertQuery($query);
+            }else{
+                $query = "update `invoice` set uid='$uid' and istatus=1 WHERE `sharable_url`='$sharableUrl'";
+                $update = $db_handle->insertQuery($query);
+
+                $query = "update `invoice_detail` set uid='$uid' WHERE `isharable_url`='$sharableUrl'";
+                $update = $db_handle->insertQuery($query);
+            }
+        }
         ?>
         <script>
             alert('Login Successful.');
@@ -45,7 +69,7 @@ if (isset($_POST['login'])) {
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Digital Invoica</title>
+    <title>Invoice Spark</title>
     <link href="assets/images/icon.png" rel="icon">
     <link href="assets/fonts/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
           rel="stylesheet">
@@ -139,7 +163,7 @@ if (isset($_POST['login'])) {
             <div class="header-full">
                 <div class="logo-sec">
                     <div>
-                        <a href="#"><img alt="logo" src="assets/images/logo.png"></a>
+                        <a href="index.php"><img alt="logo" src="assets/images/logo.png"></a>
                     </div>
                 </div>
                 <div class="logo-sec-details">

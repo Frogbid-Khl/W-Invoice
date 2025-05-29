@@ -32,7 +32,7 @@ if (isset($_POST['saveInvoice'])) {
 
     $uid=$_SESSION['uid'];
 
-    if ($credit > 5) {
+    if ($credit > 4) {
 
         $query="update `user` set  credit=credit-5 WHERE `uid`={$_SESSION['uid']}";
         $update=$db_handle->insertQuery($query);
@@ -143,7 +143,7 @@ if(isset($_SESSION['uid'])){
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Digital Invoica</title>
+    <title>Invoice Spark</title>
     <link href="assets/images/icon.png" rel="icon">
     <link href="assets/fonts/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
           rel="stylesheet">
@@ -237,7 +237,7 @@ if(isset($_SESSION['uid'])){
             <div class="header-full">
                 <div class="logo-sec">
                     <div>
-                        <a href="#"><img alt="logo" src="assets/images/logo.png"></a>
+                        <a href="index.php"><img alt="logo" src="assets/images/logo.png"></a>
                     </div>
                 </div>
                 <div class="logo-sec-details">
