@@ -128,18 +128,46 @@ if (isset($_POST['saveInvoice'])) {
 
         if ($insert) {
             ?>
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            </head>
+            <body>
             <script>
-                alert('Invoice Added');
-                window.location.href = "invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+                Swal.fire({
+                    title: 'Successful',
+                    text: 'Invoice Added.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location.href = "invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+                });
             </script>
+            </body>
+            </html>
             <?php
         }
     } else {
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Reload The Credit First for Updated');
-            window.location.href='createInvoice.php';
+            Swal.fire({
+                title: 'Error',
+                text: 'Reload The Credit First for Updated.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "createInvoice.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 }
