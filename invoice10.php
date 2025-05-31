@@ -55,7 +55,20 @@ if(isset($_GET['id'])){
 				<header class="car-header-img" id="invo_header">
 					<div class="invoice-logo-content invoice-logo-content-car ">
 						<div class="invoice-logo width-70">
-							<a href="#" class="logo-car"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="this is a invoice logo"></a>
+							<a href="#" class="logo-car"><?php
+$logo = $dataInvoice[0]['ilogo'];
+$ext = pathinfo($logo, PATHINFO_EXTENSION);
+$imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+if (in_array(strtolower($ext), $imageExts)) {
+    // It's an image
+    echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
+} else {
+    // Not an image - show text
+    echo '<div style="font-size: 24px; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+}
+?>
+</a>
 							<div class="invo-to-wrap pt-40">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">Form:</p>

@@ -57,8 +57,21 @@ if (isset($_GET['id'])) {
                         <div class="invoice-logo-content bg-black ">
                             <div class="invoice-logo">
                                 <div class="agency-logo">
-                                    <a href="#"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px"
-                                                     alt="logo"></a>
+                                    <a href="#">
+                                        <?php
+                                        $logo = $dataInvoice[0]['ilogo'];
+                                        $ext = pathinfo($logo, PATHINFO_EXTENSION);
+                                        $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                                        if (in_array(strtolower($ext), $imageExts)) {
+                                            // It's an image
+                                            echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
+                                        } else {
+                                            // Not an image - show text
+                                            echo '<div style="font-size: 24px; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+                                        }
+                                        ?>
+                                    </a>
                                 </div>
                             </div>
                             <div class="invo-head-content">
@@ -204,9 +217,21 @@ if (isset($_GET['id'])) {
                             <!--Invoice additional info end here -->
                             <div class="signature-wrap-flight">
                                 <div class="sign-img">
-                                    <img src="<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px"
-                                         alt="this is signature image">
-                                </div>
+<?php
+$signature = $dataInvoice[0]['isignature'];
+$ext = pathinfo($signature, PATHINFO_EXTENSION);
+$imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+if (in_array(strtolower($ext), $imageExts)) {
+    // It's an image file
+    echo '<img src="' . htmlspecialchars($signature) . '" style="max-width: 200px;" alt="signature image">';
+} else {
+    // It's text (not an image file)
+    echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;">' . htmlspecialchars($signature) . '</div>';
+}
+?>
+</div>
+
                             </div>
                             <!--Flight contact us detail start here -->
                         </div>

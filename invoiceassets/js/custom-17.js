@@ -43,7 +43,7 @@
         position -= pageHeight;
       }
 
-      pdf.save('invoiz-'+invoiceId+'.pdf');
+      pdf.save('invoice-spark-'+invoiceId+'.pdf');
     });
   });
 })(jQuery); // End of use strict

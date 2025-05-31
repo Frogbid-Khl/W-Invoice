@@ -57,7 +57,20 @@ if(isset($_GET['id'])){
 						<div class="invo-head-content">
 							<div class="phtotstudio-img">
 								<img src="invoiceassets/images/photostudio/header-img.svg" alt="phtotstudio-img" class="photo-header-img">
-								<a href="#"><img src="<?= $dataInvoice[0]['ilogo']; ?>" style="max-width: 170px" alt="phtotstudio-img" class="photo-logo"></a>
+								<a href="#"><?php
+                                    $logo = $dataInvoice[0]['ilogo'];
+                                    $ext = pathinfo($logo, PATHINFO_EXTENSION);
+                                    $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                                    if (in_array(strtolower($ext), $imageExts)) {
+                                        // It's an image
+                                        echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
+                                    } else {
+                                        // Not an image - show text
+                                        echo '<div style="font-size: 24px; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+                                    }
+                                    ?>
+                                </a>
 							</div>
 						</div>
 					</div>

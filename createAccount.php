@@ -46,6 +46,8 @@ if (isset($_POST['createAccount'])) {
                     $logo = "assets/logo/" . $file_name;
                 }
             }
+        } else{
+            $logo=$_POST['logoText'] ?? '';
         }
 
         // Signature Upload
@@ -61,6 +63,8 @@ if (isset($_POST['createAccount'])) {
                     $signature = "assets/signature/" . $file_name;
                 }
             }
+        }else{
+            $signature=$_POST['signatureText'] ?? '';
         }
 
         // Insert invoice data
@@ -320,12 +324,47 @@ if (isset($_POST['createAccount'])) {
                                             </div>
                                         </div>
                                         <div class="mb-4">
-                                            <label class="form-label" for="logo">Upload Logo</label>
+                                            <label class="form-label" for="logo">Upload Logo or Type Text</label>
                                             <div class="upload-card">
-                                                <input class="form-control border-0" name="logo" id="logo" style="width: 90%;"
-                                                       type="file">
+                                                <input class="form-control border-0" name="logo" id="logo" type="file" style="width: 90%;">
                                             </div>
+                                            <small>Or enter text instead:</small>
+                                            <input class="form-control mt-2" id="logoText" name="logoText" placeholder="e.g. MyCompany" type="text">
                                         </div>
+
+                                        <!-- Display area -->
+                                        <div id="logoDisplay" style="margin-top: 15px; min-height: 50px;">
+                                            <!-- Logo image or text will go here -->
+                                        </div>
+
+                                        <script>
+                                            const logoInput = document.getElementById('logo');
+                                            const logoTextInput = document.getElementById('logoText');
+                                            const logoDisplay = document.getElementById('logoDisplay');
+
+                                            // Watch for image upload
+                                            logoInput.addEventListener('change', function () {
+                                                const file = logoInput.files[0];
+                                                if (file) {
+                                                    const reader = new FileReader();
+                                                    reader.onload = function () {
+                                                        logoDisplay.innerHTML = `<img src="${reader.result}" alt="Logo">`;
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                }
+                                            });
+
+                                            // Watch for text input (only if no image is selected)
+                                            logoTextInput.addEventListener('input', function () {
+                                                if (!logoInput.files[0]) {
+                                                    const text = logoTextInput.value.trim();
+                                                    logoDisplay.innerHTML = text
+                                                        ? `<div style="font-size: 24px; font-weight: bold;">${text}</div>`
+                                                        : '';
+                                                }
+                                            });
+
+                                        </script>
                                     </div>
 
                                     <div class="col-lg-6 mt-4">
@@ -335,12 +374,46 @@ if (isset($_POST['createAccount'])) {
                                             <label for="terms">Terms and Condition</label>
                                         </div>
                                         <div class="mb-4">
-                                            <label class="form-label" for="signature">Upload Signature</label>
+                                            <label class="form-label" for="signature">Upload Signature or Type Your Name</label>
                                             <div class="upload-card">
-                                                <input class="form-control border-0" name="signature" id="signature" style="width: 90%;"
-                                                       type="file">
+                                                <input class="form-control border-0" name="signature" id="signature" type="file" style="width: 90%;">
                                             </div>
+                                            <small>Or type your name as signature:</small>
+                                            <input class="form-control mt-2" id="signatureText" name="signatureText" placeholder="e.g. John Doe" type="text">
                                         </div>
+
+                                        <!-- Display area -->
+                                        <div id="signatureDisplay" style="margin-top: 15px; min-height: 50px;">
+                                            <!-- Signature image or text will go here -->
+                                        </div>
+
+                                        <script>
+                                            const signatureInput = document.getElementById('signature');
+                                            const signatureTextInput = document.getElementById('signatureText');
+                                            const signatureDisplay = document.getElementById('signatureDisplay');
+
+                                            // Watch for image upload
+                                            signatureInput.addEventListener('change', function () {
+                                                const file = signatureInput.files[0];
+                                                if (file) {
+                                                    const reader = new FileReader();
+                                                    reader.onload = function () {
+                                                        signatureDisplay.innerHTML = `<img src="${reader.result}" alt="Signature" style="max-height: 50px;">`;
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                }
+                                            });
+
+                                            // Watch for text input if no image
+                                            signatureTextInput.addEventListener('input', function () {
+                                                if (!signatureInput.files[0]) {
+                                                    const text = signatureTextInput.value.trim();
+                                                    signatureDisplay.innerHTML = text
+                                                        ? `<div style="font-family: 'Pacifico', cursive; font-size: 20px; color: #333;">${text}</div>`
+                                                        : '';
+                                                }
+                                            });
+                                        </script>
                                     </div>
 
                                     <div class="col-12 mt-4">

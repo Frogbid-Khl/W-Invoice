@@ -102,6 +102,8 @@ if (isset($_POST['saveInvoice'])) {
                     $logo = "assets/logo/" . $file_name;
                 }
             }
+        } else{
+            $logo=$_POST['logoText'] ?? '';
         }
 
         // Signature Upload
@@ -117,6 +119,8 @@ if (isset($_POST['saveInvoice'])) {
                     $signature = "assets/signature/" . $file_name;
                 }
             }
+        }else{
+            $signature=$_POST['signatureText'] ?? '';
         }
 
         // Insert invoice data
@@ -363,7 +367,45 @@ if(isset($_SESSION['uid'])){
 
                                             <div id="logoUpload" class="<?= empty($userData[0]['logo']) ? '' : 'd-none' ?>">
                                                 <input class="form-control border-0" name="logo" id="logo" style="width: 90%;" type="file">
+                                                <small>Or enter text instead:</small>
+                                                <input class="form-control mt-2" id="logoText" name="logoText" placeholder="e.g. MyCompany" type="text">
+
+                                                <!-- Display area -->
+                                                <div id="logoDisplay" style="margin-top: 15px; min-height: 50px;">
+                                                    <!-- Logo image or text will go here -->
+                                                </div>
+
+                                                <script>
+                                                    const logoInput = document.getElementById('logo');
+                                                    const logoTextInput = document.getElementById('logoText');
+                                                    const logoDisplay = document.getElementById('logoDisplay');
+
+                                                    // Watch for image upload
+                                                    logoInput.addEventListener('change', function () {
+                                                        const file = logoInput.files[0];
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            reader.onload = function () {
+                                                                logoDisplay.innerHTML = `<img src="${reader.result}" alt="Logo">`;
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    });
+
+                                                    // Watch for text input (only if no image is selected)
+                                                    logoTextInput.addEventListener('input', function () {
+                                                        if (!logoInput.files[0]) {
+                                                            const text = logoTextInput.value.trim();
+                                                            logoDisplay.innerHTML = text
+                                                                ? `<div style="font-size: 24px; font-weight: bold;">${text}</div>`
+                                                                : '';
+                                                        }
+                                                    });
+
+                                                </script>
                                             </div>
+
+
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoice">Invoice #</label>
@@ -497,6 +539,40 @@ if(isset($_SESSION['uid'])){
 
                                             <div id="signatureUpload" class="<?= empty($userData[0]['signature']) ? '' : 'd-none' ?>">
                                                 <input class="form-control border-0" name="signature" id="signature" style="width: 90%;" type="file">
+                                                <small>Or type your name as signature:</small>
+                                                <input class="form-control mt-2" id="signatureText" name="signatureText" placeholder="e.g. John Doe" type="text">
+                                                <!-- Display area -->
+                                                <div id="signatureDisplay" style="margin-top: 15px; min-height: 50px;">
+                                                    <!-- Signature image or text will go here -->
+                                                </div>
+
+                                                <script>
+                                                    const signatureInput = document.getElementById('signature');
+                                                    const signatureTextInput = document.getElementById('signatureText');
+                                                    const signatureDisplay = document.getElementById('signatureDisplay');
+
+                                                    // Watch for image upload
+                                                    signatureInput.addEventListener('change', function () {
+                                                        const file = signatureInput.files[0];
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            reader.onload = function () {
+                                                                signatureDisplay.innerHTML = `<img src="${reader.result}" alt="Signature" style="max-height: 50px;">`;
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    });
+
+                                                    // Watch for text input if no image
+                                                    signatureTextInput.addEventListener('input', function () {
+                                                        if (!signatureInput.files[0]) {
+                                                            const text = signatureTextInput.value.trim();
+                                                            signatureDisplay.innerHTML = text
+                                                                ? `<div style="font-family: 'Pacifico', cursive; font-size: 20px; color: #333;">${text}</div>`
+                                                                : '';
+                                                        }
+                                                    });
+                                                </script>
                                             </div>
 
 

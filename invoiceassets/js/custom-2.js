@@ -5,42 +5,46 @@
   ## Down Load Button Function
   ----------------------------------------------------------------*/
   $('#generatePDF').on('click', function () {
-    var downloadSection = $('#download_section');
-    var cWidth = downloadSection.width();
-    var cHeight = downloadSection.height();
-    var topLeftMargin = 0;
-    var pdfWidth = cWidth + topLeftMargin * 2;
-    var pdfHeight = pdfWidth * 1.5 + topLeftMargin * 2;
-    var canvasImageWidth = cWidth;
-    var canvasImageHeight = cHeight;
-    var totalPDFPages = Math.ceil(cHeight / pdfHeight) - 1;
+    const urlParams = new URLSearchParams(window.location.search);
+    const invoiceId = urlParams.get('id') || 'invoice';
 
-    html2canvas(downloadSection[0], { allowTaint: true }).then(function (
-      canvas
-    ) {
-      canvas.getContext('2d');
-      var imgData = canvas.toDataURL('image/jpeg', 1.0);
-      var pdf = new jsPDF('p', 'pt', [pdfWidth, pdfHeight]);
-      pdf.addImage(
-        imgData,
-        'JPG',
-        topLeftMargin,
-        topLeftMargin,
-        canvasImageWidth,
-        canvasImageHeight
-      );
-      for (var i = 1; i <= totalPDFPages; i++) {
-        pdf.addPage(pdfWidth, pdfHeight);
-        pdf.addImage(
-          imgData,
-          'JPG',
-          topLeftMargin,
-          -(pdfHeight * i) + topLeftMargin * 0,
-          canvasImageWidth,
-          canvasImageHeight
-        );
+    const downloadSection = $('#download_section');
+    const topLeftMargin = 0;
+
+    html2canvas(downloadSection[0], {
+      allowTaint: true,
+      useCORS: true,
+      scale: 2 // improves resolution
+    }).then(function (canvas) {
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF('p', 'pt', 'a4');
+
+      const pageWidth = pdf.internal.pageSize.width;
+      const pageHeight = pdf.internal.pageSize.height;
+
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+
+      const imgWidth = pageWidth;
+      const imgHeight = (canvasHeight * imgWidth) / canvasWidth;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add first page
+      pdf.addImage(imgData, 'JPEG', topLeftMargin, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Add more pages if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', topLeftMargin, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
       }
-      pdf.save('digital-invoico.pdf');
+
+      pdf.save('invoice-spark-' + invoiceId + '.pdf');
     });
   });
+
 })(jQuery); // End of use strict
