@@ -47,17 +47,45 @@ if (isset($_POST['login'])) {
             }
         }
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Login Successful.');
-            window.location.href="createInvoice.php";
+            Swal.fire({
+                title: 'Successful',
+                text: 'Login Successful.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "createInvoice.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }else{
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('User Not Registered.');
-            window.location.href="login.php";
+            Swal.fire({
+                title: 'Error',
+                text: 'User Not Registered.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "login.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 }

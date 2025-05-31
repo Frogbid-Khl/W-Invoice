@@ -24,17 +24,45 @@ if(isset($_POST['approve'])){
 
     if($update){
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Approve Successful');
-            window.location.href="approveCredit.php";
+            Swal.fire({
+                title: 'Successful',
+                text: 'Approve Successful.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "approveCredit.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }else{
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Something went wrong');
-            window.location.href="approveCredit.php";
+            Swal.fire({
+                title: 'Error',
+                text: 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "approveCredit.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 }

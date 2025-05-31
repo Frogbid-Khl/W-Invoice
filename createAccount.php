@@ -81,26 +81,68 @@ if (isset($_POST['createAccount'])) {
                 $query = "update `invoice_detail` set uid='$uid' WHERE `isharable_url`='$sharableUrl'";
                 $update = $db_handle->insertQuery($query);
                 ?>
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                </head>
+                <body>
                 <script>
-                    alert('Signup Successful. Now Verify Email and Login.');
-                    window.location.href="index.php";
+                    Swal.fire({
+                        title: 'Successful',
+                        text: 'Signup Successful. Now Verify Email and Login.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        window.location.href = "index.php";
+                    });
                 </script>
+                </body>
+                </html>
                 <?php
             }else{
                 ?>
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                </head>
+                <body>
                 <script>
-                    alert('Signup Successful. Now Login.');
-                    window.location.href="index.php";
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Signup Failed.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        window.location.href = "index.php";
+                    });
                 </script>
+                </body>
+                </html>
                 <?php
             }
         }
     }else{
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Signup Failed. Already have account. Please Login.');
-            window.location.href="login.php";
+            Swal.fire({
+                title: 'Error',
+                text: 'Signup Failed. Already have account. Please Login.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "login.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 }

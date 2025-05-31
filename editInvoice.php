@@ -17,9 +17,24 @@ function generateRandomString($length = 10) {
 
 if(!isset($_SESSION['uid'])){
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        window.location.href="index.php";
+        Swal.fire({
+            title: 'Access Denied',
+            text: 'You need to log in first.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "index.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
 
@@ -134,17 +149,46 @@ if (isset($_POST['saveInvoice'])) {
 
         if ($update) {
             ?>
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            </head>
+            <body>
             <script>
-                alert('Invoice Updated');
-                window.location.href = "invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+                Swal.fire({
+                    title: 'Successful',
+                    text: 'Invoice Updated',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location.href = "invoice" + "<?php echo $invoiceOption; ?>" + ".php?id=<?php echo $sharable_url; ?>";
+                });
             </script>
+            </body>
+            </html>
             <?php
         }
     }else{
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Reload The Credit First for Updated');
+            Swal.fire({
+                title: 'Error',
+                text: 'Reload The Credit First for Updated.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "editInvoice.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 

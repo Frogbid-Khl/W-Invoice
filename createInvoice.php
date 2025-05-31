@@ -18,9 +18,24 @@ function generateRandomString($length = 10)
 
 if (!isset($_SESSION['uid'])) {
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        window.location.href = "index.php";
+        Swal.fire({
+            title: 'Access Denied',
+            text: 'You need to log in first.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "index.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
 

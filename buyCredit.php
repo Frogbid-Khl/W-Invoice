@@ -6,9 +6,24 @@ $db_handle = new DBController();
 
 if (!isset($_SESSION['uid'])) {
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        window.location.href = "index.php";
+        Swal.fire({
+            title: 'Access Denied',
+            text: 'You need to log in first.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "index.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
 
@@ -48,17 +63,45 @@ if (isset($_POST['buyCredit'])) {
 
     if ($insert) {
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Credit Buy Successful. Please wait For Confirmation.');
-            window.location.href = 'buyCredit.php';
+            Swal.fire({
+                title: 'Successful',
+                text: 'Credit Buy Successful. Please wait For Confirmation.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "buyCredit.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     } else {
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Something Went Wrong.');
-            window.location.href = 'buyCredit.php';
+            Swal.fire({
+                title: 'Error',
+                text: 'Something Went Wrong.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "buyCredit.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 }

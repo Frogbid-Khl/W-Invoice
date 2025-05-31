@@ -5,10 +5,24 @@ $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        alert('For View Invoice Please Login');
-        window.location.href="login.php";
+        Swal.fire({
+            title: 'Successful',
+            text: 'For View Invoice Please Login.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "login.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
 

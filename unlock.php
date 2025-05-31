@@ -6,9 +6,24 @@ $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        window.location.href="index.php";
+        Swal.fire({
+            title: 'Access Denied',
+            text: 'You need to log in first.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "index.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
 
@@ -26,17 +41,45 @@ if(isset($_GET['id'])){
         $update = $db_handle->insertQuery($query);
 
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('Unlocked Invoice Successful.');
-            window.location.href="viewInvoice.php";
+            Swal.fire({
+                title: 'Successful',
+                text: 'Unlocked Invoice Successful.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "viewInvoice.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }else{
         ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        </head>
+        <body>
         <script>
-            alert('You not have enough credit.');
-            window.location.href="viewInvoice.php";
+            Swal.fire({
+                title: 'Error',
+                text: 'You not have enough credit.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                window.location.href = "login.php";
+            });
         </script>
+        </body>
+        </html>
         <?php
     }
 }

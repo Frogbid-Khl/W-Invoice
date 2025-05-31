@@ -5,9 +5,24 @@ $db_handle = new DBController();
 
 if(!isset($_SESSION['uid'])){
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        window.location.href="index.php";
+        Swal.fire({
+            title: 'Access Denied',
+            text: 'You need to log in first.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "index.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
 
@@ -19,9 +34,23 @@ if(isset($_GET['id'])){
     $db_handle->insertQuery("DELETE FROM `invoice_detail` WHERE `isharable_url` = '$sharable_url'");
 
     ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
     <script>
-        alert("Invoice Delete Successfully")
-        window.location.href="viewInvoice.php";
+        Swal.fire({
+            title: 'Successful',
+            text: 'Invoice Delete Successfully',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "viewInvoice.php";
+        });
     </script>
+    </body>
+    </html>
     <?php
 }
