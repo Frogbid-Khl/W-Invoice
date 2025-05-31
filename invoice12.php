@@ -205,8 +205,21 @@ if(isset($_GET['id'])){
 						<!--Invoice additional info end here -->
 						<div class="signature-wrap-flight">
 							<div class="sign-img">
-								<img src="<?= $dataInvoice[0]['isignature']; ?>" style="max-width: 200px" alt="this is signature image">
-							</div>
+<?php
+$signature = $dataInvoice[0]['isignature'];
+$ext = pathinfo($signature, PATHINFO_EXTENSION);
+$imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+if (in_array(strtolower($ext), $imageExts)) {
+    // It's an image file
+    echo '<img src="' . htmlspecialchars($signature) . '" style="max-width: 200px;" alt="signature image">';
+} else {
+    // It's text (not an image file)
+    echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;">' . htmlspecialchars($signature) . '</div>';
+}
+?>
+</div>
+
 						</div>
 						<!--Flight contact us detail start here -->
 					</div>
