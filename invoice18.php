@@ -65,7 +65,7 @@ if (in_array(strtolower($ext), $imageExts)) {
     echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
 } else {
     // Not an image - show text
-    echo '<div style="font-size: 24px; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+    echo '<div style="position: absolute;font-size: 24px;font-weight: bold;margin-left: 2rem;color: #ffffff;z-index: 3;">' . htmlspecialchars($logo) . '</div>';
 }
 ?>
 </a>

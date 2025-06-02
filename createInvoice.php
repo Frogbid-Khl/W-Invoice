@@ -400,7 +400,7 @@ if(isset($_SESSION['uid'])){
                                             <div id="logoUpload" class="<?= empty($userData[0]['logo']) ? '' : 'd-none' ?>">
                                                 <input class="form-control border-0" name="logo" id="logo" style="width: 90%;" type="file">
                                                 <small>Or enter text instead:</small>
-                                                <input class="form-control mt-2" id="logoText" name="logoText" placeholder="e.g. MyCompany" type="text">
+                                                <input class="form-control mt-2" id="logoText" name="logoText" value="<?= $logo ?>" placeholder="e.g. MyCompany" type="text">
 
                                                 <!-- Display area -->
                                                 <div id="logoDisplay" style="margin-top: 15px; min-height: 50px;">
@@ -584,7 +584,7 @@ if(isset($_SESSION['uid'])){
                                             <div id="signatureUpload" class="<?= empty($userData[0]['signature']) ? '' : 'd-none' ?>">
                                                 <input class="form-control border-0" name="signature" id="signature" style="width: 90%;" type="file">
                                                 <small>Or type your name as signature:</small>
-                                                <input class="form-control mt-2" id="signatureText" name="signatureText" placeholder="e.g. John Doe" type="text">
+                                                <input class="form-control mt-2" id="signatureText" name="signatureText" value="<?= $signature ?>" placeholder="e.g. John Doe" type="text">
                                                 <!-- Display area -->
                                                 <div id="signatureDisplay" style="margin-top: 15px; min-height: 50px;">
                                                     <!-- Signature image or text will go here -->

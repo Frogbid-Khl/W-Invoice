@@ -18,7 +18,7 @@ if (isset($_POST['login'])) {
     $pass = $_POST['pass'] ?? '';
 
     // Insert invoice data
-    $select=$db_handle->selectQuery("select * from `user` where `email`='$email' and `pass`='$pass'");
+    $select=$db_handle->selectQuery("select * from `user` where `email`='$email' and `pass`='$pass' and status=1");
 
 
     if($select){
@@ -78,7 +78,7 @@ if (isset($_POST['login'])) {
         <script>
             Swal.fire({
                 title: 'Error',
-                text: 'User Not Registered.',
+                text: 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             }).then(function() {

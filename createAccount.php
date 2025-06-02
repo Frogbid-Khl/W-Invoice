@@ -3,6 +3,13 @@ session_start();
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 function generateRandomString($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -14,9 +21,6 @@ function generateRandomString($length = 10) {
 
     return $randomString;
 }
-
-
-
 
 if (isset($_POST['createAccount'])) {
 
@@ -68,10 +72,84 @@ if (isset($_POST['createAccount'])) {
         }
 
         // Insert invoice data
-        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','10','1','$inserted_at','$updated_at')");
+        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `hash_code`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','10','$sharable_url','0','$inserted_at','$updated_at')");
 
+
+        $domain = 'W-Invoice/';
+
+        if ($_SERVER['SERVER_NAME'] == "www.invoicespark.com" || $_SERVER['SERVER_NAME'] == "invoicespark.com") {
+            $domain = '';
+        }
+
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+        $serverName = $_SERVER['SERVER_NAME'];
+        $url = $protocol . "://" . $serverName . "/" . $domain;
 
         if($insert){
+
+            $mail = new PHPMailer(true);
+
+            try {
+                // SMTP configuration
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.hostinger.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'noreply@invoicespark.com';
+                $mail->Password   = '|Hhz&Z9j';
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port       = 465;
+
+                // Sender and recipient
+                $mail->setFrom('noreply@invoicespark.com', 'InvoiceSpark');
+                $mail->addAddress($email, $name); // Change this
+
+                // Email content
+                $mail->isHTML(true);
+                $mail->Subject = 'Confirm Your Email Address';
+
+                $verificationLink = $url.'verify.php?hash='.$sharable_url;
+
+                $mail->Body = <<<HTML
+                <!DOCTYPE html>
+                <html>
+                <head>
+                  <meta charset="UTF-8">
+                  <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .email-wrapper { background-color: #ffffff; margin: 30px auto; padding: 20px; border-radius: 8px; max-width: 600px; }
+                    .header { background-color: #000000; color: white; padding: 20px; text-align: center; font-size: 24px; }
+                    .body { padding: 20px; color: #333; font-size: 16px; }
+                    .button { display: inline-block; background-color: #000000; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin-top: 20px; }
+                    .footer { font-size: 12px; text-align: center; color: #aaa; margin-top: 30px; }
+                  </style>
+                </head>
+                <body>
+                  <div class="email-wrapper">
+                    <div class="header">Confirm Your Email</div>
+                    <div class="body">
+                      <p>Hi there,</p>
+                      <p>Thanks for signing up! Please confirm your email address by clicking the button below:</p>
+                      <p style="text-align: center;">
+                        <a href="$verificationLink" class="button" style="color: white">Confirm Email</a>
+                      </p>
+                      <p>If you didn't create this account, you can ignore this email.</p>
+                    </div>
+                    <div class="footer">
+                      &copy; 2025 InvoiceSpark. All rights reserved.
+                    </div>
+                  </div>
+                </body>
+                </html>
+HTML;
+
+                $mail->AltBody = "Please confirm your email by visiting this link: $verificationLink";
+
+                $mail->send();
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+
+
             if(isset($_SESSION['invoiceURL'])){
                 $sharableUrl=$_SESSION['invoiceURL'];
                 $query = "SELECT * FROM `user` WHERE `email`='$email'";
@@ -114,9 +192,9 @@ if (isset($_POST['createAccount'])) {
                 <body>
                 <script>
                     Swal.fire({
-                        title: 'Error',
-                        text: 'Signup Failed.',
-                        icon: 'error',
+                        title: 'Successful',
+                        text: 'Signup Successful. Now Verify Email and Login.',
+                        icon: 'success',
                         confirmButtonText: 'OK'
                     }).then(function() {
                         window.location.href = "index.php";

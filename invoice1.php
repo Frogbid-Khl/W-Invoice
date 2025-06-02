@@ -68,7 +68,7 @@ if (isset($_GET['id'])) {
                                             echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
                                         } else {
                                             // Not an image - show text
-                                            echo '<div style="font-size: 24px; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+                                            echo '<div style="font-size: 24px; color: white; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
                                         }
                                         ?>
                                     </a>
