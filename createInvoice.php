@@ -274,45 +274,65 @@ if(isset($_SESSION['uid'])){
             border-color: #0d6efd;
             background-color: #e7f1ff;
         }
+
+        .nav-link{
+            font-size: 18px;
+            font-weight: 500;
+            font-family: Inter;
+            color: #12151C;
+            padding-right: 1.5rem !important;
+        }
     </style>
 </head>
 <body>
 <div class="site-content">
     <!-- Header Section Start -->
-    <header id="header">
+    <header id="header" class="bg-white shadow-sm">
         <div class="container">
-            <div class="header-full">
-                <div class="logo-sec">
-                    <div>
-                        <a href="index.php"><img alt="logo" src="assets/images/logo.png"></a>
-                    </div>
-                </div>
-                <div class="logo-sec-details">
-                    <div class="menu-sec">
-                        <ul class="menu-sec-details">
-                            <?php
-                            if (!isset($_SESSION['uid'])) {
-                                ?>
-                                <li class="demo-txt"><a href="index.php#pages-sec">Demos</a></li>
-                                <li class="template-txt"><a href="index.php#features-sec">Features</a></li>
-                                <li class="template-txt"><a href="login.php">Login</a></li>
-                                <li class="purchase-btn"><a href="createAccount.php">Create Account</a></li>
-                                <?php
-                            } else {
-                                ?>
-                                <li class="demo-txt"><a href="editPersonalInfo.php">Edit Info</a></li>
-                                <li class="template-txt"><a href="createInvoice.php">Create Invoice</a></li>
-                                <li class="template-txt"><a href="viewInvoice.php">View Invoice</a></li>
-                                <li class="template-txt"><a href="creditHistory.php">Credit History</a></li>
-                                <li class="purchase-btn"><a href="logout.php">Log Out</a></li>
-                                <?php
-                            }
-                            ?>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="index.php">
+                    <img src="assets/images/logo.png" alt="logo" height="40">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
 
-                        </ul>
-                    </div>
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <?php if (!isset($_SESSION['uid'])): ?>
+                            <li class="nav-item">
+                                <a class="nav-link demo-txt" href="index.php#pages-sec">Demos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link template-txt" href="index.php#features-sec">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link template-txt" href="login.php">Login</a>
+                            </li>
+                            <li class="nav-item purchase-btn">
+                                <a class="btn btn-primary ms-lg-2" href="createAccount.php">Create Account</a>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="editPersonalInfo.php">Edit Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="createInvoice.php">Create Invoice</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="viewInvoice.php">View Invoice</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="creditHistory.php">Credit History</a>
+                            </li>
+                            <li class="nav-item purchase-btn">
+                                <a class="btn btn-danger ms-lg-2" href="logout.php">Log Out</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
                 </div>
-            </div>
+            </nav>
         </div>
     </header>
     <!-- Header Section End -->
@@ -360,7 +380,19 @@ if(isset($_SESSION['uid'])){
                                             <input type="hidden" name="inlogo" value="<?= $userData[0]['logo'] ?>"/>
                                             <div id="logoPreviewWrapper" class="<?= !empty($userData[0]['logo']) ? '' : 'd-none' ?>">
                                                 <div class="position-relative d-inline-block">
-                                                    <img src="<?= $userData[0]['logo'] ?>" alt="Logo" class="img-fluid" id="logoPreview" />
+                                                    <?php
+                                                    $logo = $userData[0]['logo'];
+                                                    $ext = pathinfo($logo, PATHINFO_EXTENSION);
+                                                    $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                                                    if (in_array(strtolower($ext), $imageExts)) {
+                                                        // It's an image
+                                                        echo '<img src="' . htmlspecialchars($logo) . '" alt="logo" class="img-fluid" id="logoPreview"/>';
+                                                    } else {
+                                                        // Not an image - show text
+                                                        echo '<div style="font-size: 24px; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+                                                    }
+                                                    ?>
                                                     <button type="button" class="btn-close position-absolute top-0 end-0" onclick="removeImage('logo')"></button>
                                                 </div>
                                             </div>
@@ -531,7 +563,19 @@ if(isset($_SESSION['uid'])){
                                             <input type="hidden" name="insign" value="<?= $userData[0]['signature'] ?>"/>
                                             <div id="signaturePreviewWrapper" class="<?= !empty($userData[0]['signature']) ? '' : 'd-none' ?>">
                                                 <div class="position-relative d-inline-block">
-                                                    <img src="<?= $userData[0]['signature'] ?>" alt="Signature" class="img-fluid" id="signaturePreview" />
+                                                    <?php
+                                                    $signature = $userData[0]['signature'];
+                                                    $ext = pathinfo($signature, PATHINFO_EXTENSION);
+                                                    $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                                                    if (in_array(strtolower($ext), $imageExts)) {
+                                                        // It's an image file
+                                                        echo '<img src="' . htmlspecialchars($signature) . '" alt="Signature" class="img-fluid" id="signaturePreview">';
+                                                    } else {
+                                                        // It's text (not an image file)
+                                                        echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;">' . htmlspecialchars($signature) . '</div>';
+                                                    }
+                                                    ?>
                                                     <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Remove"
                                                             onclick="removeImage('signature')"></button>
                                                 </div>
@@ -710,12 +754,10 @@ if(isset($_SESSION['uid'])){
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <!-- Hero Section End -->
 

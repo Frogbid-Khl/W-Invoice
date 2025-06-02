@@ -45,9 +45,6 @@
 	.container{
 		max-width: none;
 	}
-	li.purchase-btn {
-		padding: 0 !IMPORTANT;
-	}
 	#pages-sec, #features-sec, #project-detail {
 		padding: 40px 0;
 	}
@@ -71,9 +68,6 @@
 	.feature-top h2, .pages-top h2 {
 		font-size: 32px;
 		line-height: 40px;
-	}
-	li.purchase-btn a{
-		display: none;
 	}
 	.header-full{
 		display: block;
