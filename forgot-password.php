@@ -4,6 +4,13 @@ error_reporting(0);
 require_once('connection/dbController.php');
 $db_handle = new DBController();
 
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 if(isset($_SESSION['uid'])){
     ?>
     <script>
@@ -12,41 +19,95 @@ if(isset($_SESSION['uid'])){
     <?php
 }
 
-if (isset($_POST['login'])) {
+function generateRandomString($length = 10)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    }
+
+    return $randomString;
+}
+
+if (isset($_POST['forgot'])) {
 
     $email = $_POST['email'] ?? '';
-    $pass = $_POST['pass'] ?? '';
 
     // Insert invoice data
-    $select=$db_handle->selectQuery("select * from `user` where `email`='$email' and `pass`='$pass' and status=1");
+    $select=$db_handle->selectQuery("select * from `user` where `email`='$email' and status=1");
 
+    $password=generateRandomString(6);
 
     if($select){
-        $sharableUrl=$_SESSION['invoiceURL'];
-        $_SESSION['uid']=$select[0]['uid'];
+        $query="update `user` set  password='$password' WHERE `email`='$email'";
+        $update=$db_handle->insertQuery($query);
 
-        $uid = $select[0]['uid'];
+        $name=$select[0]['name'];
 
-        if(!empty($sharableUrl)){
-            $credit = $select[0]['credit'];
 
-            if($credit>5){
-                $query="update `user` set  credit=credit-5 WHERE `uid`={$uid}";
-                $update=$db_handle->insertQuery($query);
+        $mail = new PHPMailer(true);
 
-                $query = "update `invoice` set uid='$uid' WHERE `sharable_url`='$sharableUrl'";
-                $update = $db_handle->insertQuery($query);
+        try {
+            // SMTP configuration
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.hostinger.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'noreply@invoicespark.com';
+            $mail->Password   = '|Hhz&Z9j';
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = 465;
 
-                $query = "update `invoice_detail` set uid='$uid' WHERE `isharable_url`='$sharableUrl'";
-                $update = $db_handle->insertQuery($query);
-            }else{
-                $query = "update `invoice` set uid='$uid' and istatus=1 WHERE `sharable_url`='$sharableUrl'";
-                $update = $db_handle->insertQuery($query);
+            // Sender and recipient
+            $mail->setFrom('noreply@invoicespark.com', 'InvoiceSpark');
+            $mail->addAddress($email, $name); // Change this
 
-                $query = "update `invoice_detail` set uid='$uid' WHERE `isharable_url`='$sharableUrl'";
-                $update = $db_handle->insertQuery($query);
-            }
+            // Email content
+            $mail->isHTML(true);
+            $mail->Subject = 'Confirm Your Email Address';
+
+
+            $mail->Body = <<<HTML
+                <!DOCTYPE html>
+                <html>
+                <head>
+                  <meta charset="UTF-8">
+                  <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .email-wrapper { background-color: #ffffff; margin: 30px auto; padding: 20px; border-radius: 8px; max-width: 600px; }
+                    .header { background-color: #000000; color: white; padding: 20px; text-align: center; font-size: 24px; }
+                    .body { padding: 20px; color: #333; font-size: 16px; }
+                    .button { display: inline-block; background-color: #000000; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin-top: 20px; }
+                    .footer { font-size: 12px; text-align: center; color: #aaa; margin-top: 30px; }
+                  </style>
+                </head>
+                <body>
+                  <div class="email-wrapper">
+                    <div class="header">Confirm Your Email</div>
+                    <div class="body">
+                      <p>Hi there,</p>
+                      <p>Your account has been reset. Please use this password for login.</p>
+                      <p style="text-align: center;">
+                        <a href="#" class="button" style="color: white">$password</a>
+                      </p>
+                    </div>
+                    <div class="footer">
+                      &copy; 2025 InvoiceSpark. All rights reserved.
+                    </div>
+                  </div>
+                </body>
+                </html>
+HTML;
+
+            $mail->AltBody = "Please sign using this password $password";
+
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
+
         ?>
         <!DOCTYPE html>
         <html>
@@ -267,23 +328,15 @@ if (isset($_POST['login'])) {
                                                 <label>Email</label>
                                             </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating">
-                                                <input class="form-control" name="pass" placeholder="" type="password" required>
-                                                <label>Password</label>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div class="col-12 mt-4">
-                                        <button class="btn btn-primary w-100" type="submit" name="login">Submit
+                                        <button class="btn btn-primary w-100" type="submit" name="forgot">Submit
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
-
-                        <a href="forgot-password.php"><p class="text-center">Forgot Password?</p></a>
                     </div>
                 </div>
             </div>
