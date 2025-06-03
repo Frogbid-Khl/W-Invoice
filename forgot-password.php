@@ -42,7 +42,7 @@ if (isset($_POST['forgot'])) {
     $password=generateRandomString(6);
 
     if($select){
-        $query="update `user` set  password='$password' WHERE `email`='$email'";
+        $query="update `user` set  pass='$password' WHERE `email`='$email'";
         $update=$db_handle->insertQuery($query);
 
         $name=$select[0]['name'];
@@ -66,7 +66,7 @@ if (isset($_POST['forgot'])) {
 
             // Email content
             $mail->isHTML(true);
-            $mail->Subject = 'Confirm Your Email Address';
+            $mail->Subject = 'Forgot Password';
 
 
             $mail->Body = <<<HTML
@@ -85,7 +85,7 @@ if (isset($_POST['forgot'])) {
                 </head>
                 <body>
                   <div class="email-wrapper">
-                    <div class="header">Confirm Your Email</div>
+                    <div class="header">Forgot Password</div>
                     <div class="body">
                       <p>Hi there,</p>
                       <p>Your account has been reset. Please use this password for login.</p>
@@ -118,11 +118,11 @@ HTML;
         <script>
             Swal.fire({
                 title: 'Successful',
-                text: 'Login Successful.',
+                text: 'Please check your Email.',
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(function() {
-                window.location.href = "createInvoice.php";
+                window.location.href = "login.php";
             });
         </script>
         </body>
@@ -315,7 +315,7 @@ HTML;
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="container py-5">
                                 <div class="text-center mb-4">
-                                    <h2 class="fw-bold">Login</h2>
+                                    <h2 class="fw-bold">Forgot Password</h2>
                                 </div>
 
                                 <div class="row g-4">
