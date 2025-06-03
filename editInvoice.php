@@ -443,8 +443,11 @@ if (isset($_GET['id'])) {
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="po">P.O #</label>
-                                            <input class="form-control" name="po" id="po" value="<?= $invoice[0]['ipo'] ?>" placeholder="Optional" type="text">
+                                            <label class="form-label" for="currency">Currency</label>
+                                            <select class="form-select" name="currency" id="currency" required>
+                                                <option value="BDT" <?php if($invoice[0]['icurrency']=='BDT') echo 'selected'; ?>>BDT</option>
+                                                <option value="USD" <?php if($invoice[0]['icurrency']=='USD') echo 'selected'; ?>>USD</option>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>

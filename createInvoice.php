@@ -57,7 +57,7 @@ if (isset($_POST['saveInvoice'])) {
         $shipto = $_POST['shipto'] ?? '';
         $invoice = $_POST['invoice'] ?? '';
         $invoiceDate = $_POST['invoiceDate'] ?? '';
-        $po = $_POST['po'] ?? '';
+        $currency = $_POST['currency'] ?? '';
         $dueDate = $_POST['dueDate'] ?? '';
         $terms = $_POST['terms'] ?? '';
 
@@ -124,9 +124,9 @@ if (isset($_POST['saveInvoice'])) {
         }
 
         // Insert invoice data
-        $insert = $db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+        $insert = $db_handle->insertQuery("INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`, `invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `icurrency`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('$uid','$from','$invoiceOption','$invoiceDate','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        VALUES ('$uid','$from','$invoiceOption','$invoiceDate','$billto','$shipto','$logo','$invoice','$currency','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')");
 
 
@@ -458,9 +458,11 @@ if(isset($_SESSION['uid'])){
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="po">P.O #</label>
-                                            <input class="form-control" name="po" id="po" placeholder="Optional"
-                                                   type="text">
+                                            <label class="form-label" for="currency">Currency</label>
+                                            <select class="form-select" name="currency" id="currency" required>
+                                                <option value="BDT" <?php if($userData[0]['currency']=='BDT') echo 'selected'; ?>>BDT</option>
+                                                <option value="USD" <?php if($userData[0]['currency']=='USD') echo 'selected'; ?>>USD</option>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>

@@ -156,9 +156,9 @@ if (in_array(strtolower($ext), $imageExts)) {
                                 ?>
 									<tr class="invo-tb-row">
 										<td class="font-sm"><?= htmlspecialchars($item['pname']); ?></td>
-										<td class="font-sm">Tk <?= number_format($item['price'], 2); ?></td>
+										<td class="font-sm"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($item['price'], 2); ?></td>
 										<td class="font-sm "><?= htmlspecialchars($item['qty']); ?></td>
-										<td class="font-sm ">Tk <?= number_format($total, 2); ?></td>
+										<td class="font-sm "><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($total, 2); ?></td>
 									</tr>
                                     <?php
                                 }
@@ -182,15 +182,15 @@ if (in_array(strtolower($ext), $imageExts)) {
                                     ?>
 										<tr>
 											<td class="font-md color-light-black ">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">Tk <?= number_format($subTotal, 2); ?></td>
+											<td class="font-md-grey color-grey text-right"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row bottom-border">
 											<td class="font-md color-light-black ">Tax <span class="font-md color-grey">(<?= number_format(($tax/$subTotal)*100, 2); ?>%)</span></td>
-											<td class="font-md-grey color-grey text-right">Tk <?= number_format($tax, 2); ?></td>
+											<td class="font-md-grey color-grey text-right"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total">
 											<td class="font-18-700 color-train font-18-500 pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black pt-20 text-right">Tk <?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-500 color-light-black pt-20 text-right"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>

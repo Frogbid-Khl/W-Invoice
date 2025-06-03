@@ -22,7 +22,7 @@ if (isset($_POST['saveInvoice'])) {
     $shipto = $_POST['shipto'] ?? '';
     $invoice = $_POST['invoice'] ?? '';
     $invoiceDate = $_POST['invoiceDate'] ?? '';
-    $po = $_POST['po'] ?? '';
+    $currency = $_POST['currency'] ?? '';
     $dueDate = $_POST['dueDate'] ?? '';
     $terms = $_POST['terms'] ?? '';
 
@@ -84,9 +84,9 @@ if (isset($_POST['saveInvoice'])) {
         $signature=$_POST['signatureText'] ?? '';
     }
 
-    $query="INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`,`invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `ipo`, 
+    $query="INSERT INTO `invoice`(`uid`, `ifrom`,`inv_view`,`invoiceDate`, `ibillto`, `ishipto`, `ilogo`, `iinv_no`, `icurrency`, 
         `idue_date`, `itoc`, `isignature`, `sharable_url`, `istatus`, `inserted_at`, `updated_at`) 
-        VALUES ('0','$from','$invoiceOption','$invoiceDate','$billto','$shipto','$logo','$invoice','$po','$dueDate','$terms','$signature',
+        VALUES ('0','$from','$invoiceOption','$invoiceDate','$billto','$shipto','$logo','$invoice','$currency','$dueDate','$terms','$signature',
         '$sharable_url','1','$inserted_at','$updated_at')";
     // Insert invoice data
     $insert=$db_handle->insertQuery($query);
@@ -385,8 +385,11 @@ if (isset($_POST['saveInvoice'])) {
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="po">P.O #</label>
-                                            <input class="form-control" name="po" id="po" placeholder="Optional" type="text">
+                                            <label class="form-label" for="currency">Currency</label>
+                                            <select class="form-select" name="currency" id="currency" required>
+                                                <option value="BDT">BDT</option>
+                                                <option value="USD">USD</option>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>

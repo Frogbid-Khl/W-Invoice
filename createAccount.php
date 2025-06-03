@@ -29,6 +29,7 @@ if (isset($_POST['createAccount'])) {
     $email = $_POST['email'] ?? '';
     $pass = $_POST['pass'] ?? '';
     $terms = $_POST['terms'] ?? '';
+    $currency = $_POST['currency'] ?? '';
 
     $inserted_at = $updated_at = date("Y-m-d H:i:s");
     $sharable_url = generateRandomString(20);
@@ -72,7 +73,7 @@ if (isset($_POST['createAccount'])) {
         }
 
         // Insert invoice data
-        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `signature`, `toc`, `credit`, `hash_code`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$signature','$terms','10','$sharable_url','0','$inserted_at','$updated_at')");
+        $insert=$db_handle->insertQuery("INSERT INTO `user`(`name`, `address`, `logo`, `email`, `pass`, `currency`, `signature`, `toc`, `credit`, `hash_code`, `status`, `inserted_at`, `updated_at`) VALUES ('$name','$address','$logo','$email','$pass','$currency','$signature','$terms','10','$sharable_url','0','$inserted_at','$updated_at')");
 
 
         $domain = 'W-Invoice/';
@@ -422,6 +423,13 @@ HTML;
                                                 <input class="form-control" name="pass" placeholder="" type="password">
                                                 <label>Password</label>
                                             </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="currency">Currency</label>
+                                            <select class="form-select" name="currency" id="currency" required>
+                                                <option value="BDT">BDT</option>
+                                                <option value="USD">USD</option>
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label" for="logo">Upload Logo or Type Text</label>

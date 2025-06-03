@@ -152,8 +152,8 @@ if (in_array(strtolower($ext), $imageExts)) {
                                         <tr class="invo-tb-row ">
                                             <td class="font-sm"><?= $sl; ?></td>
                                             <td class="font-sm"><?= htmlspecialchars($item['pname']); ?> X <?= htmlspecialchars($item['qty']); ?></td>
-                                            <td class="font-sm">Tk <?= number_format($item['price'], 2); ?></td>
-                                            <td class="font-sm">Tk <?= number_format($total, 2); ?></td>
+                                            <td class="font-sm"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($item['price'], 2); ?></td>
+                                            <td class="font-sm"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($total, 2); ?></td>
                                         </tr>
                                         <?php
                                         $sl+=1;
@@ -178,15 +178,15 @@ if (in_array(strtolower($ext), $imageExts)) {
                                     ?>
 										<tr>
 											<td class="font-md color-light-black">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right pr-10">Tk <?= number_format($subTotal, 2); ?></td>
+											<td class="font-md-grey color-grey text-right pr-10"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($subTotal, 2); ?></td>
 										</tr>
 										<tr class="tax-row bottom-border">
 											<td class="font-md color-light-black">Tax (<?= number_format(($tax/$subTotal)*100, 2); ?>%)</td>
-											<td class="font-md-grey color-grey text-right pr-10">Tk <?= number_format($tax, 2); ?></td>
+											<td class="font-md-grey color-grey text-right pr-10"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($tax, 2); ?></td>
 										</tr>
 										<tr class="invo-grand-total bottom-border">
 											<td class="font-md color-green pt-20">Grand Total:</td>
-											<td class="font-18-500 color-grey pt-20 text-right pr-10">Tk <?= number_format($grandTotal, 2); ?></td>
+											<td class="font-18-500 color-grey pt-20 text-right pr-10"><?= $dataInvoice[0]['icurrency']; ?> <?= number_format($grandTotal, 2); ?></td>
 										</tr>
 									</tbody>
 								</table>
