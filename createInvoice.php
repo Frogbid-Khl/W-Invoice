@@ -459,10 +459,16 @@ if(isset($_SESSION['uid'])){
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="currency">Currency</label>
-                                            <select class="form-select" name="currency" id="currency" required>
+                                            <select class="form-select" name="currency" id="currency" onchange="changeCurrency(this.value);" required>
                                                 <option value="BDT" <?php if($userData[0]['currency']=='BDT') echo 'selected'; ?>>BDT</option>
                                                 <option value="USD" <?php if($userData[0]['currency']=='USD') echo 'selected'; ?>>USD</option>
                                             </select>
+
+                                            <script>
+                                                function changeCurrency(currency){
+                                                    document.getElementById('currencyText').innerHTML=currency;
+                                                }
+                                            </script>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>
@@ -543,7 +549,7 @@ if(isset($_SESSION['uid'])){
                                                     </div>
                                                     <hr>
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <h4 class="mb-0 fw-bold">Total (BDT)</h4>
+                                                        <h4 class="mb-0 fw-bold">Total (<span id="currencyText">BDT</span>)</h4>
                                                         <h4 class="mb-0 fw-bold text-success" id="total">0.0</h4>
                                                     </div>
                                                 </div>

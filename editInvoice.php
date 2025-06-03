@@ -444,10 +444,16 @@ if (isset($_GET['id'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="currency">Currency</label>
-                                            <select class="form-select" name="currency" id="currency" required>
+                                            <select class="form-select" name="currency" id="currency" onchange="changeCurrency(this.value);" required>
                                                 <option value="BDT" <?php if($invoice[0]['icurrency']=='BDT') echo 'selected'; ?>>BDT</option>
                                                 <option value="USD" <?php if($invoice[0]['icurrency']=='USD') echo 'selected'; ?>>USD</option>
                                             </select>
+
+                                            <script>
+                                                function changeCurrency(currency){
+                                                    document.getElementById('currencyText').innerHTML=currency;
+                                                }
+                                            </script>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="dueDate">Due Date</label>
@@ -535,7 +541,7 @@ if (isset($_GET['id'])) {
                                                     </div>
                                                     <hr>
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <h4 class="mb-0 fw-bold">Total (BDT)</h4>
+                                                        <h4 class="mb-0 fw-bold">Total (<span id="currencyText"><?= $invoice[0]['icurrency'] ?></span>)</h4>
                                                         <h4 class="mb-0 fw-bold text-success" id="total"><?= $grandTotal ?></h4>
                                                     </div>
                                                 </div>
