@@ -353,20 +353,20 @@ if(isset($_SESSION['uid'])){
                                     <!-- Sender and Addresses -->
                                     <div class="col-lg-8">
                                         <div class="mb-3">
-                                            <label class="form-label" for="from">From</label>
+                                            <label class="form-label" for="from">From <span style="color: red">*</span></label>
                                             <textarea class="form-control" name="from" id="from"
-                                                      placeholder="Your Company or Name, Address"
+                                                      placeholder="Your Company or Name, Address, Contact Details"
                                                       rows="5" required><?= $userData[0]['name'] . "\n" . $userData[0]['address'] ?></textarea>
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="billto">Bill To</label>
+                                            <label class="form-label" for="billto">Bill To <span style="color: red">*</span></label>
                                             <textarea class="form-control" name="billto" id="billto"
                                                       placeholder="Customer Billing Address"
                                                       rows="5" required></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="shipto">Ship To</label>
+                                            <label class="form-label" for="shipto">Ship To <span style="color: red">*</span></label>
                                             <textarea class="form-control" name="shipto" id="shipto"
                                                       placeholder="Shipping Address (Optional)"
                                                       rows="5" required></textarea>
@@ -440,13 +440,13 @@ if(isset($_SESSION['uid'])){
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="invoice">Invoice #</label>
+                                            <label class="form-label" for="invoice">Invoice # <span style="color: red">*</span></label>
                                             <input class="form-control" id="invoice" name="invoice"
                                                    placeholder="e.g. INV-1001"
                                                    type="text" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="invoiceDate">Invoice Date</label>
+                                            <label class="form-label" for="invoiceDate">Invoice Date <span style="color: red">*</span></label>
                                             <input class="form-control" name="invoiceDate" id="invoiceDate" type="date" required>
 
                                             <script>
@@ -458,7 +458,7 @@ if(isset($_SESSION['uid'])){
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="currency">Currency</label>
+                                            <label class="form-label" for="currency">Currency <span style="color: red">*</span></label>
                                             <select class="form-select" name="currency" id="currency" onchange="changeCurrency(this.value);" required>
                                                 <option value="BDT" <?php if($userData[0]['currency']=='BDT') echo 'selected'; ?>>BDT</option>
                                                 <option value="USD" <?php if($userData[0]['currency']=='USD') echo 'selected'; ?>>USD</option>
@@ -497,7 +497,7 @@ if(isset($_SESSION['uid'])){
                                     <div class="col-12">
                                         <!-- Product Items Table -->
                                         <div class="mt-5">
-                                            <h4 class="mb-3">Invoice Items</h4>
+                                            <h4 class="mb-3">Invoice Items <span style="color: red">*</span></h4>
                                             <div id="product-container">
                                                 <div class="product-row mb-3 custom-grid">
                                                     <div class="form-floating">

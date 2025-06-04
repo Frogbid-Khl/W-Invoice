@@ -402,26 +402,26 @@ HTML;
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="name" placeholder="" type="text">
-                                                <label>Name</label>
+                                                <input class="form-control" name="name" placeholder="" type="text" required>
+                                                <label>Name <span style="color: red">*</span></label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="address" placeholder="" type="text">
-                                                <label>Address</label>
+                                                <input class="form-control" name="address" placeholder="" type="text" required>
+                                                <label>Address <span style="color: red">*</span></label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="email" placeholder="" type="email">
-                                                <label>Email</label>
+                                                <input class="form-control" name="email" placeholder="" type="email" required>
+                                                <label>Email <span style="color: red">*</span></label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
-                                                <input class="form-control" name="pass" placeholder="" type="password">
-                                                <label>Password</label>
+                                                <input class="form-control" name="pass" placeholder="" type="password" required>
+                                                <label>Password <span style="color: red">*</span></label>
                                             </div>
                                         </div>
                                         <div class="mb-3">

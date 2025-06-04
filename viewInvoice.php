@@ -263,7 +263,7 @@ if(!isset($_SESSION['uid'])){
     <!-- Hero Section End -->
 
     <!-- Footer Section Start  -->
-    <footer id="copyright-sec">
+    <footer id="copyright-sec" class="fixed-bottom" style="position: fixed">
         <div class="container">
             <div class="footer-line">
                 <p class="copyright-txt">Digital Invoice © Copyright by

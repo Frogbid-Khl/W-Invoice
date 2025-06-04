@@ -264,13 +264,13 @@ if (isset($_POST['login'])) {
                                         <div class="mb-3">
                                             <div class="form-floating">
                                                 <input class="form-control" name="email" placeholder="" type="email" required>
-                                                <label>Email</label>
+                                                <label>Email <span style="color: red">*</span></label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating">
                                                 <input class="form-control" name="pass" placeholder="" type="password" required>
-                                                <label>Password</label>
+                                                <label>Password <span style="color: red">*</span></label>
                                             </div>
                                         </div>
                                     </div>
@@ -283,6 +283,8 @@ if (isset($_POST['login'])) {
                             </div>
                         </form>
 
+                        <p class="text-center">Don't have account? <a href="createAccount.php">Create Account</a></p>
+
                         <a href="forgot-password.php"><p class="text-center">Forgot Password?</p></a>
                     </div>
                 </div>
@@ -294,7 +296,7 @@ if (isset($_POST['login'])) {
 
 
     <!-- Footer Section Start  -->
-    <footer id="copyright-sec">
+    <footer id="copyright-sec" class="fixed-bottom" style="position: fixed">
         <div class="container">
             <div class="footer-line">
                 <p class="copyright-txt">Digital Invoice © Copyright by

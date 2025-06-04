@@ -304,22 +304,22 @@ if (isset($_POST['saveInvoice'])) {
                                     <!-- Sender and Addresses -->
                                     <div class="col-lg-8">
                                         <div class="mb-3">
-                                            <label class="form-label" for="from">From</label>
+                                            <label class="form-label" for="from">From <span style="color: red">*</span></label>
                                             <textarea class="form-control" name="from" id="from"
-                                                      placeholder="Your Company or Name, Address"
-                                                      rows="5"></textarea>
+                                                      placeholder="Your Company or Name, Address, Contact Details"
+                                                      rows="5" required></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="billto">Bill To</label>
+                                            <label class="form-label" for="billto">Bill To <span style="color: red">*</span></label>
                                             <textarea class="form-control" name="billto" id="billto"
                                                       placeholder="Customer Billing Address"
-                                                      rows="5"></textarea>
+                                                      rows="5" required></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="shipto">Ship To</label>
+                                            <label class="form-label" for="shipto">Ship To <span style="color: red">*</span></label>
                                             <textarea class="form-control" name="shipto" id="shipto"
                                                       placeholder="Shipping Address (Optional)"
-                                                      rows="5"></textarea>
+                                                      rows="5" required></textarea>
                                         </div>
                                     </div>
 
@@ -368,9 +368,9 @@ if (isset($_POST['saveInvoice'])) {
 
                                         </script>
                                         <div class="mb-3">
-                                            <label class="form-label" for="invoice">Invoice #</label>
+                                            <label class="form-label" for="invoice">Invoice # <span style="color: red">*</span></label>
                                             <input class="form-control" id="invoice" name="invoice" placeholder="e.g. INV-1001"
-                                                   type="text">
+                                                   type="text" required>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label" for="invoiceDate">Invoice Date</label>
@@ -424,23 +424,23 @@ if (isset($_POST['saveInvoice'])) {
                                     <div class="col-12">
                                         <!-- Product Items Table -->
                                         <div class="mt-5">
-                                            <h4 class="mb-3">Invoice Items</h4>
+                                            <h4 class="mb-3">Invoice Items <span style="color: red">*</span></h4>
                                             <div id="product-container">
                                                 <div class="product-row mb-3 custom-grid">
                                                     <div class="form-floating">
-                                                        <input class="form-control pname" name="pname[]" placeholder="Product Name" type="text">
+                                                        <input class="form-control pname" name="pname[]" placeholder="Product Name" type="text" required>
                                                         <label>Product Name</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control unitPrice" name="unitPrice[]" placeholder="Unit Price" type="number">
+                                                        <input class="form-control unitPrice" name="unitPrice[]" placeholder="Unit Price" type="number" required>
                                                         <label>Unit Price</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control qty" name="qty[]" placeholder="Quantity" type="number">
+                                                        <input class="form-control qty" name="qty[]" placeholder="Quantity" type="number" required>
                                                         <label>Quantity</label>
                                                     </div>
                                                     <div class="form-floating">
-                                                        <input class="form-control amount" name="amount[]" placeholder="Amount" readonly type="number">
+                                                        <input class="form-control amount" name="amount[]" placeholder="Amount" readonly type="number" required>
                                                         <label>Amount</label>
                                                     </div>
                                                     <div class="form-floating">

@@ -379,7 +379,7 @@ if (isset($_GET['id'])) {
                                         <div class="mb-3">
                                             <label class="form-label" for="from">From</label>
                                             <textarea class="form-control" name="from" id="from"
-                                                      placeholder="Your Company or Name, Address"
+                                                      placeholder="Your Company or Name, Address, Contact Details"
                                                       rows="5" required><?= $invoice[0]['ifrom'] ?></textarea>
                                         </div>
                                         <div class="mb-3">
