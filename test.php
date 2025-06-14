@@ -1,0 +1,587 @@
+<?php
+session_start();
+require_once('connection/dbController.php');
+$db_handle = new DBController();
+
+if (!isset($_SESSION['uid'])) {
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
+    <script>
+        Swal.fire({
+            title: 'Successful',
+            text: 'For View Invoice Please Login.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = "login.php";
+        });
+    </script>
+    </body>
+    </html>
+    <?php
+}
+
+if (isset($_GET['id'])) {
+$sharable_url = $_GET['id'];
+
+$dataInvoiceDetail = $db_handle->selectQuery("select * from invoice_detail where isharable_url='$sharable_url'");
+$dataInvoice = $db_handle->selectQuery("select * from invoice where sharable_url='$sharable_url'");
+
+if (!empty($dataInvoice)) {
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice Spark</title>
+    <link href="assets/images/icon.png" rel="icon">
+    <link href="assets/fonts/css2-1?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="invoiceassets/css/custom.css">
+    <link rel="stylesheet" href="invoiceassets/css/media-query.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="text-center mt-5">
+    <section class="agency-bottom-content d-print-none" id="agency_bottom">
+        <!--Print-download content start here -->
+        <div class="invo-buttons-wrap">
+            <div class="invo-print-btn invo-btns">
+                <a onclick="printInvoice()" class="print-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"
+                         fill="none">
+                        <g clip-path="url(#clip0_10_61)">
+                            <path d="M17 17H19C19.5304 17 20.0391 16.7893 20.4142 16.4142C20.7893 16.0391 21 15.5304 21 15V11C21 10.4696 20.7893 9.96086 20.4142 9.58579C20.0391 9.21071 19.5304 9 19 9H5C4.46957 9 3.96086 9.21071 3.58579 9.58579C3.21071 9.96086 3 10.4696 3 11V15C3 15.5304 3.21071 16.0391 3.58579 16.4142C3.96086 16.7893 4.46957 17 5 17H7"
+                                  stroke="white" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                            <path d="M17 9V5C17 4.46957 16.7893 3.96086 16.4142 3.58579C16.0391 3.21071 15.5304 3 15 3H9C8.46957 3 7.96086 3.21071 7.58579 3.58579C7.21071 3.96086 7 4.46957 7 5V9"
+                                  stroke="white" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                            <path d="M7 15C7 14.4696 7.21071 13.9609 7.58579 13.5858C7.96086 13.2107 8.46957 13 9 13H15C15.5304 13 16.0391 13.2107 16.4142 13.5858C16.7893 13.9609 17 14.4696 17 15V19C17 19.5304 16.7893 20.0391 16.4142 20.4142C16.0391 20.7893 15.5304 21 15 21H9C8.46957 21 7.96086 20.7893 7.58579 20.4142C7.21071 20.0391 7 19.5304 7 19V15Z"
+                                  stroke="white" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                        </g>
+                        <defs>
+                            <clippath id="clip0_10_61">
+                                <rect width="24" height="24" fill="white"></rect>
+                            </clippath>
+                        </defs>
+                    </svg>
+                    <span class="inter-700 medium-font">Print</span>
+                </a>
+            </div>
+            <div class="invo-print-btn invo-btns">
+                <a href="viewInvoice.php" class="back-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
+                        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path d="M64 128l177.6 0c-1 5.2-1.6 10.5-1.6 16l0 16-32 0L64 160c-8.8 0-16-7.2-16-16s7.2-16 16-16zm224 16c0-17.7 14.3-32 32-32c0 0 0 0 0 0l24 0c66.3 0 120 53.7 120 120l0 48c0 52.5-33.7 97.1-80.7 113.4c.5-3.1 .7-6.2 .7-9.4c0-20-9.2-37.9-23.6-49.7c4.9-9 7.6-19.4 7.6-30.3c0-15.1-5.3-29-14-40c8.8-11 14-24.9 14-40l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-40 0-40zm32-80s0 0 0 0c-18 0-34.6 6-48 16L64 80C28.7 80 0 108.7 0 144s28.7 64 64 64l82 0c-1.3 5.1-2 10.5-2 16c0 25.3 14.7 47.2 36 57.6c-2.6 7-4 14.5-4 22.4c0 20 9.2 37.9 23.6 49.7c-4.9 9-7.6 19.4-7.6 30.3c0 35.3 28.7 64 64 64l64 0 24 0c92.8 0 168-75.2 168-168l0-48c0-92.8-75.2-168-168-168l-24 0zM256 400c-8.8 0-16-7.2-16-16s7.2-16 16-16l48 0 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0zM240 224c0 5.5 .7 10.9 2 16l-2 0-32 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l32 0 0 16zm24 64l40 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-48 0-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l24 0z"/>
+                    </svg>
+                    <span class="inter-700 medium-font">Back</span>
+                </a>
+            </div>
+            <div class="invo-down-btn invo-btns">
+                <a class="download-btn" onclick="generateInvoice()">
+                    <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_5_246)">
+                            <path d="M4 17V19C4 19.5304 4.21071 20.0391 4.58579 20.4142C4.96086 20.7893 5.46957 21 6 21H18C18.5304 21 19.0391 20.7893 19.4142 20.4142C19.7893 20.0391 20 19.5304 20 19V17"
+                                  stroke="white" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                            <path d="M7 11L12 16L17 11" stroke="white" stroke-width="2"
+                                  stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M12 4V16" stroke="white" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"></path>
+                        </g>
+                        <defs>
+                            <clippath id="clip0_5_246">
+                                <rect width="24" height="24" fill="white"></rect>
+                            </clippath>
+                        </defs>
+                    </svg>
+                    <span class="inter-700 medium-font">Download</span>
+                </a>
+            </div>
+        </div>
+        <!--Print-download content end here -->
+    </section>
+</div>
+
+<!-- Preview container -->
+<div id="invoicePreview" style="margin-top:20px;"></div>
+
+<!--Invoice wrap End here -->
+<script>
+    function printInvoice() {
+        const printContents = document.getElementById("invoicePreview").innerHTML;
+
+        // Open a new window for print
+        const printWindow = window.open('', '', 'width=900,height=650');
+
+        // Copy all style/link tags
+        const styleTags = [...document.querySelectorAll('style, link[rel="stylesheet"]')]
+            .map(tag => tag.outerHTML).join('');
+
+        printWindow.document.write(`
+        <html>
+        <head>
+            <title>Print Invoice</title>
+            ${styleTags}
+            <style>
+                @page {
+                    size: A4;
+                    margin: 0;
+                }
+
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background: white;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                    font-family: Arial, sans-serif;
+                }
+
+                .page {
+                    width: 210mm;
+                    min-height: 297mm;
+                    padding: 10mm;
+                    margin: auto;
+                    box-sizing: border-box;
+                    background: white;
+                    page-break-after: always;
+                }
+
+                .page:last-child {
+                    page-break-after: auto;
+                }
+
+                @media print {
+                    html, body {
+                        width: 210mm;
+                        height: 297mm;
+                    }
+                }
+            </style>
+        </head>
+        <body onload="window.focus(); window.print(); window.close();">
+            ${printContents}
+        </body>
+        </html>
+    `);
+
+    }
+
+
+    // Call previewInvoice() on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        previewInvoice();
+    });
+
+    const { jsPDF } = window.jspdf;
+
+    function chunkArray(arr, size) {
+        const chunks = [];
+        for (let i = 0; i < arr.length; i += size) {
+            chunks.push(arr.slice(i, i + size));
+        }
+        return chunks;
+    }
+
+
+    function previewInvoice() {
+        const products = <?= json_encode(array_map(function ($item) use ($dataInvoice) {
+            return [
+                'name' => $item['pname'],
+                'qty' => (int)$item['qty'],
+                'price' => floatval($item['price']),
+                'tax' => floatval($item['tax']),
+                'currency' => $dataInvoice[0]['icurrency']
+            ];
+        }, $dataInvoiceDetail)); ?>;
+
+        const itemsPerPage = 7;
+        const pages = chunkArray(products, itemsPerPage);
+        const previewContainer = document.getElementById('invoicePreview');
+        previewContainer.innerHTML = ''; // Clear previous previews
+
+        for (let i = 0; i < pages.length; i++) {
+            const isLastPage = (i === pages.length - 1);
+            const pageDiv = document.createElement('div');
+            pageDiv.style.width = '210mm';
+            pageDiv.style.minHeight = '297mm';
+            pageDiv.style.border = '1px solid #ccc';
+            pageDiv.style.margin = 'auto';
+            pageDiv.style.marginBottom = '20px';
+            pageDiv.style.padding = '10mm';
+            pageDiv.style.background = '#fff';
+            pageDiv.style.boxShadow = '0 0 5px rgba(0,0,0,0.1)';
+            pageDiv.style.boxSizing = 'border-box';
+
+            pageDiv.innerHTML =  `
+           <div class="invoice_wrap coffee-invoice">
+    <div class="invoice-container">
+        <div class="invoice-content-wrap" id="download_section">
+            <!--Header start here -->
+            <header class="coffee_header" id="invo_header">
+                <div class="header-top-coffee width-70">
+                    <h1 class="coffee-txt">INVOICE</h1>
+                </div>
+                <div class="invoice-logo-content-coffee ">
+                    <div class="coffee-black">
+                        <div class="brown-bg"></div>
+                    </div>
+                    <div class="invoice-logo-coffee">
+                        <a href="#">
+                        <?php
+            $logo = $dataInvoice[0]['ilogo'];
+            $ext = pathinfo($logo, PATHINFO_EXTENSION);
+            $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array(strtolower($ext), $imageExts)) {
+                // It's an image
+                echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
+            } else {
+                // Not an image - show text
+                echo '<div style="font-size: 24px; color: black; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+            }
+            ?>
+                        </a>
+                    </div>
+                    <div class="invo-head-content-coffee">
+                        <div class="invo-head-wrap">
+                            <div class="font-sm-700 color-white">Invoice No:</div>
+                            <div class="font-sm color-white">#<?= $dataInvoice[0]['iinv_no']; ?></div>
+                        </div>
+                        <div class="invo-head-wrap">
+                            <div class="font-sm-700 color-white">Invoice Date:</div>
+                            <div class="font-sm color-white"><?= date("d/m/Y", strtotime($dataInvoice[0]['inserted_at'])); ?></div>
+                        </div>
+                    </div>
+                    <div class="coffee-triangle-image">
+                    </div>
+                </div>
+            </header>
+            <!--Header end here -->
+            <!--Invoice content start here -->
+            <section class="agency-service-content ecommerce-invoice-content" id="coffee_shop_invoice">
+                <div class="coffee-shop-back-img-one">
+                    <img src="invoiceassets/images/coffee-shop/coffee-back-img.png" alt="this is a back image">
+                </div>
+                <div class="container">
+                    <!--Invoice owner name start here -->
+                    <div class="invoice-owner-conte-wrap pt-40">
+                        <div class="invo-to-wrap">
+                            <div class="invoice-to-content">
+                                <p class="font-md color-light-black">From:</p>
+                                        <?php
+            $lines = explode("\n", $dataInvoice[0]['ifrom']);
+            ?>
+
+                                        <h2 class="font-lg color-blue pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                        <p class="font-md-grey color-grey pt-10">
+                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
+                                        </p>
+                            </div>
+                        </div>
+                        <div class="invo-pay-to-wrap">
+                            <div class="invoice-pay-content">
+                                <p class="font-md color-light-black">Bill To:</p>
+                                        <?php
+            $lines = explode("\n", $dataInvoice[0]['ibillto']);
+            ?>
+
+                                        <h2 class="font-lg color-blue pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                        <p class="font-md-grey color-grey pt-10">
+                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
+                                        </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice-owner-conte-wrap pt-40">
+                                <div class="invo-to-wrap">
+                                    <div class="invoice-to-content">
+                                        <p class="font-md color-light-black">Ship To:</p>
+                                        <?php
+            $lines = explode("\n", $dataInvoice[0]['ishipto']);
+            ?>
+
+                                        <h2 class="font-lg color-blue pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                        <p class="font-md-grey color-grey pt-10">
+                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                    <!--Invoice owner name end here -->
+                    <!--Coffee table data start here -->
+                    <div class="table-wrapper pt-40">
+                        ${generateTableHTML(pages[i], isLastPage)}
+                    </div>
+                    <!--Coffee table data end here -->
+
+                    ${isLastPage ? `
+                    <!--Coffee payment detail table start here -->
+                    <div class="rest-payment-bill">
+                        <div class="signature-wrap">
+                            <div class="sign-img">
+                                <?php
+            $signature = $dataInvoice[0]['isignature'];
+            $ext = pathinfo($signature, PATHINFO_EXTENSION);
+            $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array(strtolower($ext), $imageExts)) {
+                // It's an image file
+                echo '<img src="' . htmlspecialchars($signature) . '" style="max-width: 200px;" alt="signature image">';
+            } else {
+                // It's text (not an image file)
+                echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;">' . htmlspecialchars($signature) . '</div>';
+            }
+            ?>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Coffee payment detail table end here -->
+                    ` : ''}
+                </div>
+            </section>
+            <!--Invoice content end here -->
+        </div>
+    </div>
+</div>
+        `;
+            previewContainer.appendChild(pageDiv);
+        }
+    }
+
+    let allProducts = [];
+
+    function generateTableHTML(products, isLastPage = false) {
+        let html = `
+<table class="invoice-table coffee-table">
+    <thead>
+        <tr class="invo-tb-header">
+            <th class="font-md color-grey">Item</th>
+            <th class="font-md color-grey">Price</th>
+            <th class="font-md color-grey">Qty</th>
+            <th class="font-md color-grey">Tax</th>
+            <th class="font-md color-grey">Total</th>
+        </tr>
+    </thead>
+    <tbody class="invo-tb-body">`;
+        products.forEach(p => {
+            html += `<tr class="invo-tb-row">
+                <td class="font-sm">${p.name}</td>
+                <td class="font-sm">${p.currency} ${p.price}</td>
+                <td class="font-sm ">${p.qty}</td>
+                <td class="font-sm ">${p.tax}%</td>
+                <td class="font-sm">${p.currency} ${p.price*p.qty}</td>
+            </tr>`;
+            allProducts.push(p); // Collect all products here
+        });
+
+        html += `</tbody></table>`;
+
+
+        if (isLastPage) {
+            const subtotal = allProducts.reduce((sum, p) => sum + (p.price * p.qty), 0);
+            const tax = (allProducts.reduce((sum, p) => sum + (p.price * p.qty*(p.tax)/100), 0));
+            const grandTotal = subtotal + tax ;
+
+            html += `
+<div class="invo-addition-wrap pt-20">
+    <div class="invo-add-info-content">
+        <h3 class="font-md color-light-black">Terms & Conditions:</h3>
+        <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
+    </div>
+    <div class="invo-bill-total width-30">
+        <table class="invo-total-table">
+            <tbody>
+                <tr>
+                    <td class="font-md color-light-black ">Sub Total:</td>
+                    <td class="font-md-grey color-grey text-right">$${subtotal.toFixed(2)}</td>
+                </tr>
+                <tr class="tax-row">
+                    <td class="font-md color-light-black ">Tax <span class="">(18%)</span></td>
+                    <td class="font-md-grey color-grey text-right">$${tax.toFixed(2)}</td>
+                </tr>
+                <tr class="invo-grand-total">
+                    <td class="font-18-700 color-coffe pt-20">Grand Total:</td>
+                    <td class="font-18-500 color-light-black text-right pt-20">$${grandTotal.toFixed(2)}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>`;
+        }
+
+        return html;
+    }
+
+    async function generateInvoice() {
+
+        const products = <?= json_encode(array_map(function ($item) use ($dataInvoice) {
+            return [
+                'name' => $item['pname'],
+                'qty' => (int)$item['qty'],
+                'price' => floatval($item['price']),
+                'tax' => floatval($item['tax']),
+                'currency' => $dataInvoice[0]['icurrency']
+            ];
+        }, $dataInvoiceDetail)); ?>;
+
+
+
+        const itemsPerPage = 7;
+        const pages = chunkArray(products, itemsPerPage);
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        for (let i = 0; i < pages.length; i++) {
+            const isLastPage = (i === pages.length - 1);
+            const container = document.createElement('div');
+            container.style.width = '210mm';
+            container.style.height = '297mm';
+            container.style.boxSizing = 'border-box';
+            container.style.padding = '10mm';
+            container.style.backgroundColor = 'white';
+
+            container.innerHTML = `
+<div class="invoice_wrap coffee-invoice">
+    <div class="invoice-container">
+        <div class="invoice-content-wrap" id="download_section">
+            <!--Header start here -->
+            <header class="coffee_header" id="invo_header">
+                <div class="header-top-coffee width-70">
+                    <h1 class="coffee-txt">INVOICE</h1>
+                </div>
+                <div class="invoice-logo-content-coffee ">
+                    <div class="coffee-black">
+                        <div class="brown-bg"></div>
+                    </div>
+                    <div class="invoice-logo-coffee">
+                        <a href="#"><img src="invoiceassets/images/coffee-shop/logo.png" alt="logo"></a>
+                    </div>
+                    <div class="invo-head-content-coffee">
+                        <div class="invo-head-wrap">
+                            <div class="font-sm-700 color-white">Invoice No:</div>
+                            <div class="font-sm color-white">#DI56789</div>
+                        </div>
+                        <div class="invo-head-wrap">
+                            <div class="font-sm-700 color-white">Invoice Date:</div>
+                            <div class="font-sm color-white">15/12/2024</div>
+                        </div>
+                    </div>
+                    <div class="coffee-triangle-image">
+                    </div>
+                </div>
+            </header>
+            <!--Header end here -->
+            <!--Invoice content start here -->
+            <section class="agency-service-content ecommerce-invoice-content" id="coffee_shop_invoice">
+                <div class="coffee-shop-back-img-one">
+                    <img src="invoiceassets/images/coffee-shop/coffee-back-img.png" alt="this is a back image">
+                </div>
+                <div class="container">
+                    <!--Invoice owner name start here -->
+                    <div class="invoice-owner-conte-wrap pt-40">
+                        <div class="invo-to-wrap">
+                            <div class="invoice-to-content">
+                                <p class="font-md color-light-black">Invoice To:</p>
+                                <h2 class="font-lg color-coffe pt-10">Jordon Smith</h2>
+                                <p class="font-md-grey color-grey pt-10">+1 562 563 8899</p>
+                            </div>
+                        </div>
+                        <div class="invo-pay-to-wrap">
+                            <div class="invoice-pay-content">
+                                <p class="font-md color-light-black">Pay To:</p>
+                                <h2 class="font-lg color-coffe pt-10">Digital Invoico LTD</h2>
+                                <p class="font-md-grey color-grey pt-10">4510 E Delphine St, NY, USA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Invoice owner name end here -->
+                    <!--Coffee table data start here -->
+                    <div class="table-wrapper pt-40">
+                        ${generateTableHTML(pages[i], isLastPage)}
+                    </div>
+                    <!--Coffee table data end here -->
+
+                    ${isLastPage ? `
+                    <!--Coffee payment detail table start here -->
+                    <div class="rest-payment-bill">
+                        <div class="signature-wrap">
+                            <div class="sign-img">
+                                <img src="invoiceassets/images/signature/sign.svg" alt="this is signature image">
+                            </div>
+                            <p class="font-sm-500">Alex Morris</p>
+                            <h3 class="font-md-grey color-light-black">Store Manager</h3>
+                        </div>
+                    </div>
+                    <!-- Coffee payment detail table end here -->
+                    ` : ''}
+                </div>
+                <!--Coffee shop contact us detail start here -->
+                <div class="coffee-bottom-sec-footer">
+                    <div class="coffee-bottom-sec">
+                        <div class="coffee-triangle-image coffee-triangle-image-footer">
+                        </div>
+                    </div>
+                    <div class="coffee-bottom-contact">
+                        <div class="bus-conta-mail-wrap coffee-conta-mail-wrap">
+                            <div class="bus-invo-num coffee-contact">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6_94)"><path d="M5 4H9L11 9L8.5 10.5C9.57096 12.6715 11.3285 14.429 13.5 15.5L15 13L20 15V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21C14.0993 20.763 10.4202 19.1065 7.65683 16.3432C4.8935 13.5798 3.23705 9.90074 3 6C3 5.46957 3.21071 4.96086 3.58579 4.58579C3.96086 4.21071 4.46957 4 5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 7C15.5304 7 16.0391 7.21071 16.4142 7.58579C16.7893 7.96086 17 8.46957 17 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 3C16.5913 3 18.1174 3.63214 19.2426 4.75736C20.3679 5.88258 21 7.4087 21 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_6_94"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
+                                <a class="font-18 " href="tel:+12345678899">+1 234 567 8899</a>
+                            </div>
+                            <div class="bus-invo-date coffee-mail">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6_108)"><path d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 7L12 13L21 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_6_108"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
+                                <a class="font-18" href="mailto:contact@invoice.com">contact@invoice.com</a>
+                            </div>
+                        </div>
+                        <div class="coffee-thank-txt"><p class="font-sm color-light-black coffee-txt-bottom">Thank you for choosing us. See you soon 🙂</p></div>
+                    </div>
+                </div>
+                <!--Coffee shop contact us detail end here -->
+            </section>
+            <!--Invoice content end here -->
+        </div>
+    </div>
+</div>
+        `;
+
+            document.body.appendChild(container);
+            const canvas = await html2canvas(container, { scale: 2 });
+            const imgData = canvas.toDataURL('image/png');
+
+            if (i > 0) pdf.addPage();
+            pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+            document.body.removeChild(container);
+        }
+
+        pdf.save('invoice.pdf');
+    }
+</script>
+</body>
+</html>
+    <?php
+} else {
+    ?>
+    <script>
+        alert('Page Not Found');
+        window.location.href = "index.php";
+    </script>
+    <?php
+}
+} else {
+    ?>
+    <script>
+        alert('Page Not Found');
+        window.location.href = "index.php";
+    </script>
+    <?php
+}
+?>

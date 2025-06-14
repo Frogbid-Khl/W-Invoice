@@ -2165,7 +2165,7 @@ table.invo-payment-table.invo-payment-table {
 .coffee-table thead tr th{
 	padding-bottom: 10px;
 }
-.coffee-triangle-image {
+/*.coffee-triangle-image {
 	content: "";
 	clip-path: polygon(52% 99%, 0 1%, 100% 0);
 	background: #12151C;
@@ -2174,8 +2174,8 @@ table.invo-payment-table.invo-payment-table {
 	position: absolute;
 	right: 0;  
 	top:-1.2px;
-}
-.coffee-triangle-image:before{
+}*/
+/*.coffee-triangle-image:before{
 	content: "";
 	background-image: url(../images/coffee-shop/triangle-top.svg);
 	background-repeat: no-repeat;
@@ -2185,7 +2185,7 @@ table.invo-payment-table.invo-payment-table {
 	height: 100%;
 	width: 100%;
 	z-index: 2;
-}
+}*/
 .header-top-coffee{
 	padding: 11px 0;
 }
@@ -2193,7 +2193,7 @@ table.invo-payment-table.invo-payment-table {
 	width: 20%;
 }
 .invo-head-content-coffee {
-	width: 50%;
+	width: 63%;
 	z-index: 1;
 }
 .coffee-bottom-sec-footer {
