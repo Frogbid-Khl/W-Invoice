@@ -118,14 +118,17 @@ if (isset($_GET['id'])) {
         <!--Invoice wrap End here -->
         <script>
             function printInvoice() {
-                const printContents = document.getElementById("invoicePreview").innerHTML;
+                const invoiceEl = document.getElementById("invoicePreview");
+                if (!invoiceEl) {
+                    alert("Invoice preview not found!");
+                    return;
+                }
 
-                // Open a new window for print
-                const printWindow = window.open('', '', 'width=900,height=650');
-
-                // Copy all style/link tags
+                const printContents = invoiceEl.innerHTML;
                 const styleTags = [...document.querySelectorAll('style, link[rel="stylesheet"]')]
                     .map(tag => tag.outerHTML).join('');
+
+                const printWindow = window.open('', '_blank', 'width=900,height=650');
 
                 printWindow.document.write(`
         <html>
@@ -149,7 +152,7 @@ if (isset($_GET['id'])) {
 
                 .page {
                     width: 210mm;
-                    min-height: 297mm;
+                    min-height: 250mm;
                     padding: 10mm;
                     margin: auto;
                     box-sizing: border-box;
@@ -164,18 +167,32 @@ if (isset($_GET['id'])) {
                 @media print {
                     html, body {
                         width: 210mm;
-                        height: 297mm;
+                        height: 250mm;
                     }
                 }
             </style>
         </head>
-        <body onload="window.focus(); window.print(); window.close();">
+        <body>
             ${printContents}
         </body>
         </html>
     `);
 
+                // Important: wait for the new window to fully load before printing
+                printWindow.document.close();
+                printWindow.focus();
+
+                printWindow.onload = function () {
+                    printWindow.print();
+
+                    // Optional: close window after printing
+                    printWindow.onafterprint = function () {
+                        printWindow.close();
+                    };
+                };
             }
+
+
 
 
             // Call previewInvoice() on page load
