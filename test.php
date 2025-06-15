@@ -211,6 +211,7 @@ if (!empty($dataInvoice)) {
         previewContainer.innerHTML = ''; // Clear previous previews
 
         for (let i = 0; i < pages.length; i++) {
+            const isFirstPage = (i === 0);
             const isLastPage = (i === pages.length - 1);
             const pageDiv = document.createElement('div');
             pageDiv.style.width = '210mm';
@@ -268,6 +269,7 @@ if (!empty($dataInvoice)) {
                 </div>
             </header>
             <!--Header end here -->
+             ${isFirstPage ? `
             <!--Invoice content start here -->
             <section class="agency-service-content ecommerce-invoice-content" id="coffee_shop_invoice">
                 <div class="coffee-shop-back-img-one">
@@ -276,49 +278,42 @@ if (!empty($dataInvoice)) {
                 <div class="container">
                     <!--Invoice owner name start here -->
                     <div class="invoice-owner-conte-wrap pt-40">
-                        <div class="invo-to-wrap">
-                            <div class="invoice-to-content">
-                                <p class="font-md color-light-black">From:</p>
-                                        <?php
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+									<p class="font-md color-light-black">From:</p>
+                                    <?php
             $lines = explode("\n", $dataInvoice[0]['ifrom']);
             ?>
-
-                                        <h2 class="font-lg color-blue pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                        <p class="font-md-grey color-grey pt-10">
-                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
-                                        </p>
-                            </div>
-                        </div>
-                        <div class="invo-pay-to-wrap">
-                            <div class="invoice-pay-content">
-                                <p class="font-md color-light-black">Bill To:</p>
-                                        <?php
+									<h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+								</div>
+							</div>
+							<div class="invo-pay-to-wrap">
+								<div class="invoice-pay-content">
+                                    <p class="font-md color-light-black">Bill To:</p>
+                                    <?php
             $lines = explode("\n", $dataInvoice[0]['ibillto']);
             ?>
-
-                                        <h2 class="font-lg color-blue pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                        <p class="font-md-grey color-grey pt-10">
-                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
-                                        </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="invoice-owner-conte-wrap pt-40">
-                                <div class="invo-to-wrap">
-                                    <div class="invoice-to-content">
-                                        <p class="font-md color-light-black">Ship To:</p>
-                                        <?php
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+                                </div>
+							</div>
+						</div>
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+                                    <p class="font-md color-light-black">Ship To:</p>
+                                    <?php
             $lines = explode("\n", $dataInvoice[0]['ishipto']);
             ?>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 
-                                        <h2 class="font-lg color-blue pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
-                                        <p class="font-md-grey color-grey pt-10">
-                                            <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
-                                        </p>
-                                    </div>
                                 </div>
-                            </div>
+							</div>
+						</div>
                     <!--Invoice owner name end here -->
+                    ` : ''}
                     <!--Coffee table data start here -->
                     <div class="table-wrapper pt-40">
                         ${generateTableHTML(pages[i], isLastPage)}
@@ -327,9 +322,8 @@ if (!empty($dataInvoice)) {
 
                     ${isLastPage ? `
                     <!--Coffee payment detail table start here -->
-                    <div class="rest-payment-bill">
-                        <div class="signature-wrap">
-                            <div class="sign-img">
+						<div class="signature-wrap-flight">
+							<div class="sign-img">
                                 <?php
             $signature = $dataInvoice[0]['isignature'];
             $ext = pathinfo($signature, PATHINFO_EXTENSION);
@@ -340,12 +334,11 @@ if (!empty($dataInvoice)) {
                 echo '<img src="' . htmlspecialchars($signature) . '" style="max-width: 200px;" alt="signature image">';
             } else {
                 // It's text (not an image file)
-                echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;">' . htmlspecialchars($signature) . '</div>';
+                echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;text-align: end;">' . htmlspecialchars($signature) . '</div>';
             }
             ?>
                             </div>
                         </div>
-                    </div>
                     <!-- Coffee payment detail table end here -->
                     ` : ''}
                 </div>
@@ -360,6 +353,7 @@ if (!empty($dataInvoice)) {
     }
 
     let allProducts = [];
+    let currency='$';
 
     function generateTableHTML(products, isLastPage = false) {
         let html = `
@@ -383,6 +377,7 @@ if (!empty($dataInvoice)) {
                 <td class="font-sm">${p.currency} ${p.price*p.qty}</td>
             </tr>`;
             allProducts.push(p); // Collect all products here
+            currency=p.currency;
         });
 
         html += `</tbody></table>`;
@@ -391,6 +386,7 @@ if (!empty($dataInvoice)) {
         if (isLastPage) {
             const subtotal = allProducts.reduce((sum, p) => sum + (p.price * p.qty), 0);
             const tax = (allProducts.reduce((sum, p) => sum + (p.price * p.qty*(p.tax)/100), 0));
+            const taxPercent = (tax/subtotal)*100;
             const grandTotal = subtotal + tax ;
 
             html += `
@@ -404,15 +400,15 @@ if (!empty($dataInvoice)) {
             <tbody>
                 <tr>
                     <td class="font-md color-light-black ">Sub Total:</td>
-                    <td class="font-md-grey color-grey text-right">$${subtotal.toFixed(2)}</td>
+                    <td class="font-md-grey color-grey text-right">${currency} ${subtotal.toFixed(2)}</td>
                 </tr>
                 <tr class="tax-row">
-                    <td class="font-md color-light-black ">Tax <span class="">(18%)</span></td>
-                    <td class="font-md-grey color-grey text-right">$${tax.toFixed(2)}</td>
+                    <td class="font-md color-light-black ">Tax <span class="">(${taxPercent.toFixed(2)}%)</span></td>
+                    <td class="font-md-grey color-grey text-right">${currency} ${tax.toFixed(2)}</td>
                 </tr>
                 <tr class="invo-grand-total">
                     <td class="font-18-700 color-coffe pt-20">Grand Total:</td>
-                    <td class="font-18-500 color-light-black text-right pt-20">$${grandTotal.toFixed(2)}</td>
+                    <td class="font-18-500 color-light-black text-right pt-20">${currency} ${grandTotal.toFixed(2)}</td>
                 </tr>
             </tbody>
         </table>
@@ -442,6 +438,7 @@ if (!empty($dataInvoice)) {
         const pdf = new jsPDF('p', 'mm', 'a4');
 
         for (let i = 0; i < pages.length; i++) {
+            const isFirstPage = (i === 0);
             const isLastPage = (i === pages.length - 1);
             const container = document.createElement('div');
             container.style.width = '210mm';
@@ -464,16 +461,30 @@ if (!empty($dataInvoice)) {
                         <div class="brown-bg"></div>
                     </div>
                     <div class="invoice-logo-coffee">
-                        <a href="#"><img src="invoiceassets/images/coffee-shop/logo.png" alt="logo"></a>
+                        <a href="#">
+                        <?php
+            $logo = $dataInvoice[0]['ilogo'];
+            $ext = pathinfo($logo, PATHINFO_EXTENSION);
+            $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array(strtolower($ext), $imageExts)) {
+                // It's an image
+                echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
+            } else {
+                // Not an image - show text
+                echo '<div style="font-size: 24px; color: black; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+            }
+            ?>
+                        </a>
                     </div>
                     <div class="invo-head-content-coffee">
                         <div class="invo-head-wrap">
                             <div class="font-sm-700 color-white">Invoice No:</div>
-                            <div class="font-sm color-white">#DI56789</div>
+                            <div class="font-sm color-white">#<?= $dataInvoice[0]['iinv_no']; ?></div>
                         </div>
                         <div class="invo-head-wrap">
                             <div class="font-sm-700 color-white">Invoice Date:</div>
-                            <div class="font-sm color-white">15/12/2024</div>
+                            <div class="font-sm color-white"><?= date("d/m/Y", strtotime($dataInvoice[0]['inserted_at'])); ?></div>
                         </div>
                     </div>
                     <div class="coffee-triangle-image">
@@ -481,6 +492,7 @@ if (!empty($dataInvoice)) {
                 </div>
             </header>
             <!--Header end here -->
+             ${isFirstPage ? `
             <!--Invoice content start here -->
             <section class="agency-service-content ecommerce-invoice-content" id="coffee_shop_invoice">
                 <div class="coffee-shop-back-img-one">
@@ -489,22 +501,42 @@ if (!empty($dataInvoice)) {
                 <div class="container">
                     <!--Invoice owner name start here -->
                     <div class="invoice-owner-conte-wrap pt-40">
-                        <div class="invo-to-wrap">
-                            <div class="invoice-to-content">
-                                <p class="font-md color-light-black">Invoice To:</p>
-                                <h2 class="font-lg color-coffe pt-10">Jordon Smith</h2>
-                                <p class="font-md-grey color-grey pt-10">+1 562 563 8899</p>
-                            </div>
-                        </div>
-                        <div class="invo-pay-to-wrap">
-                            <div class="invoice-pay-content">
-                                <p class="font-md color-light-black">Pay To:</p>
-                                <h2 class="font-lg color-coffe pt-10">Digital Invoico LTD</h2>
-                                <p class="font-md-grey color-grey pt-10">4510 E Delphine St, NY, USA</p>
-                            </div>
-                        </div>
-                    </div>
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+									<p class="font-md color-light-black">From:</p>
+                                    <?php
+            $lines = explode("\n", $dataInvoice[0]['ifrom']);
+            ?>
+									<h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+								</div>
+							</div>
+							<div class="invo-pay-to-wrap">
+								<div class="invoice-pay-content">
+                                    <p class="font-md color-light-black">Bill To:</p>
+                                    <?php
+            $lines = explode("\n", $dataInvoice[0]['ibillto']);
+            ?>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+                                </div>
+							</div>
+						</div>
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap">
+								<div class="invoice-to-content">
+                                    <p class="font-md color-light-black">Ship To:</p>
+                                    <?php
+            $lines = explode("\n", $dataInvoice[0]['ishipto']);
+            ?>
+                                    <h2 class="font-lg color-coffe pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+                                    <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+
+                                </div>
+							</div>
+						</div>
                     <!--Invoice owner name end here -->
+                    ` : ''}
                     <!--Coffee table data start here -->
                     <div class="table-wrapper pt-40">
                         ${generateTableHTML(pages[i], isLastPage)}
@@ -513,39 +545,26 @@ if (!empty($dataInvoice)) {
 
                     ${isLastPage ? `
                     <!--Coffee payment detail table start here -->
-                    <div class="rest-payment-bill">
-                        <div class="signature-wrap">
-                            <div class="sign-img">
-                                <img src="invoiceassets/images/signature/sign.svg" alt="this is signature image">
+						<div class="signature-wrap-flight">
+							<div class="sign-img">
+                                <?php
+            $signature = $dataInvoice[0]['isignature'];
+            $ext = pathinfo($signature, PATHINFO_EXTENSION);
+            $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (in_array(strtolower($ext), $imageExts)) {
+                // It's an image file
+                echo '<img src="' . htmlspecialchars($signature) . '" style="max-width: 200px;" alt="signature image">';
+            } else {
+                // It's text (not an image file)
+                echo '<div style="font-family: Pacifico, cursive; font-size: 22px; color: #444;text-align: end;">' . htmlspecialchars($signature) . '</div>';
+            }
+            ?>
                             </div>
-                            <p class="font-sm-500">Alex Morris</p>
-                            <h3 class="font-md-grey color-light-black">Store Manager</h3>
                         </div>
-                    </div>
                     <!-- Coffee payment detail table end here -->
                     ` : ''}
                 </div>
-                <!--Coffee shop contact us detail start here -->
-                <div class="coffee-bottom-sec-footer">
-                    <div class="coffee-bottom-sec">
-                        <div class="coffee-triangle-image coffee-triangle-image-footer">
-                        </div>
-                    </div>
-                    <div class="coffee-bottom-contact">
-                        <div class="bus-conta-mail-wrap coffee-conta-mail-wrap">
-                            <div class="bus-invo-num coffee-contact">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6_94)"><path d="M5 4H9L11 9L8.5 10.5C9.57096 12.6715 11.3285 14.429 13.5 15.5L15 13L20 15V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21C14.0993 20.763 10.4202 19.1065 7.65683 16.3432C4.8935 13.5798 3.23705 9.90074 3 6C3 5.46957 3.21071 4.96086 3.58579 4.58579C3.96086 4.21071 4.46957 4 5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 7C15.5304 7 16.0391 7.21071 16.4142 7.58579C16.7893 7.96086 17 8.46957 17 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 3C16.5913 3 18.1174 3.63214 19.2426 4.75736C20.3679 5.88258 21 7.4087 21 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_6_94"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
-                                <a class="font-18 " href="tel:+12345678899">+1 234 567 8899</a>
-                            </div>
-                            <div class="bus-invo-date coffee-mail">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6_108)"><path d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 7L12 13L21 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_6_108"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
-                                <a class="font-18" href="mailto:contact@invoice.com">contact@invoice.com</a>
-                            </div>
-                        </div>
-                        <div class="coffee-thank-txt"><p class="font-sm color-light-black coffee-txt-bottom">Thank you for choosing us. See you soon 🙂</p></div>
-                    </div>
-                </div>
-                <!--Coffee shop contact us detail end here -->
             </section>
             <!--Invoice content end here -->
         </div>

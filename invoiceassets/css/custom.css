@@ -2159,7 +2159,8 @@ table.invo-payment-table.invo-payment-table {
 	text-align: right;
 }
 .coffee-table tbody tr td:nth-child(2),
-.coffee-table tbody tr td:nth-child(3){
+.coffee-table tbody tr td:nth-child(3),
+.coffee-table tbody tr td:nth-child(4){
 	text-align: center;
 }
 .coffee-table thead tr th{
