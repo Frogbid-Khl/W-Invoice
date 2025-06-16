@@ -300,11 +300,7 @@ if (isset($_GET['id'])) {
 						</div>
 					</div>
 				</header>
-				<!--Header end here -->
-             ${isFirstPage ? `
-<!--Invoice content start here -->
-				<section class="agency-service-content restaurant-invoice-content" id="restaurant_bill">
-					<div class="container">
+				<div class="container">
 						<div class="bus-invo-no-date-wrap">
 							<div class="bus-invo-num">
 								<span class="font-md color-light-black">Invoice No:</span>
@@ -315,8 +311,13 @@ if (isset($_GET['id'])) {
 								<span class="font-md-grey color-light-black"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></span>
 							</div>
 						</div>
-						<!--Invoice owner name start here -->
-						<div class="invoice-owner-conte-wrap pt-20">
+				</div>
+				<!--Header end here -->
+             ${isFirstPage ? `
+<!--Invoice content start here -->
+				<section class="agency-service-content restaurant-invoice-content" id="restaurant_bill">
+					<div class="container">
+						<div class="invoice-owner-conte-wrap">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">Invoice To:</p>
@@ -556,11 +557,7 @@ if (isset($_GET['id'])) {
 						</div>
 					</div>
 				</header>
-				<!--Header end here -->
-             ${isFirstPage ? `
-<!--Invoice content start here -->
-				<section class="agency-service-content restaurant-invoice-content" id="restaurant_bill">
-					<div class="container">
+				<div class="container">
 						<div class="bus-invo-no-date-wrap">
 							<div class="bus-invo-num">
 								<span class="font-md color-light-black">Invoice No:</span>
@@ -571,8 +568,14 @@ if (isset($_GET['id'])) {
 								<span class="font-md-grey color-light-black"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></span>
 							</div>
 						</div>
+				</div>
+				<!--Header end here -->
+             ${isFirstPage ? `
+<!--Invoice content start here -->
+				<section class="agency-service-content restaurant-invoice-content" id="restaurant_bill">
+					<div class="container">
 						<!--Invoice owner name start here -->
-						<div class="invoice-owner-conte-wrap pt-20">
+						<div class="invoice-owner-conte-wrap">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">Invoice To:</p>
