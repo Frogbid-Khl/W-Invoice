@@ -42,8 +42,8 @@ if (isset($_GET['id'])) {
             <link href="assets/images/icon.png" rel="icon">
             <link href="assets/fonts/css2-1?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
                   rel="stylesheet">
-            <link rel="stylesheet" href="invoiceassets/css/custom.css">
-            <link rel="stylesheet" href="invoiceassets/css/media-query.css">
+            <link rel="stylesheet" href="invoiceassets/css/custom-2.css">
+            <link rel="stylesheet" href="invoiceassets/css/media-query-2.css">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         </head>
@@ -222,7 +222,7 @@ if (isset($_GET['id'])) {
                     ];
                 }, $dataInvoiceDetail)); ?>;
 
-                const firstPageCount = 7;
+                const firstPageCount = 6;
                 const lastPageCount = 7;
                 const middlePageCount = 12;
 
@@ -272,14 +272,15 @@ if (isset($_GET['id'])) {
                     pageDiv.style.boxSizing = 'border-box';
 
                     pageDiv.innerHTML =  `
-           	<div class="invoice_wrap hotel">
+           		<!--Invoice wrap start here -->
+	<div class="invoice_wrap restaurant">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
 				<!--Header start here -->
-				<header class="hotel-header" id="invo_header">
-					<div class="invoice-logo-content pink-bg">
-						<div class="invoice-logo invoice-logo-hotel">
-							<a href="#" class="logo"><?php
+				<header class="bg-yellow restaurant-header" id="invo_header">
+					<div class="invoice-logo-content">
+						<div class="invoice-logo-details wid-50">
+							<a href="#" class="restaurant-logo"><?php
                     $logo = $dataInvoice[0]['ilogo'];
                     $ext = pathinfo($logo, PATHINFO_EXTENSION);
                     $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -294,33 +295,35 @@ if (isset($_GET['id'])) {
                     ?>
 </a>
 						</div>
-						<div class="invo-head-content invoice-logo-hotel-left ">
-							<img src="invoiceassets/images/hotel/txt-img-1.png" class="txt-img" alt="txt-img">
-							<div class="invo-head-wrap">
-								<div class="color-white font-md wid-40-hotel">Invoice No:</div>
-								<div class="font-md-grey color-white wid-40">#<?= $dataInvoice[0]['iinv_no']; ?></div>
-							</div>
-							<div class="invo-head-wrap invoi-date-wrap invoi-date-wrap-agency">
-								<div class="color-white font-md wid-40-hotel">Invoice Date:</div>
-								<div class="font-md-grey color-white wid-40"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
-							</div>
+						<div class="invoice-logo-res wid-50">
+							<a href="#" class="logo"><img src="invoiceassets/images/hotel/restaurant-header-img.png" style="max-width: 170px" alt="this is a invoice logo"></a>
 						</div>
 					</div>
 				</header>
-            <!--Header end here -->
+				<!--Header end here -->
              ${isFirstPage ? `
 <!--Invoice content start here -->
-				<section class="agency-service-content hotel-booking-content" id="hotel_invoice">
+				<section class="agency-service-content restaurant-invoice-content" id="restaurant_bill">
 					<div class="container">
+						<div class="bus-invo-no-date-wrap">
+							<div class="bus-invo-num">
+								<span class="font-md color-light-black">Invoice No:</span>
+								<span class="font-md-grey color-light-black">#<?= $dataInvoice[0]['iinv_no']; ?></span>
+							</div>
+							<div class="bus-invo-date">
+								<span class="font-md color-light-black">Invoice Date:</span>
+								<span class="font-md-grey color-light-black"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></span>
+							</div>
+						</div>
 						<!--Invoice owner name start here -->
 						<div class="invoice-owner-conte-wrap pt-20">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-									<p class="font-md color-light-black">From:</p>
+									<p class="font-md color-light-black">Invoice To:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                     ?>
-									<h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+									<h1 class="font-lg color-yellow pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
 									<p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
@@ -328,15 +331,15 @@ if (isset($_GET['id'])) {
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
-									<p class="font-md color-light-black">Bill To:</p>
+									<p class="font-md color-light-black">Pay To:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                     ?>
-                                    <h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+                                    <h1 class="font-lg color-yellow pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
                                     <p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
-                                </div>
+								</div>
 							</div>
 						</div>
 						<div class="invoice-owner-conte-wrap pt-20">
@@ -346,7 +349,7 @@ if (isset($_GET['id'])) {
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ishipto']);
                     ?>
-									<h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+									<h1 class="font-lg color-yellow pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
 									<p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
@@ -356,14 +359,13 @@ if (isset($_GET['id'])) {
 						<!--Invoice owner name end here -->
                     ` : ''}
                     <!--Coffee table data start here -->
-                    <div class="table-wrapper pt-40">
+                    <div class="table-wrapper res-contact">
                         ${generateTableHTML(pages[i], isLastPage)}
                     </div>
                     <!--Coffee table data end here -->
 
                     ${isLastPage ? `
-                    <!--Invoice additional info end here -->
-						<div class="signature-wrap-flight">
+                    <div class="signature-wrap-flight">
 							<div class="sign-img">
 <?php
                     $signature = $dataInvoice[0]['isignature'];
@@ -382,6 +384,10 @@ if (isset($_GET['id'])) {
 
 						</div>
 						<!--Flight contact us detail start here -->
+						<!--Invoice additional info end here -->
+						<div class="res-contact res-bottom">
+							<p class="font-sm color-light-black text-center">Thank you for choosing to dine with us. See you soon 🙂</p>
+						</div>
                     ` : ''}
                 </div>
             </section>
@@ -399,23 +405,23 @@ if (isset($_GET['id'])) {
 
             function generateTableHTML(products, isLastPage = false) {
                 let html = `
-<table class="invoice-table hotel-table">
+<table class="invoice-table restaurant-table">
 								<thead>
-									<tr class="invo-tb-header">
-										<th class="font-md color-light-black item-wid pl-10 ">Items</th>
-										<th class="font-md color-light-black desc-wid ">Description</th>
-										<th class="font-md color-light-black qty-wid text-center">Rate</th>
-										<th class="font-md color-light-black qty-wid text-center">Tax</th>
-										<th class="font-md color-light-black tota-wid text-right">Amount</th>
+									<tr class="invo-tb-header bg-yellow">
+										<th class="font-md color-light-black res-no w-40 pl-10">Name</th>
+										<th class="font-md color-light-black pl-10 pr-10">Price</th>
+										<th class="font-md color-light-black res-pric text-center">Qty</th>
+										<th class="font-md color-light-black res-qty text-center">Tax</th>
+										<th class="font-md color-light-black res-total text-center ">Total</th>
 									</tr>
 								</thead>
     <tbody class="invo-tb-body">`;
                 products.forEach(p => {
                     html += `<tr class="invo-tb-row">
-                <td class="font-sm">${p.name}</td>
-                <td class="font-sm">${p.currency} ${p.price}</td>
-                <td class="font-sm ">${p.qty}</td>
-                <td class="font-sm ">${p.tax}%</td>
+                <td class="font-sm text-left pl-10">${p.name}</td>
+                <td class="font-sm pl-10 pr-10">${p.currency} ${p.price}</td>
+                <td class="font-sm text-center">${p.qty}</td>
+                <td class="font-sm text-center">${p.tax}%</td>
                 <td class="font-sm">${p.currency} ${p.price*p.qty}</td>
             </tr>`;
                     allProducts.push(p); // Collect all products here
@@ -435,29 +441,29 @@ if (isset($_GET['id'])) {
                     <!--Invoice additional info start here -->
 						<div class="invo-addition-wrap pt-20">
 							<div class="invo-add-info-content">
-								<h3 class="font-md color-light-black ">Terms & Condition:</h3>
+								<h3 class="font-md color-light-black">Terms & Condition:</h3>
 								<p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
-							<div class="invo-bill-total width-30">
+							<div class="invo-bill-total desc-wid">
 								<table class="invo-total-table">
 									<tbody>
 										<tr>
 											<td class="font-md color-light-black">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">${currency} ${subtotal.toFixed(2)}</td>
+											<td class="font-md-grey color-grey text-center">${currency} ${subtotal.toFixed(2)}</td>
 										</tr>
-										<tr class="tax-row bottom-border">
+										<tr class="tax-row">
 											<td class="font-md color-light-black">Tax <span class="font-md color-grey">(${taxPercent.toFixed(2)}%)</span></td>
-											<td class="font-md-grey color-grey text-right">${currency} ${tax.toFixed(2)}</td>
+											<td class="font-md-grey color-grey text-center">${currency} ${tax.toFixed(2)}</td>
 										</tr>
 										<tr class="invo-grand-total">
-											<td class="font-18-700 color-purple pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black text-right pt-20">${currency} ${grandTotal.toFixed(2)}</td>
+											<td class="color-yellow font-18-700 pt-20">Grand Total:</td>
+											<td class="font-18-500 color-light-black pt-20 text-center">${currency} ${grandTotal.toFixed(2)}</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
-						<!--Invoice additional info end here -->`;
+                    `;
                 }
 
                 return html;
@@ -522,14 +528,15 @@ if (isset($_GET['id'])) {
                     container.style.backgroundColor = 'white';
 
                     container.innerHTML = `
-<div class="invoice_wrap hotel">
+           		<!--Invoice wrap start here -->
+	<div class="invoice_wrap restaurant">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
 				<!--Header start here -->
-				<header class="hotel-header" id="invo_header">
-					<div class="invoice-logo-content pink-bg">
-						<div class="invoice-logo invoice-logo-hotel">
-							<a href="#" class="logo"><?php
+				<header class="bg-yellow restaurant-header" id="invo_header">
+					<div class="invoice-logo-content">
+						<div class="invoice-logo-details wid-50">
+							<a href="#" class="restaurant-logo"><?php
                     $logo = $dataInvoice[0]['ilogo'];
                     $ext = pathinfo($logo, PATHINFO_EXTENSION);
                     $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -544,33 +551,35 @@ if (isset($_GET['id'])) {
                     ?>
 </a>
 						</div>
-						<div class="invo-head-content invoice-logo-hotel-left ">
-							<img src="invoiceassets/images/hotel/txt-img-1.png" class="txt-img" alt="txt-img">
-							<div class="invo-head-wrap">
-								<div class="color-white font-md wid-40-hotel">Invoice No:</div>
-								<div class="font-md-grey color-white wid-40">#<?= $dataInvoice[0]['iinv_no']; ?></div>
-							</div>
-							<div class="invo-head-wrap invoi-date-wrap invoi-date-wrap-agency">
-								<div class="color-white font-md wid-40-hotel">Invoice Date:</div>
-								<div class="font-md-grey color-white wid-40"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
-							</div>
+						<div class="invoice-logo-res wid-50">
+							<a href="#" class="logo"><img src="invoiceassets/images/hotel/restaurant-header-img.png" style="max-width: 170px" alt="this is a invoice logo"></a>
 						</div>
 					</div>
 				</header>
-            <!--Header end here -->
+				<!--Header end here -->
              ${isFirstPage ? `
 <!--Invoice content start here -->
-				<section class="agency-service-content hotel-booking-content" id="hotel_invoice">
+				<section class="agency-service-content restaurant-invoice-content" id="restaurant_bill">
 					<div class="container">
+						<div class="bus-invo-no-date-wrap">
+							<div class="bus-invo-num">
+								<span class="font-md color-light-black">Invoice No:</span>
+								<span class="font-md-grey color-light-black">#<?= $dataInvoice[0]['iinv_no']; ?></span>
+							</div>
+							<div class="bus-invo-date">
+								<span class="font-md color-light-black">Invoice Date:</span>
+								<span class="font-md-grey color-light-black"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></span>
+							</div>
+						</div>
 						<!--Invoice owner name start here -->
 						<div class="invoice-owner-conte-wrap pt-20">
 							<div class="invo-to-wrap">
 								<div class="invoice-to-content">
-									<p class="font-md color-light-black">From:</p>
+									<p class="font-md color-light-black">Invoice To:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                     ?>
-									<h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+									<h1 class="font-lg color-yellow pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
 									<p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
@@ -578,15 +587,15 @@ if (isset($_GET['id'])) {
 							</div>
 							<div class="invo-pay-to-wrap">
 								<div class="invoice-pay-content">
-									<p class="font-md color-light-black">Bill To:</p>
+									<p class="font-md color-light-black">Pay To:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                     ?>
-                                    <h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+                                    <h1 class="font-lg color-yellow pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
                                     <p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
-                                </div>
+								</div>
 							</div>
 						</div>
 						<div class="invoice-owner-conte-wrap pt-20">
@@ -596,7 +605,7 @@ if (isset($_GET['id'])) {
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ishipto']);
                     ?>
-									<h1 class="font-lg color-purple pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
+									<h1 class="font-lg color-yellow pt-10"><?= htmlspecialchars($lines[0]); ?></h1>
 									<p class="font-md-grey color-grey pt-10">
                                         <?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?>
                                     </p>
@@ -606,14 +615,13 @@ if (isset($_GET['id'])) {
 						<!--Invoice owner name end here -->
                     ` : ''}
                     <!--Coffee table data start here -->
-                    <div class="table-wrapper pt-40">
+                    <div class="table-wrapper res-contact">
                         ${generateTableHTML(pages[i], isLastPage)}
                     </div>
                     <!--Coffee table data end here -->
 
                     ${isLastPage ? `
-                    <!--Invoice additional info end here -->
-						<div class="signature-wrap-flight">
+                    <div class="signature-wrap-flight">
 							<div class="sign-img">
 <?php
                     $signature = $dataInvoice[0]['isignature'];
@@ -632,6 +640,10 @@ if (isset($_GET['id'])) {
 
 						</div>
 						<!--Flight contact us detail start here -->
+						<!--Invoice additional info end here -->
+						<div class="res-contact res-bottom">
+							<p class="font-sm color-light-black text-center">Thank you for choosing to dine with us. See you soon 🙂</p>
+						</div>
                     ` : ''}
                 </div>
             </section>
