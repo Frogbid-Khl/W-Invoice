@@ -421,6 +421,7 @@ if (isset($_GET['id'])) {
 										<th class="font-md color-light-black width-50 ">Details</th>
 										<th class="font-md color-light-black re-price-wid text-center">Price</th>
 										<th class="font-md color-light-black re-qty-wid text-center">Qty</th>
+										<th class="font-md color-light-black re-qty-wid text-center">Tax</th>
 										<th class="font-md color-light-black tota-wid text-right">Total</th>
 									</tr>
 								</thead>
