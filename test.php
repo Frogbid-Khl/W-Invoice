@@ -42,8 +42,8 @@ if (isset($_GET['id'])) {
             <link href="assets/images/icon.png" rel="icon">
             <link href="assets/fonts/css2-1?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
                   rel="stylesheet">
-            <link rel="stylesheet" href="invoiceassets/css/custom-10.css">
-            <link rel="stylesheet" href="invoiceassets/css/media-query-10.css">
+            <link rel="stylesheet" href="invoiceassets/css/custom-11.css">
+            <link rel="stylesheet" href="invoiceassets/css/media-query-11.css">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         </head>
@@ -224,7 +224,7 @@ if (isset($_GET['id'])) {
 
                 const firstPageCount = 5;
                 const lastPageCount = 5;
-                const middlePageCount = 8;
+                const middlePageCount = 12;
 
                 // Custom function to split products
                 function splitProducts(products) {
@@ -273,15 +273,16 @@ if (isset($_GET['id'])) {
 
                     pageDiv.innerHTML =  `
            		<!--Invoice wrap start here -->
-	<div class="invoice_wrap train-invoice">
+	<div class="invoice_wrap photostudio">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
-				<!--Header start here -->
-				<header class="train-header" id="invo_header">
+				<!--Header start Here -->
+				<header class="invoice-header" id="invo_header">
 					<div class="invoice-logo-content">
-						<div class="invoice-logo">
-							<div>
-								<a href="#" class="logo"><?php
+						<div class="invo-head-content">
+							<div class="phtotstudio-img">
+								<img src="invoiceassets/images/photostudio/header-img.svg" alt="phtotstudio-img" class="photo-header-img">
+								<a href="#"><?php
                     $logo = $dataInvoice[0]['ilogo'];
                     $ext = pathinfo($logo, PATHINFO_EXTENSION);
                     $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -291,74 +292,73 @@ if (isset($_GET['id'])) {
                         echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
                     } else {
                         // Not an image - show text
-                        echo '<div style="font-size: 24px;color: black; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+                        echo '<div style="font-size: 24px; color: black; font-weight: bold;padding-left: 2.5rem;">' . htmlspecialchars($logo) . '</div>';
                     }
                     ?>
-</a>
-							</div>
-						</div>
-						<div class="invo-head-content">
-							<div class="train-header-sec">
-								<h1 class="train-txt">INVOICE</h1>
-								<div class="invo-head-wrap">
-									<div class="w-60">Invoice No:</div>
-									<div class="invo-num inter-400">#<?= $dataInvoice[0]['iinv_no']; ?></div>
-								</div>
-								<div class="invo-head-wrap invoi-date-wrap">
-									<div class="w-60">Invoice Date:</div>
-									<div class="invo-num inter-400"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
-								</div>
+                                </a>
 							</div>
 						</div>
 					</div>
 				</header>
-				<!--Header end here -->
+				<!--Header End Here -->
              ${isFirstPage ? `
 <!--Invoice content start here -->
-				<section class="bus-booking-content pt-40" id="train_booking">
+				<section class="photo-invoice-details" id="photostudio_invoice">
 					<div class="container">
 						<!--Invoice owner name start here -->
-						<div class="invoice-owner-conte-wrap">
-							<div class="invo-to-wrap width-50">
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap invo-to-wrap-photo">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">From:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                     ?>
-									<h2 class="font-lg color-train pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<h1 class="d-none">Invoice</h1>
+									<h2 class="color-blue-flight font-lg pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
 									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 								</div>
 							</div>
-							<div class="invo-pay-to-wrap width-50">
+							<div class="invo-pay-to-wrap invo-pay-to-wrap-photo">
+								<div class="invoice-pay-content">
+									<h1 class="photo-txt">INVOICE</h1>
+									<div class="invo-head-content pt-20  ">
+										<div class="invo-head-wrap invo-head-wrap-photo">
+											<div class="color-light-black font-md">Invoice No:</div>
+											<div class="font-md-grey color-light-black ">#<?= $dataInvoice[0]['iinv_no']; ?></div>
+										</div>
+										<div class="invo-head-wrap invo-head-wrap-photo">
+											<div class="color-light-black font-md">Invoice Date:</div>
+											<div class="font-md-grey color-light-black "><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap invo-to-wrap-photo">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">Bill To:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                     ?>
-                                    <h2 class="font-lg color-train pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<h1 class="d-none">Invoice</h1>
+									<h2 class="color-blue-flight font-lg pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+								</div>
+							</div>
+							<div class="invo-pay-to-wrap invo-pay-to-wrap-photo">
+                                <div class="invoice-to-content">
+                                    <p class="font-md color-light-black">Ship To:</p>
+                                    <?php
+                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
+                    ?>
+                                    <h1 class="d-none">Invoice</h1>
+                                    <h2 class="color-blue-flight font-lg pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
                                     <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
                                 </div>
 							</div>
 						</div>
 						<!--Invoice owner name end here -->
-						<!--Train info details start -->
-						<div class="money-send-title-wrap mt pt-40">
-							<h3 class="font-lg color-train transfer-title">Ship To</h3>
-							<div class="mon-sent-content-wrap">
-								<div class="mon-send-left-data">
-                                    <?php
-                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
-                    ?>
-									<div class="mon-send-col-one">
-										<span class="font-sm-500 color-light-black"><?= htmlspecialchars($lines[0]); ?></span>
-									</div>
-									<div class="mon-send-col-one">
-										<span class="font-sm-500 color-light-black"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--Train info details end -->
                     ` : ''}
                     <!--Coffee table data start here -->
                     <div class="table-wrapper pt-40">
@@ -403,17 +403,17 @@ if (isset($_GET['id'])) {
 
             function generateTableHTML(products, isLastPage = false) {
                 let html = `
-<table class="invoice-table train-table">
+<table class="invoice-table photostudio-table">
 								<thead>
 									<tr class="invo-tb-header">
-										<th class="font-md color-light-black  wid-20">Product</th>
-										<th class="font-md color-light-black w-40">Price</th>
-										<th class="font-md color-light-black width-30">Qty</th>
-										<th class="font-md color-light-black width-30">Tax</th>
-										<th class="font-md color-light-black wid-20">Total</th>
+										<th class="font-md color-light-black re-desc-wid text-left ">Description</th>
+										<th class="font-md color-light-black re-price-wid">Price</th>
+										<th class="font-md color-light-black re-qty-wid ">Qty</th>
+										<th class="font-md color-light-black sno-wid pl-20">Tax</th>
+										<th class="font-md color-light-black tota-wid text-right pr-20 ">Total</th>
 									</tr>
 								</thead>
-								<tbody class="invo-tb-body">`;
+								<tbody class="invo-tb-body table-color">`;
                 products.forEach(p => {
                     html += `<tr class="invo-tb-row">
                 <td class="font-sm text-left pl-10">${p.name}</td>
@@ -437,25 +437,26 @@ if (isset($_GET['id'])) {
 
                     html += `
                     <!--Invoice additional info start here -->
-						<div class="invo-addition-wrap pt-20">
+						<div class="invo-addition-wrap invo-addition-wrap-photo  pt-20">
 							<div class="invo-add-info-content">
-								<h3 class="font-md color-light-black">Terms & Condition:</h3>
-								<p class="font-sm color-grey pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
+								<h2 class="d-none">Invoice</h2>
+								<h3 class="font-md color-light-black">Terms & Conditions:</h3>
+                                <p class="font-sm pt-10"><?= $dataInvoice[0]['itoc']; ?></p>
 							</div>
-							<div class="invo-bill-total width-30">
+							<div class="invo-bill-total">
 								<table class="invo-total-table">
 									<tbody>
 										<tr>
-											<td class="font-md color-light-black ">Sub Total:</td>
-											<td class="font-md-grey color-grey text-right">${currency} ${subtotal.toFixed(2)}</td>
+											<td class="font-md color-light-black">Sub Total:</td>
+											<td class="font-md-grey color-grey ">${currency} ${subtotal.toFixed(2)}</td>
 										</tr>
-										<tr class="tax-row bottom-border">
-											<td class="font-md color-light-black ">Tax <span class="font-md color-grey">(${taxPercent.toFixed(2)}%)</span></td>
-											<td class="font-md-grey color-grey text-right">${currency} ${tax.toFixed(2)}</td>
+										<tr class="tax-row">
+											<td class="font-md color-light-black">Tax <span class="invo-total-data inter-700 medium-font second-color">(${taxPercent.toFixed(2)}%)</span></td>
+											<td class="font-md-grey color-grey">${currency} ${tax.toFixed(2)}</td>
 										</tr>
 										<tr class="invo-grand-total">
-											<td class="font-18-700 color-train font-18-500 pt-20">Grand Total:</td>
-											<td class="font-18-500 color-light-black pt-20 text-right">${currency} ${grandTotal.toFixed(2)}</td>
+											<td class="font-18-700 color-blue-flight pt-20">Grand Total:</td>
+											<td class="font-18-500 color-light-black pt-20 ">${currency} ${grandTotal.toFixed(2)}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -484,7 +485,7 @@ if (isset($_GET['id'])) {
 
                 const firstPageCount = 5;
                 const lastPageCount = 5;
-                const middlePageCount = 8;
+                const middlePageCount = 12;
 
                 // Custom function to split products
                 function splitProducts(products) {
@@ -527,16 +528,17 @@ if (isset($_GET['id'])) {
                     container.style.backgroundColor = 'white';
 
                     container.innerHTML = `
-           		           		<!--Invoice wrap start here -->
-	<div class="invoice_wrap train-invoice">
+           		               		<!--Invoice wrap start here -->
+	<div class="invoice_wrap photostudio">
 		<div class="invoice-container">
 			<div class="invoice-content-wrap" id="download_section">
-				<!--Header start here -->
-				<header class="train-header" id="invo_header">
+				<!--Header start Here -->
+				<header class="invoice-header" id="invo_header">
 					<div class="invoice-logo-content">
-						<div class="invoice-logo">
-							<div>
-								<a href="#" class="logo"><?php
+						<div class="invo-head-content">
+							<div class="phtotstudio-img">
+								<img src="invoiceassets/images/photostudio/header-img.svg" alt="phtotstudio-img" class="photo-header-img">
+								<a href="#"><?php
                     $logo = $dataInvoice[0]['ilogo'];
                     $ext = pathinfo($logo, PATHINFO_EXTENSION);
                     $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -546,74 +548,73 @@ if (isset($_GET['id'])) {
                         echo '<img src="' . htmlspecialchars($logo) . '" style="max-width: 170px;" alt="logo">';
                     } else {
                         // Not an image - show text
-                        echo '<div style="font-size: 24px;color: black; font-weight: bold;">' . htmlspecialchars($logo) . '</div>';
+                        echo '<div style="font-size: 24px; color: black; font-weight: bold;padding-left: 2.5rem;">' . htmlspecialchars($logo) . '</div>';
                     }
                     ?>
-</a>
-							</div>
-						</div>
-						<div class="invo-head-content">
-							<div class="train-header-sec">
-								<h1 class="train-txt">INVOICE</h1>
-								<div class="invo-head-wrap">
-									<div class="w-60">Invoice No:</div>
-									<div class="invo-num inter-400">#<?= $dataInvoice[0]['iinv_no']; ?></div>
-								</div>
-								<div class="invo-head-wrap invoi-date-wrap">
-									<div class="w-60">Invoice Date:</div>
-									<div class="invo-num inter-400"><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
-								</div>
+                                </a>
 							</div>
 						</div>
 					</div>
 				</header>
-				<!--Header end here -->
+				<!--Header End Here -->
              ${isFirstPage ? `
 <!--Invoice content start here -->
-				<section class="bus-booking-content pt-40" id="train_booking">
+				<section class="photo-invoice-details" id="photostudio_invoice">
 					<div class="container">
 						<!--Invoice owner name start here -->
-						<div class="invoice-owner-conte-wrap">
-							<div class="invo-to-wrap width-50">
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap invo-to-wrap-photo">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">From:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ifrom']);
                     ?>
-									<h2 class="font-lg color-train pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<h1 class="d-none">Invoice</h1>
+									<h2 class="color-blue-flight font-lg pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
 									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
 								</div>
 							</div>
-							<div class="invo-pay-to-wrap width-50">
+							<div class="invo-pay-to-wrap invo-pay-to-wrap-photo">
+								<div class="invoice-pay-content">
+									<h1 class="photo-txt">INVOICE</h1>
+									<div class="invo-head-content pt-20  ">
+										<div class="invo-head-wrap invo-head-wrap-photo">
+											<div class="color-light-black font-md">Invoice No:</div>
+											<div class="font-md-grey color-light-black ">#<?= $dataInvoice[0]['iinv_no']; ?></div>
+										</div>
+										<div class="invo-head-wrap invo-head-wrap-photo">
+											<div class="color-light-black font-md">Invoice Date:</div>
+											<div class="font-md-grey color-light-black "><?= date("d/m/Y",strtotime($dataInvoice[0]['inserted_at'])); ?></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="invoice-owner-conte-wrap pt-40">
+							<div class="invo-to-wrap invo-to-wrap-photo">
 								<div class="invoice-to-content">
 									<p class="font-md color-light-black">Bill To:</p>
                                     <?php
                     $lines = explode("\n", $dataInvoice[0]['ibillto']);
                     ?>
-                                    <h2 class="font-lg color-train pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<h1 class="d-none">Invoice</h1>
+									<h2 class="color-blue-flight font-lg pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
+									<p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
+								</div>
+							</div>
+							<div class="invo-pay-to-wrap invo-pay-to-wrap-photo">
+                                <div class="invoice-to-content">
+                                    <p class="font-md color-light-black">Ship To:</p>
+                                    <?php
+                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
+                    ?>
+                                    <h1 class="d-none">Invoice</h1>
+                                    <h2 class="color-blue-flight font-lg pt-10"><?= htmlspecialchars($lines[0]); ?></h2>
                                     <p class="font-md-grey color-grey pt-10"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></p>
                                 </div>
 							</div>
 						</div>
 						<!--Invoice owner name end here -->
-						<!--Train info details start -->
-						<div class="money-send-title-wrap mt pt-40">
-							<h3 class="font-lg color-train transfer-title">Ship To</h3>
-							<div class="mon-sent-content-wrap">
-								<div class="mon-send-left-data">
-                                    <?php
-                    $lines = explode("\n", $dataInvoice[0]['ishipto']);
-                    ?>
-									<div class="mon-send-col-one">
-										<span class="font-sm-500 color-light-black"><?= htmlspecialchars($lines[0]); ?></span>
-									</div>
-									<div class="mon-send-col-one">
-										<span class="font-sm-500 color-light-black"><?= nl2br(htmlspecialchars(implode("\n", array_slice($lines, 1)))); ?></span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--Train info details end -->
                     ` : ''}
                     <!--Coffee table data start here -->
                     <div class="table-wrapper pt-40">
